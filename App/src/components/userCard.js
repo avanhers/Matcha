@@ -23,24 +23,18 @@ export default function CustomCard(props) {
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
-          height="140"
+          height="200"
           image="https://www.fondation-louisbonduelle.org/wp-content/uploads/2016/09/patate-douche_338642402.png"
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.nb}
-          </Typography>
+          <Typography gutterBottom variant="h5" component="h2"></Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            Lizards
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
         <Button size="small" color="primary">
           Learn More
         </Button>

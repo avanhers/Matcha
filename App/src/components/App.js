@@ -1,14 +1,14 @@
 import React from "react";
 import "./App.css";
-import Menu from "./Menu.js";
-import CustomDrawer from "./drawer.js";
-import Layout from "./newMenu.js";
 import Home from "./home.js";
+import MainLayout from "./mainLayout.js";
+
 function App() {
   return (
     <div className="App">
       {/* <Layout /> */}
-      <Home />
+      <MainLayout />
+      {/* <Home /> */}
     </div>
   );
 }

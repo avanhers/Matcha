@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import backgroundImage from "../assets/images/home_background.jpeg";
 import Button from "@material-ui/core/Button";
 import ConnectionModal from "./connectionModal.js";
+import InscriptionModal from "./inscriptionModal.js";
 
 const useStyle = makeStyles((theme) => ({
   home_background: {
@@ -60,7 +61,7 @@ function Home() {
         >
           Inscription
         </Button>
-        <ConnectionModal
+        <InscriptionModal
           open={modalInscriptionOpen}
           handleClose={handleInscriptionClose}
         />
