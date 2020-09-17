@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  formContainer: {},
 }));
 
 export default function ConnectionModal({ open, handleClose }) {
@@ -51,33 +52,32 @@ export default function ConnectionModal({ open, handleClose }) {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Connexion</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
       <form
         className={classes.root}
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <TextField
-          required
-          id="outlined-required"
-          label="Addresse Email"
-          defaultValue=""
-          variant="outlined"
-          name="email"
-          onChange={onInputChange}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Mot de passe"
-          defaultValue=""
-          variant="outlined"
-          name="password"
-          onChange={onInputChange}
-        />
+        <div classname={classes.formContainer}>
+          <TextField
+            required
+            id="outlined-required"
+            label="Addresse Email"
+            defaultValue=""
+            variant="outlined"
+            name="email"
+            onChange={onInputChange}
+          />
+          <TextField
+            required
+            id="outlined-required"
+            label="Mot de passe"
+            defaultValue=""
+            variant="outlined"
+            name="password"
+            onChange={onInputChange}
+          />
+        </div>
         <Button onClick={onSubmit}>patate</Button>
       </form>
     </div>
