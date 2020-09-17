@@ -10,8 +10,8 @@ const connection = mysql.createConnection({
     database: 'matcha'
 });
 
-connection.connect((err) => { 
-    if (err){
+connection.connect((err) => {
+    if (err) {
         console.log('error connecting: ' + err);
         return;
     }
@@ -24,9 +24,7 @@ const HOST = '0.0.0.0';
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send("<h1>Service d'authentification</h1>");
-})
+app.use('/', routes);
 
 app.listen(PORT, HOST);
 console.log('Running on http://' + HOST + ':' + PORT);
