@@ -14,12 +14,12 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function RangeSlider() {
+export default function AgeFilter({ ageRange, onAgeChange }) {
   const classes = useStyles();
   const [value, setValue] = React.useState([18, 75]);
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    onAgeChange(newValue);
   };
 
   return (
@@ -30,8 +30,8 @@ export default function RangeSlider() {
       <Slider
         min={18}
         max={75}
-        value={value}
-        onChange={handleChange}
+        value={ageRange}
+        onChange={onAgeChange}
         valueLabelDisplay="auto"
         aria-labelledby="range-slider"
         getAriaValueText={valuetext}

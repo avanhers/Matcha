@@ -31,23 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Window() {
+export default function MatchWindow({ nb }) {
   const [spacing, setSpacing] = React.useState(2);
-  const [nbCard, setNbCard] = React.useState(2);
   const classes = useStyles();
-
-  const handleButtonClick = () => {
-    setNbCard(nbCard + 1);
-    console.log(nbCard, typeof nbCard);
-  };
 
   return (
     <div>
-      <ButtonBase onClick={() => handleButtonClick()}>test</ButtonBase>
-
       <Grid item xs={12}>
         <Grid container justify="flex-start" spacing={spacing}>
-          {Array(nbCard)
+          {Array(nb[0] % 10)
             .fill("1")
             .map((value, index) => (
               <Grid key={index} item>

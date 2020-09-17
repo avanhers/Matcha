@@ -17,17 +17,26 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import Window from "./window.js";
+import Window from "./matchWindow.js";
+import WindowContainer from "../containers/windowContainer.js";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import RangeSlider from "./rangeSlider.js";
+import AgeFilter from "./rangeSlider.js";
+import AgeFilterContainer from "../containers/ageFilterContainer.js";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TagContainer from "../containers/tagFilterContainer.js";
+import ConnectionModal from "./connectionModal.js";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -91,15 +100,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function Layout() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [badgeContent, setBadgeContent] = React.useState(0);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [tags, setTags] = React.useState({
+    sex: true,
+    rock: true,
+    eating: true,
+    sleeping: true,
+  });
+
+  const [modalOpened, setModalOpened] = React.useState(false);
+
+  const handleToggleModal = () => {
+    console.log("test");
+    setModalOpened(!modalOpened);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log(anchorEl);
   };
 
   const handleDrawerOpen = () => {
@@ -113,6 +136,17 @@ export default function PersistentDrawerLeft() {
   const clickMessage = () => {
     console.log("j'ai clique");
     setBadgeContent(badgeContent + 1);
+  };
+
+  React.useEffect(() => {
+    console.log("pasteque");
+  }, []);
+
+  const handleTagSelect = (toggledTag) => {
+    const obj = {};
+    Object.assign(obj, tags);
+    obj[toggledTag] = !obj[toggledTag];
+    setTags(obj);
   };
   const menuId = "primary-search-account-menu";
 
@@ -159,11 +193,15 @@ export default function PersistentDrawerLeft() {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleToggleModal}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
+            <ConnectionModal
+              open={modalOpened}
+              handleClose={handleToggleModal}
+            />
           </div>
         </Toolbar>
       </AppBar>
@@ -186,7 +224,9 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </div>
         <Divider />
-        <RangeSlider />
+        <AgeFilterContainer />
+
+        <TagContainer />
         <List>
           {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
             <ListItem button key={text}>
@@ -215,7 +255,7 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Window />
+        <WindowContainer />
       </main>
     </div>
   );
