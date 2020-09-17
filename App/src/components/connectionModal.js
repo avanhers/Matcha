@@ -3,6 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { findByLabelText } from "@testing-library/react";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -28,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  formContainer: {},
+  formContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
 }));
 
 export default function ConnectionModal({ open, handleClose }) {
@@ -58,7 +62,7 @@ export default function ConnectionModal({ open, handleClose }) {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <div classname={classes.formContainer}>
+        <div className={classes.formContainer}>
           <TextField
             required
             id="outlined-required"
@@ -78,7 +82,9 @@ export default function ConnectionModal({ open, handleClose }) {
             onChange={onInputChange}
           />
         </div>
-        <Button onClick={onSubmit}>patate</Button>
+        <Button variant="outlined" onClick={onSubmit}>
+          Valider
+        </Button>
       </form>
     </div>
   );
