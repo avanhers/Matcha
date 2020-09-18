@@ -7,3 +7,8 @@ export const changeAge = (event, value) => ({
   type: "CHANGE_AGE",
   value,
 });
+
+export const setUser = (user) => ({
+  type: "SET_USER",
+  user,
+});

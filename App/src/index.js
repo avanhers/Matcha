@@ -6,13 +6,14 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./reducers";
+import AppContainer from "./containers/appContainer.js";
 
 const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <AppContainer />
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")
