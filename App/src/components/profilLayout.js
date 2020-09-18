@@ -36,6 +36,40 @@ function renderInfo() {}
 
 function ProfilLayout() {
   const classes = useStyles();
+
+  const user = {
+    lastName: "Avangers",
+    firstName: "Jean Michel",
+    email: "sasuke99@gmail.com",
+    tags: [
+      {
+        name: "sex",
+        enabled: true,
+      },
+      {
+        name: "rock",
+        enabled: true,
+      },
+      {
+        name: "sleep",
+        enabled: true,
+      },
+      {
+        name: "eat",
+        enabled: true,
+      },
+      {
+        name: "dance",
+        enabled: true,
+      },
+    ],
+    image: [
+      "https://blog.1001pharmacies.com/wp-content/uploads/2012/05/patates-photo-e1338474856573.jpg",
+    ],
+    description: "J'aime les saucisses.",
+    password: "pasteque",
+  };
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
