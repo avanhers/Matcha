@@ -1,22 +1,8 @@
 'use strict';
 
 const express = require('express');
-const mysql = require('mysql');
 const routes = require('./route');
-const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: 'matcha'
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.log('error connecting: ' + err);
-        return;
-    }
-    console.log('connected as id ' + connection.threadId);
-})
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT;
 const HOST = '0.0.0.0';
@@ -24,6 +10,14 @@ const HOST = '0.0.0.0';
 
 const app = express();
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+});
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use('/', routes);
 
 app.listen(PORT, HOST);

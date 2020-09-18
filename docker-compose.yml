@@ -49,6 +49,8 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: 'matcha'
+    volumes: 
+      - ./db:/var/lib/mysql
     hostname: mysql
     container_name: mysql
 
@@ -59,7 +61,7 @@ services:
     ports:
       - 8081:80
     environment: 
-      PMA_HOST: mysql_app
+      PMA_HOST: mysql
       PMA_PORT: 3306
     networks:
       - backend
