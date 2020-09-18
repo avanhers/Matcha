@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TextFieldModifier({ fieldName, fieldValue }) {
+function TextFieldModifier({ fieldName, fieldValue, textArea }) {
   const classes = useStyles();
   const [focusOn, setFocusOn] = React.useState(false);
   const toggleFocus = () => {
@@ -26,6 +26,9 @@ function TextFieldModifier({ fieldName, fieldValue }) {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <TextField
+        style={textArea ? { width: "80%" } : {}}
+        multiline={textArea ? true : false}
+        variant={textArea ? "outlined" : "standard"}
         placeholder={fieldName}
         defaultValue={fieldValue}
         disabled={!focusOn}

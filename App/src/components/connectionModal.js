@@ -50,14 +50,14 @@ export default function ConnectionModal({ open, handleClose, setUser }) {
     console.log(data);
     console.log("submit");
     axios
-      .post("http://localhost:8080/login", {
+      .post("http://localhost/auth/inscription", {
         email: data.email,
         password: data.password,
       })
       .then((response) => {
         let err = response.data.error;
         if (err) console.log("Error message", err);
-        console.log("test");
+        console.log(response);
         setUser({ name: "banane", password: "test" });
       })
       .catch((error) => {

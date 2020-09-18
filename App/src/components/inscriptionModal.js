@@ -80,6 +80,8 @@ export default function InscriptionModal({ open, handleClose }) {
       >
         <div className={classes.formContainer}>
           {renderTextField("Adresse email")}
+          {renderTextField("Nom")}
+          {renderTextField("Prenom")}
           {renderTextField("Mdp")}
           {renderTextField("Confirmer Mdp")}
         </div>
