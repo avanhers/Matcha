@@ -13,11 +13,9 @@ function App({ user }) {
           <Route
             exact
             path="/"
-            component={
-              Object.keys(user).length === 0 ? ProfilLayout : MainLayout
-            }
+            component={Object.keys(user).length === 0 ? Home : MainLayout}
           />
-          <Route exact path="/match" component={MainLayout} />
+          <Route exact path="/profil" component={ProfilLayout} />
         </Switch>
       </Router>
       {/* <Home /> */}

@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     color: "rgba(255, 255, 255, 0.54)",
   },
+  image: {
+    width: "50px",
+    height: "auto",
+  },
 }));
 
 /**
@@ -53,10 +57,7 @@ function ProfileImages({ listImages }) {
   listImages = limage;
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-          <ListSubheader component="div">December</ListSubheader>
-        </GridListTile>
+      <GridList cellHeight={300} cols="5">
         {listImages.map((image, index) => (
           <GridListTile key={index}>
             <img src={image} alt={"profileImage"} />
