@@ -1,14 +1,15 @@
-const faker = require('faker');
+const bcrypt = require('bcrypt');
 
-const user = {
-  name: faker.name.findName(),
-  email: faker.internet.email(),
-  address: faker.address.streetAddress(),
-  bio: faker.lorem.sentence(),
-  image: faker.image.avatar(),
-  image3: faker.image.avatar(),
-  image4: faker.image.avatar(),
-  image2: faker.image.avatar()
+async function getHash() {
+  let ret;
+
+  await bcrypt.hash('yo', 0, (err, hash) => {
+    ret = hash;
+  });
+  console.log('1');
+  return ret;
 }
 
-console.log(user);
+const hash = getHash().then(val => {
+  console.log('hash= ' + val);
+});
