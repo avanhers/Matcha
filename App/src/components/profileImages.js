@@ -6,6 +6,9 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
+import profilPlaceholder from "../assets/images/potatoPlaceholder.jpeg";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Input from "@material-ui/core/Input";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,12 +55,11 @@ function ProfileImages({ listImages }) {
     "https://tipatate.bzh/wp-content/uploads/2015/06/insigne_ti_patate_fond_noir.png",
     "https://www.lerugbynistere.fr/photos/620_px/patate.jpg",
     "https://e-cours-arts-plastiques.com/wp-content/uploads/2012/12/P1040970.jpg",
-    "https://i.pinimg.com/originals/bf/95/df/bf95df0e0aefa4ebe8a0d84ad03b7ac4.jpg",
   ];
   listImages = limage;
   return (
     <div className={classes.root}>
-      <GridList cellHeight={300} cols="5">
+      <GridList cellHeight={250} cols="5">
         {listImages.map((image, index) => (
           <GridListTile key={index}>
             <img src={image} alt={"profileImage"} />
@@ -70,6 +72,32 @@ function ProfileImages({ listImages }) {
             />
           </GridListTile>
         ))}
+        {listImages.length < 5
+          ? Array(5 - listImages.length)
+              .fill("")
+              .map((elem, index) => (
+                <GridListTile key={index}>
+                  <img src={profilPlaceholder} alt={"profileImage"} />
+                  <GridListTileBar
+                    actionIcon={
+                      <div>
+                        <input
+                          accept="image/*"
+                          id="icon-button-photo"
+                          type="file"
+                          style={{ display: "none" }}
+                        />
+                        <label htmlFor="icon-button-photo">
+                          <IconButton color="primary" component="span">
+                            <AddCircleIcon />
+                          </IconButton>
+                        </label>
+                      </div>
+                    }
+                  />
+                </GridListTile>
+              ))
+          : ""}
       </GridList>
     </div>
   );

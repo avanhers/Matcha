@@ -54,13 +54,12 @@ function renderInfo() {}
 
 function ProfilLayout() {
   const classes = useStyles();
-
   const [user, setUser] = React.useState({
     lastName: "Avangers",
     firstName: "Jean Michel",
     email: "sasuke99@gmail.com",
     age: 45,
-    sexe: "masculin",
+    sexe: "homme",
     preferences: "hétéro",
     tags: [
       {
@@ -105,12 +104,15 @@ function ProfilLayout() {
     });
   };
 
+  const [age, setAge] = React.useState("");
+
   const handleChange = (name, value) => {
     setUser({
       ...user,
       [name]: value,
     });
   };
+
   return (
     <div className={classes.root}>
       {/* Container of the page */}
@@ -146,10 +148,43 @@ function ProfilLayout() {
         <Grid item xs={12} sm={8} container direction="column" spacing={3}>
           <Grid item container spacing={1}>
             <Grid item xs={6}>
-              <Paper>Test1</Paper>
+              <Paper>
+                <div className={classes.scoreBoxFlex}>
+                  <Avatar style={{ color: "pink", backgroundColor: "red" }}>
+                    <FavoriteBorderIcon />
+                  </Avatar>
+
+                  <Typography variant="h2">42</Typography>
+                </div>
+              </Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper>Test2</Paper>
+            </Grid>
+          </Grid>
+          <Grid item container spacing={1}>
+            <Grid item xs={6}>
+              <Paper>
+                <CustomSelect
+                  userKey="sexe"
+                  fieldName="Sexe"
+                  fieldValue={user.sexe}
+                  fieldChoice={["homme", "femme", "autre"]}
+                  handleChange={handleChange}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper>
+                <CustomSelect
+                  userKey="preferences"
+                  fieldName="Préférence sexuelles"
+                  fieldValue={user.preferences}
+                  fieldChoice={["hétéro", "homo", "bi"]}
+                  handleChange={handleChange}
+                  minWidth={180}
+                />
+              </Paper>
             </Grid>
           </Grid>
           <Grid item>
@@ -157,13 +192,13 @@ function ProfilLayout() {
               <TextFieldModifier
                 fieldName={"Description"}
                 fieldValue={user.description}
-                textArea={true}
+                textArea
               />
             </Paper>
           </Grid>
           <Grid item>
             <Paper>
-              <TagFilters tags={user.tags} />
+              <TagFilters tags={user.tags} onTagClick={handleTagClick} />
             </Paper>
           </Grid>
           <Grid item>

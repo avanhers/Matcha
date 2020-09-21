@@ -26,8 +26,9 @@ function TextFieldModifier({ fieldName, fieldValue, textArea }) {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <TextField
-        style={textArea ? { width: "80%" } : {}}
+        style={textArea ? { width: "70%" } : {}}
         multiline={textArea ? true : false}
+        rows={4}
         variant={textArea ? "outlined" : "standard"}
         placeholder={fieldName}
         defaultValue={fieldValue}
