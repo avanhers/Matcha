@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
+  grid: {
+    width: "100%",
+    margin: "0px",
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
@@ -28,7 +32,7 @@ function renderProfilPicture(url) {
       alt="Remy Sharp"
       src={url}
       sizes="large"
-      style={{ height: "auto", width: "250px", textAlign: "-webkit-center" }}
+      style={{ height: "auto", width: "100%", textAlign: "-webkit-center" }}
     />
   );
 }
@@ -74,7 +78,9 @@ function ProfilLayout() {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
+      {/* Container of the page */}
+      <Grid container className={classes.grid} spacing={3}>
+        {/* Left Part of the screen (image profile) and change information */}
         <Grid
           item
           container
@@ -82,12 +88,14 @@ function ProfilLayout() {
           spacing={1}
           xs={12}
           sm={4}
-          style={{ height: "100vh" }}
+          style={{ height: "95vh" }}
         >
-          <Paper style={{ height: "100%" }}>
+          <Paper style={{ height: "99%" }}>
+            {/*  Image profile */}
             <Grid className={classes.image} item>
               {renderProfilPicture(user.image[0])}
             </Grid>
+            {/*  TextField modifier */}
             <Grid item>
               <TextFieldModifier fieldName={"Nom"} fieldValue={user.lastName} />
               <TextFieldModifier
@@ -99,6 +107,7 @@ function ProfilLayout() {
             </Grid>
           </Paper>
         </Grid>
+        {/*  Right Container */}
         <Grid item xs={12} sm={8} container direction="column" spacing={3}>
           <Grid item container spacing={1}>
             <Grid item xs={6}>

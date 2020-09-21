@@ -8,11 +8,50 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import Favorite from "@material-ui/icons/Favorite";
+import PopularityScore from "./popularityScore.js";
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
   },
 });
+
+const user = {
+  lastName: "Avangers",
+  firstName: "Jean Michel",
+  email: "sasuke99@gmail.com",
+  age: 45,
+  tags: [
+    {
+      name: "sex",
+      enabled: true,
+    },
+    {
+      name: "rock",
+      enabled: true,
+    },
+    {
+      name: "sleep",
+      enabled: true,
+    },
+    {
+      name: "eat",
+      enabled: true,
+    },
+    {
+      name: "dance",
+      enabled: true,
+    },
+  ],
+  image: [
+    "https://blog.1001pharmacies.com/wp-content/uploads/2012/05/patates-photo-e1338474856573.jpg",
+  ],
+  description: "J'aime les saucisses.",
+  password: "pasteque",
+};
 
 export default function CustomCard(props) {
   const classes = useStyles();
@@ -27,6 +66,7 @@ export default function CustomCard(props) {
           image="https://www.fondation-louisbonduelle.org/wp-content/uploads/2016/09/patate-douche_338642402.png"
           title="Contemplative Reptile"
         />
+
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2"></Typography>
           <Typography variant="body2" color="textSecondary" component="p">
@@ -36,8 +76,19 @@ export default function CustomCard(props) {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Learn More
+          See profile
         </Button>
+        <PopularityScore score={0} />
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              name="checkedH"
+            />
+          }
+          label="Like"
+        />
       </CardActions>
     </Card>
   );

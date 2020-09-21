@@ -12,3 +12,8 @@ export const setUser = (user) => ({
   type: "SET_USER",
   user,
 });
+
+export const toggleDrawer = (status) => ({
+  type: "TOGGLE_DRAWER",
+  status,
+});

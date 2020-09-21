@@ -27,22 +27,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterDrawer({ open, handleDrawerClose }) {
+function FilterDrawer({ status, closeDrawer }) {
   const classes = useStyles();
   const theme = useTheme();
-
+  console.log(status);
   return (
     <Drawer
       className={classes.drawer}
       variant="persistent"
       anchor="left"
-      open={open}
+      open={status}
       classes={{
         paper: classes.drawerPaper,
       }}
     >
       <div className={classes.drawerHeader}>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={closeDrawer}>
           <ChevronLeftIcon />
         </IconButton>
       </div>

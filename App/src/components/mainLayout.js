@@ -3,6 +3,8 @@ import FilterDrawer from "./filterDrawer.js";
 import { Button } from "@material-ui/core";
 import HeadBar from "./headBar.js";
 import MatchWindow from "./matchWindow.js";
+import HeadBarContainer from "../containers/headBarContainer.js";
+import FilterDrawerContainer from "../containers/filterDrawerContainer.js";
 
 function MainLayout() {
   const [drawerOpened, setDrawerOpened] = React.useState(false);
@@ -16,8 +18,8 @@ function MainLayout() {
   };
   return (
     <div>
-      <HeadBar drawerOpen={drawerOpened} handleDrawerOpen={handleDrawerOpen} />
-      <FilterDrawer open={drawerOpened} handleDrawerClose={handleDrawerClose} />
+      <HeadBarContainer />
+      <FilterDrawerContainer />
       <MatchWindow drawerOpen={drawerOpened} />
     </div>
   );
