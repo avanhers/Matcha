@@ -11,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
+import { Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -79,9 +81,11 @@ function HeadBar({ status, openDrawer }) {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton edge="end" color="inherit" href="/profil">
-              <AccountCircle />
-            </IconButton>
+            <Link to="/profil" style={{ color: "#FFF" }}>
+              <IconButton edge="end" color="inherit">
+                <AccountCircle />
+              </IconButton>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>

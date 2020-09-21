@@ -6,6 +6,14 @@ import Avatar from "@material-ui/core/Avatar";
 import TextFieldModifier from "./textFieldModifier";
 import TagFilters from "./tagFilters.js";
 import ProfileImages from "./profileImages.js";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import Typography from "@material-ui/core/Typography";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import CustomSelect from "./customSelect.js";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -25,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
   image: {
     textAlign: "-webkit-center",
   },
+  scoreBoxFlex: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 function renderProfilPicture(url) {
   return (
@@ -42,11 +55,13 @@ function renderInfo() {}
 function ProfilLayout() {
   const classes = useStyles();
 
-  const user = {
+  const [user, setUser] = React.useState({
     lastName: "Avangers",
     firstName: "Jean Michel",
     email: "sasuke99@gmail.com",
     age: 45,
+    sexe: "masculin",
+    preferences: "hétéro",
     tags: [
       {
         name: "sex",
@@ -74,8 +89,28 @@ function ProfilLayout() {
     ],
     description: "J'aime les saucisses.",
     password: "pasteque",
+  });
+
+  const handleTagClick = (name) => {
+    setUser({
+      ...user,
+      tags: user.tags.map((tag) =>
+        tag.name === name
+          ? {
+              ...tag,
+              enabled: !tag.enabled,
+            }
+          : tag
+      ),
+    });
   };
 
+  const handleChange = (name, value) => {
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
   return (
     <div className={classes.root}>
       {/* Container of the page */}
