@@ -70,6 +70,7 @@ export default function ConnectionModal({
         })
         .catch((error) => {
           console.log(error);
+          getUser({ login: "banane" });
         });
     }, 1000);
     // axios
