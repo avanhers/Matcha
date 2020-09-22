@@ -17,3 +17,7 @@ export const toggleDrawer = (status) => ({
   type: "TOGGLE_DRAWER",
   status,
 });
+
+export const toggleUseFilter = () => ({
+  type: "TOGGLE_USE_FILTER",
+});
