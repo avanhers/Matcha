@@ -1,7 +1,15 @@
-const user = (state = {}, action) => {
+const userInitialState = {
+  isFetching: false,
+  user: {},
+};
+
+const user = (state = userInitialState, action) => {
   switch (action.type) {
-    case "SET_USER":
-      return action.user;
+    case "AUTH_REQUEST":
+      return { ...state, isFetching: true };
+    case "AUTH_RESPONSE":
+      console.log(action.json, "json");
+      return { ...state, isFetching: false, user: action.json };
     default:
       return state;
   }

@@ -18,6 +18,25 @@ export const toggleDrawer = (status) => ({
   status,
 });
 
+export const authRequest = (user) => ({
+  type: "AUTH_REQUEST",
+  user,
+});
+
+export const authResponse = (json) => ({
+  type: "AUTH_RESPONSE",
+  json,
+});
+
+export const matchRequest = () => ({
+  type: "MATCH_REQUEST",
+});
+
+export const matchResponse = (matches) => ({
+  type: "MATCH_RESPONSE",
+  matches,
+});
+
 export const toggleUseFilter = () => ({
   type: "TOGGLE_USE_FILTER",
 });

@@ -52,14 +52,11 @@ function renderProfilPicture(url) {
 
 function renderInfo() {}
 
-function ProfilLayout() {
+function ProfilLayout({ user }) {
   const classes = useStyles();
-  const [user, setUser] = React.useState({
-    lastName: "Avangers",
-    firstName: "Jean Michel",
-    email: "sasuke99@gmail.com",
-    age: 45,
-    sexe: "homme",
+
+  const userVar = {
+    ...user,
     preferences: "hétéro",
     tags: [
       {
@@ -88,29 +85,29 @@ function ProfilLayout() {
     ],
     description: "J'aime les saucisses.",
     password: "pasteque",
-  });
+  };
 
   const handleTagClick = (name) => {
-    setUser({
-      ...user,
-      tags: user.tags.map((tag) =>
-        tag.name === name
-          ? {
-              ...tag,
-              enabled: !tag.enabled,
-            }
-          : tag
-      ),
-    });
+    // setUser({
+    //   ...user,
+    //   tags: user.tags.map((tag) =>
+    //     tag.name === name
+    //       ? {
+    //           ...tag,
+    //           enabled: !tag.enabled,
+    //         }
+    //       : tag
+    //   ),
+    // });
   };
 
   const [age, setAge] = React.useState("");
 
   const handleChange = (name, value) => {
-    setUser({
-      ...user,
-      [name]: value,
-    });
+    // setUser({
+    //   ...user,
+    //   [name]: value,
+    // });
   };
 
   return (
@@ -130,17 +127,23 @@ function ProfilLayout() {
           <Paper style={{ height: "99%" }}>
             {/*  Image profile */}
             <Grid className={classes.image} item>
-              {renderProfilPicture(user.image[0])}
+              {renderProfilPicture(userVar.image[0])}
             </Grid>
             {/*  TextField modifier */}
             <Grid item>
-              <TextFieldModifier fieldName={"Nom"} fieldValue={user.lastName} />
+              <TextFieldModifier
+                fieldName={"Nom"}
+                fieldValue={userVar.lastName}
+              />
               <TextFieldModifier
                 fieldName={"Prenom"}
-                fieldValue={user.firstName}
+                fieldValue={userVar.firstName}
               />
-              <TextFieldModifier fieldName={"Email"} fieldValue={user.email} />
-              <TextFieldModifier fieldName={"Age"} fieldValue={user.age} />
+              <TextFieldModifier
+                fieldName={"Email"}
+                fieldValue={userVar.email}
+              />
+              <TextFieldModifier fieldName={"Age"} fieldValue={userVar.age} />
             </Grid>
           </Paper>
         </Grid>
@@ -168,7 +171,7 @@ function ProfilLayout() {
                 <CustomSelect
                   userKey="sexe"
                   fieldName="Sexe"
-                  fieldValue={user.sexe}
+                  fieldValue={userVar.sexe}
                   fieldChoice={["homme", "femme", "autre"]}
                   handleChange={handleChange}
                 />
@@ -179,7 +182,7 @@ function ProfilLayout() {
                 <CustomSelect
                   userKey="preferences"
                   fieldName="Préférence sexuelles"
-                  fieldValue={user.preferences}
+                  fieldValue={userVar.preferences}
                   fieldChoice={["hétéro", "homo", "bi"]}
                   handleChange={handleChange}
                   minWidth={180}
@@ -191,14 +194,14 @@ function ProfilLayout() {
             <Paper>
               <TextFieldModifier
                 fieldName={"Description"}
-                fieldValue={user.description}
+                fieldValue={userVar.description}
                 textArea
               />
             </Paper>
           </Grid>
           <Grid item>
             <Paper>
-              <TagFilters tags={user.tags} onTagClick={handleTagClick} />
+              <TagFilters tags={userVar.tags} onTagClick={handleTagClick} />
             </Paper>
           </Grid>
           <Grid item>

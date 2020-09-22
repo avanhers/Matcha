@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { setUser } from "../actions";
+import { setUser, authRequest, authResponse } from "../actions";
 import ConnectionModal from "../components/connectionModal.js";
 
 const mapStateToProps = (state, ownProps) => {
@@ -7,13 +7,17 @@ const mapStateToProps = (state, ownProps) => {
   return {
     open,
     handleClose,
+    userRequest: state.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (user) => {
-      dispatch(setUser(user));
+    requestUser: (user) => {
+      dispatch(authRequest(user));
+    },
+    getUser: (user) => {
+      dispatch(authResponse(user));
     },
   };
 };

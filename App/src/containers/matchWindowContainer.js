@@ -5,6 +5,7 @@ import MatchWindow from "../components/matchWindow.js";
 const mapStateToProps = (state) => {
   return {
     nb: state.age,
+    matches: state.matches,
     drawerStatus: state.drawerStatus,
   };
 };
