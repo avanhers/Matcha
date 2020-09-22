@@ -52,7 +52,7 @@ function renderProfilPicture(url) {
 
 function renderInfo() {}
 
-function ProfilLayout() {
+function ProfilLayout({ user }) {
   const classes = useStyles();
   const [user, setUser] = React.useState({
     lastName: "Avangers",

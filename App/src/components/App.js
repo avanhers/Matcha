@@ -1,9 +1,10 @@
 import React from "react";
 import "./App.css";
 import Home from "./home.js";
-import MainLayout from "./mainLayout.js";
+import MainLayoutContainer from "../containers/mainLayoutContainer.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProfilLayout from "./profilLayout.js";
+import ProfilLayoutContainer from "../containers/profilLayoutContainer.js";
 function App({ user }) {
   return (
     <div className="App">
@@ -13,9 +14,11 @@ function App({ user }) {
           <Route
             exact
             path="/"
-            component={Object.keys(user).length === 0 ? Home : MainLayout}
+            component={
+              Object.keys(user.user).length === 0 ? Home : MainLayoutContainer
+            }
           />
-          <Route exact path="/profil" component={ProfilLayout} />
+          <Route exact path="/profil" component={ProfilLayoutContainer} />
         </Switch>
       </Router>
       {/* <Home /> */}
