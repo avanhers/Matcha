@@ -16,26 +16,22 @@ function valuetext(value) {
 
 export default function AgeFilter({ ageRange, onAgeChange }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState([18, 75]);
 
   const handleChange = (event, newValue) => {
-    onAgeChange(newValue);
+    onAgeChange(event, newValue);
   };
 
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        age
+        age : {ageRange[0]} - {ageRange[1]}
       </Typography>
       <Slider
         min={18}
         max={75}
         value={ageRange}
-        onChange={onAgeChange}
-        valueLabelDisplay="auto"
+        onChange={handleChange}
         aria-labelledby="range-slider"
-        getAriaValueText={valuetext}
-        valueLabelDisplay="on"
       />
     </div>
   );
