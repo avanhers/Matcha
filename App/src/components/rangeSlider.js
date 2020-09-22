@@ -35,6 +35,7 @@ export default function AgeFilter({ ageRange, onAgeChange }) {
         valueLabelDisplay="auto"
         aria-labelledby="range-slider"
         getAriaValueText={valuetext}
+        valueLabelDisplay="on"
       />
     </div>
   );

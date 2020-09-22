@@ -6,48 +6,60 @@ import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Container from "@material-ui/core/Container";
 import { Card } from "@material-ui/core";
-import CustomCard from "./card.js";
-
+import CustomCard from "./userCard.js";
+import clsx from "clsx";
+import { drawerWidth } from "./filterDrawer";
 const useStyles = makeStyles((theme) => ({
-  container: {
-    height: "100%",
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
   },
-  root: {
+  content: {
     flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: 0,
   },
-  paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
-  },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: drawerWidth,
   },
 }));
 
-export default function MatchWindow({ nb }) {
+export default function MatchWindow({ drawerOpen }) {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
   return (
-    <div>
-      <Grid item xs={12}>
-        <Grid container justify="flex-start" spacing={spacing}>
-          {Array(nb[0] % 10)
-            .fill("1")
-            .map((value, index) => (
-              <Grid key={index} item>
-                <CustomCard />
-              </Grid>
-            ))}
+    <main
+      className={clsx(classes.content, {
+        [classes.contentShift]: drawerOpen,
+      })}
+    >
+      <div className={classes.drawerHeader} />
+      <div>
+        <Grid item xs={12}>
+          <Grid container justify="flex-start" spacing={spacing}>
+            {Array(6)
+              .fill("1")
+              .map((value, index) => (
+                <Grid key={index} item>
+                  <CustomCard />
+                </Grid>
+              ))}
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </main>
   );
 }

@@ -7,3 +7,13 @@ export const changeAge = (event, value) => ({
   type: "CHANGE_AGE",
   value,
 });
+
+export const setUser = (user) => ({
+  type: "SET_USER",
+  user,
+});
+
+export const toggleDrawer = (status) => ({
+  type: "TOGGLE_DRAWER",
+  status,
+});

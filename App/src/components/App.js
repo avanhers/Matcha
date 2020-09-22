@@ -1,14 +1,24 @@
 import React from "react";
 import "./App.css";
-import Menu from "./Menu.js";
-import CustomDrawer from "./drawer.js";
-import Layout from "./newMenu.js";
 import Home from "./home.js";
-function App() {
+import MainLayout from "./mainLayout.js";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ProfilLayout from "./profilLayout.js";
+function App({ user }) {
   return (
     <div className="App">
-      {/* <Layout /> */}
-      <Home />
+      {/* <MainLayout /> */}
+      <Router>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={Object.keys(user).length === 0 ? Home : MainLayout}
+          />
+          <Route exact path="/profil" component={ProfilLayout} />
+        </Switch>
+      </Router>
+      {/* <Home /> */}
     </div>
   );
 }

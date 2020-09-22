@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 import backgroundImage from "../assets/images/home_background.jpeg";
 import Button from "@material-ui/core/Button";
 import ConnectionModal from "./connectionModal.js";
+import ConnectionModalContainer from "../containers/connectionModalContainer.js";
+import InscriptionModal from "./inscriptionModal.js";
 
 const useStyle = makeStyles((theme) => ({
   home_background: {
@@ -15,7 +17,6 @@ const useStyle = makeStyles((theme) => ({
   },
   buttonDiv: {
     textcolor: "white",
-    height: "100%",
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -49,7 +50,7 @@ function Home() {
         >
           Connexion
         </Button>
-        <ConnectionModal
+        <ConnectionModalContainer
           open={modalConnectionOpen}
           handleClose={handleConnectionClose}
         />
@@ -60,7 +61,7 @@ function Home() {
         >
           Inscription
         </Button>
-        <ConnectionModal
+        <InscriptionModal
           open={modalInscriptionOpen}
           handleClose={handleInscriptionClose}
         />

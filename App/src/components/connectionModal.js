@@ -4,10 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { findByLabelText } from "@testing-library/react";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import axios from "axios";
 
 function getModalStyle() {
   const top = 50;
@@ -35,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConnectionModal({ open, handleClose }) {
+export default function ConnectionModal({ open, handleClose, setUser }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   //   const [opened, setOpened] = React.useState(open);
@@ -52,6 +49,20 @@ export default function ConnectionModal({ open, handleClose }) {
   const onSubmit = () => {
     console.log(data);
     console.log("submit");
+    axios
+      .post("http://localhost/auth/inscription", {
+        email: data.email,
+        password: data.password,
+      })
+      .then((response) => {
+        let err = response.data.error;
+        if (err) console.log("Error message", err);
+        console.log(response);
+        setUser({ name: "banane", password: "test" });
+      })
+      .catch((error) => {
+        setUser({ name: "banane", password: "test" });
+      });
   };
   const body = (
     <div style={modalStyle} className={classes.paper}>
