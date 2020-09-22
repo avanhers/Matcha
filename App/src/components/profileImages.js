@@ -59,7 +59,7 @@ function ProfileImages({ listImages }) {
   listImages = limage;
   return (
     <div className={classes.root}>
-      <GridList cellHeight={250} cols="5">
+      <GridList cellHeight={250} cols={5}>
         {listImages.map((image, index) => (
           <GridListTile key={index}>
             <img src={image} alt={"profileImage"} />
