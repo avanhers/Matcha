@@ -5,10 +5,12 @@ import user from "./user";
 import drawerStatus from "./drawerStatus.js";
 import matches from "./matches.js";
 
+import filterStatus from "./filterStatus.js";
 export default combineReducers({
   tags,
   age,
   user,
   drawerStatus,
   matches,
+  filterStatus,
 });

@@ -1,12 +1,14 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import AgeFilterContainer from "../containers/ageFilterContainer.js";
-import TagFilterContainer from "../containers/tagFilterContainer.js";
+
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 
+import PersonnalFilter from "./personnalFilter.js";
+import CheckBoxFilter from "./checkBoxFilter.js";
 export const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -27,10 +29,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterDrawer({ status, closeDrawer }) {
+function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
   const classes = useStyles();
   const theme = useTheme();
   console.log(status);
+
+  const renderFilter = (ownFilter) => {
+    if (ownFilter) {
+      return <PersonnalFilter />;
+    }
+    return null;
+  };
+
   return (
     <Drawer
       className={classes.drawer}
@@ -48,7 +58,8 @@ function FilterDrawer({ status, closeDrawer }) {
       </div>
       <Divider />
       <AgeFilterContainer />
-      <TagFilterContainer />
+      <CheckBoxFilter filterStatus={filterStatus} toggleFilter={toggleFilter} />
+      {renderFilter(filterStatus)}
       <Divider />
     </Drawer>
   );

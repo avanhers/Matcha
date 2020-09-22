@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MatchWindow({ drawerOpen }) {
+export default function MatchWindow({ drawerStatus }) {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
 
   return (
     <main
       className={clsx(classes.content, {
-        [classes.contentShift]: drawerOpen,
+        [classes.contentShift]: drawerStatus,
       })}
     >
       <div className={classes.drawerHeader} />

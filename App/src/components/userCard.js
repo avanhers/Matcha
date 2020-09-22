@@ -78,7 +78,7 @@ export default function CustomCard(props) {
         <Button size="small" color="primary">
           See profile
         </Button>
-        <PopularityScore score={0} />
+        <PopularityScore score={60} />
         <FormControlLabel
           control={
             <Checkbox

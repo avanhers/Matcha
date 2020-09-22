@@ -36,3 +36,7 @@ export const matchResponse = (matches) => ({
   type: "MATCH_RESPONSE",
   matches,
 });
+
+export const toggleUseFilter = () => ({
+  type: "TOGGLE_USE_FILTER",
+});
