@@ -8,10 +8,7 @@ import TagFilters from "./tagFilters.js";
 import ProfileImages from "./profileImages.js";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Typography from "@material-ui/core/Typography";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+
 import CustomSelect from "./customSelect.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,8 +46,6 @@ function renderProfilPicture(url) {
     />
   );
 }
-
-function renderInfo() {}
 
 function ProfilLayout({ user }) {
   const classes = useStyles();
