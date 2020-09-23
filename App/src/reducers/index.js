@@ -4,6 +4,7 @@ import age from "./ageFilter.js";
 import user from "./user";
 import drawerStatus from "./drawerStatus.js";
 import matches from "./matches.js";
+import globalLoaderState from "./globalLoaderState";
 
 import filterStatus from "./filterStatus.js";
 export default combineReducers({
@@ -13,4 +14,5 @@ export default combineReducers({
   drawerStatus,
   matches,
   filterStatus,
+  globalLoaderState,
 });

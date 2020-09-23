@@ -32,9 +32,15 @@ export const matchRequest = () => ({
   type: "MATCH_REQUEST",
 });
 
-export const matchResponse = (matches) => ({
+export const matchResponse = (matches, page) => ({
   type: "MATCH_RESPONSE",
   matches,
+  page,
+});
+
+export const toggleGlobalLoader = (state) => ({
+  type: "TOGGLE_GLOBAL_LOADER",
+  state,
 });
 
 export const toggleUseFilter = () => ({
