@@ -7,8 +7,8 @@ const mapDispatchToProps = (dispatch) => {
     requestMatch: () => {
       dispatch(matchRequest());
     },
-    setMatches: (matches) => {
-      dispatch(matchResponse(matches));
+    setMatches: (matches, page) => {
+      dispatch(matchResponse(matches, page));
     },
   };
 };

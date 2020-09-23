@@ -1,6 +1,7 @@
 const initialeMatchesState = {
   isFetching: false,
-  matches: {},
+  pageNb: 1,
+  matches: [],
 };
 
 const matches = (state = initialeMatchesState, action) => {
@@ -8,7 +9,12 @@ const matches = (state = initialeMatchesState, action) => {
     case "MATCH_REQUEST":
       return { ...state, isFetching: true };
     case "MATCH_RESPONSE":
-      return { ...state, isFetching: false, matches: action.matches };
+      return {
+        ...state,
+        isFetching: false,
+        pageNb: action.page,
+        matches: [...state.matches, ...action.matches],
+      };
     default:
       return state;
   }

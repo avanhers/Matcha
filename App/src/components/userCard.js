@@ -53,7 +53,7 @@ const user = {
   password: "pasteque",
 };
 
-export default function CustomCard(props) {
+export default function CustomCard({ user }) {
   const classes = useStyles();
 
   return (
@@ -70,7 +70,7 @@ export default function CustomCard(props) {
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2"></Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards
+            {user.username}
           </Typography>
         </CardContent>
       </CardActionArea>
