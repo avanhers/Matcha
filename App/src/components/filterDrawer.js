@@ -32,36 +32,46 @@ const useStyles = makeStyles((theme) => ({
 function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
   const classes = useStyles();
   const theme = useTheme();
+
   console.log(status);
 
   const renderFilter = (ownFilter) => {
     if (ownFilter) {
-      return <PersonnalFilter />;
+      return (
+        <div>
+          <PersonnalFilter />
+        </div>
+      );
     }
-    return null;
+    return <div></div>;
   };
 
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="persistent"
-      anchor="left"
-      open={status}
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <div className={classes.drawerHeader}>
-        <IconButton onClick={closeDrawer}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </div>
-      <Divider />
-      <AgeFilterContainer />
-      <CheckBoxFilter filterStatus={filterStatus} toggleFilter={toggleFilter} />
-      {renderFilter(filterStatus)}
-      <Divider />
-    </Drawer>
+    <div>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={status}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={closeDrawer}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <AgeFilterContainer />
+        <CheckBoxFilter
+          filterStatus={filterStatus}
+          toggleFilter={toggleFilter}
+        />
+        {renderFilter(filterStatus)}
+        <Divider />
+      </Drawer>
+    </div>
   );
 }
 
