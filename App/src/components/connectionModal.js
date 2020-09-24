@@ -58,9 +58,12 @@ export default function ConnectionModal({
     requestUser({});
     const timer = setTimeout(() => {
       axios
-        .post("http://localhost:8080/login", {
-          email: data.email,
-          password: data.password,
+        .post("http://localhost/api/auth/inscription", {
+          email: "tt@gmail.com",
+          password: "asasdwdwdasd",
+          username: "toto",
+          firstname: "titi",
+          name: "tata",
         })
         .then((response) => {
           let err = response.data.error;
