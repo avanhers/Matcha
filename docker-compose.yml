@@ -1,47 +1,48 @@
-version: '3.2'
+version: "3.7"
 
 services:
   api:
     build: ./api
     restart: on-failure
-    depends_on: 
+    depends_on:
       - mysql
-    volumes: 
+    volumes:
       - ./api:/usr/src/app
       # - ./api/node_modules:/usr/src/app/node_modules
-    environment: 
+    environment:
       PORT: 8080
       MYSQL_HOST: mysql
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_PORT: 3306
     hostname: api
-    networks: 
+    networks:
       - backend
     container_name: api
 
   mysql:
     image: mysql:5.7
     restart: on-failure
-    networks: 
+    networks:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-      MYSQL_DATABASE: 'matcha'
-    volumes: 
+      MYSQL_DATABASE: "matcha"
+    tty: true
+    volumes:
       - ./db:/var/lib/mysql
     hostname: mysql
     container_name: mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    depends_on: 
+    depends_on:
       - mysql
     ports:
       - 8081:80
-    environment: 
+    environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
     networks:
@@ -50,19 +51,35 @@ services:
 
   reverse:
     image: nginx
-    depends_on: 
+    depends_on:
       - api
-    ports: 
+      - front
+    ports:
       - 80:80
       - 443:443
-    volumes: 
+    volumes:
       - ./reverse/nginx.conf:/etc/nginx/nginx.conf
       - ./reverse/conf.d:/etc/nginx/conf.d
       - ./reverse/certs:/etc/ssl/private
     networks:
       - backend
+      - frontend
     container_name: reverse
-    
+
+  front:
+    build: ./App
+    restart: on-failure
+    volumes:
+      - ./App:/usr/src/App
+      # - ./api/node_modules:/usr/src/app/node_modules
+    hostname: front
+    tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - frontend
+    container_name: front
 
 networks:
   backend:
+  frontend:
