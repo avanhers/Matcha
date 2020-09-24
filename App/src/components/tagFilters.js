@@ -3,9 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 export default function TagFilters({ tags, onTagClick }) {
-  const [id, setId] = React.useState(0);
-
-  React.useEffect(() => {}, []);
   console.log("tags");
   return (
     <Grid item xs={12}>
@@ -14,8 +11,8 @@ export default function TagFilters({ tags, onTagClick }) {
           <Grid key={index} item>
             <Button
               key={index}
-              variant={tag.enabled ? "contained" : "outlined"}
               color="secondary"
+              variant={tag.enabled === true ? "contained" : "outlined"}
               onClick={() => onTagClick(tag.name)}
             >
               {tag.name}

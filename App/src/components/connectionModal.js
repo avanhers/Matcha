@@ -4,10 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { findByLabelText } from "@testing-library/react";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function getModalStyle() {
   const top = 50;
@@ -35,7 +33,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConnectionModal({ open, handleClose }) {
+export default function ConnectionModal({
+  open,
+  handleClose,
+  userRequest,
+  getUser,
+  requestUser,
+}) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   //   const [opened, setOpened] = React.useState(open);
@@ -51,7 +55,38 @@ export default function ConnectionModal({ open, handleClose }) {
 
   const onSubmit = () => {
     console.log(data);
-    console.log("submit");
+    requestUser({});
+    const timer = setTimeout(() => {
+      axios
+        .post("http://localhost:8080/login", {
+          email: data.email,
+          password: data.password,
+        })
+        .then((response) => {
+          let err = response.data.error;
+          if (err) console.log("Error message", err);
+          console.log(response);
+          getUser(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          getUser({ login: "banane" });
+        });
+    }, 1000);
+    // axios
+    //   .post("http://localhost:8080/login", {
+    //     email: data.email,
+    //     password: data.password,
+    //   })
+    //   .then((response) => {
+    //     let err = response.data.error;
+    //     if (err) console.log("Error message", err);
+    //     console.log(response);
+    //     getUser(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -82,9 +117,13 @@ export default function ConnectionModal({ open, handleClose }) {
             onChange={onInputChange}
           />
         </div>
-        <Button variant="outlined" onClick={onSubmit}>
-          Valider
-        </Button>
+        {userRequest.isFetching ? (
+          <CircularProgress />
+        ) : (
+          <Button variant="outlined" onClick={onSubmit}>
+            Valider
+          </Button>
+        )}
       </form>
     </div>
   );
