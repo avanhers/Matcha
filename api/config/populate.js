@@ -1,15 +1,16 @@
 const mysql = require('mysql');
 const config = require('./db.config');
 
-const Initializer = require('../init');
+const Initializer = require('./init');
 
 const dbConn = mysql.createConnection(config);
 
 dbConn.connect((err) => {
     dbConn.query('SELECT COUNT(*) FROM users', (err, result) => {
         const count = result[0]['COUNT(*)'];
+
         if (!err) {
-            if (!result.length) {
+            if (!count) {
                 const init = new Initializer(dbConn);
 
                 console.log('Database Matcha is going to be populate');

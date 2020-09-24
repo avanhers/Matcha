@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : mysql:3306
--- Généré le : ven. 18 sep. 2020 à 10:56
+-- Généré le : jeu. 24 sep. 2020 à 12:53
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.4.9
 
@@ -22,6 +22,28 @@ SET time_zone
 --
 -- Base de données : `matcha`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `hash`
+--
+
+USE matcha;
+
+CREATE TABLE `hash`
+(
+  `id` int
+(11) NOT NULL,
+  `userId` int
+(11) NOT NULL,
+  `hashValidation` varchar
+(128) CHARACTER
+SET utf8 DEFAULT
+NULL,
+  `hashForget` int
+(128) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -69,25 +91,34 @@ NOT NULL,
 (76) CHARACTER
 SET utf8
 NOT NULL,
-  `sexual-orientation` enum
+  `sexualOrientation` enum
 ('hetero','homo','bi') NOT NULL DEFAULT 'bi',
   `description` text CHARACTER
-SET utf8
-NOT NULL,
+SET
+utf8,
   `matches` text CHARACTER
-SET utf8
-NOT NULL,
+SET
+utf8,
   `gender` enum
-('male','female') NOT NULL,
-  `popularity-score` int
-(11) NOT NULL,
-  `latitude` double NOT NULL,
-  `longitude` double NOT NULL
+('male','female') DEFAULT NULL,
+  `popularityScore` int
+(11) NOT NULL DEFAULT '0',
+  `latitude` double NOT NULL DEFAULT '0',
+  `longitude` double NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `hash`
+--
+ALTER TABLE `hash`
+ADD PRIMARY KEY
+(`id`),
+ADD KEY `foreign`
+(`userId`);
 
 --
 -- Index pour la table `images`
@@ -110,6 +141,13 @@ ADD PRIMARY KEY
 --
 
 --
+-- AUTO_INCREMENT pour la table `hash`
+--
+ALTER TABLE `hash`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `images`
 --
 ALTER TABLE `images`
@@ -126,6 +164,15 @@ ALTER TABLE `users`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `hash`
+--
+ALTER TABLE `hash`
+ADD CONSTRAINT `foreign` FOREIGN KEY
+(`userId`) REFERENCES `users`
+(`id`) ON
+DELETE CASCADE;
 
 --
 -- Contraintes pour la table `images`
