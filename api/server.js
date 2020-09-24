@@ -1,31 +1,21 @@
 'use strict';
 
 const express = require('express');
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: 'matcha'
-});
-
-connection.connect((err) => { 
-    if (err){
-        console.log('error connecting: ' + err);
-        return;
-    }
-    console.log('connected as id ' + connection.threadId);
-})
+const bodyParser = require('body-parser');
+const authRoute = require('./src/routes/auth');
+const upload = require('multer')();
+const db = require('./framework/Database');
 
 const PORT = process.env.PORT;
 const HOST = '0.0.0.0';
 
 
- 
+
 const app = express();
-app.get('/', (req, res) => {
-    res.send("<h1>Service d'API</h1>");
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(upload.array());
+app.use('/auth', authRoute);
 
 app.listen(PORT, HOST);
 console.log('Running on http://' + HOST + ':' + PORT);

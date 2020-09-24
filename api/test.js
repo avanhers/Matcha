@@ -1,14 +1,24 @@
-const faker = require('faker');
+const nodemailer = require('nodemailer');
 
-const user = {
-  name: faker.name.findName(),
-  email: faker.internet.email(),
-  address: faker.address.streetAddress(),
-  bio: faker.lorem.sentence(),
-  image: faker.image.avatar(),
-  image3: faker.image.avatar(),
-  image4: faker.image.avatar(),
-  image2: faker.image.avatar()
-}
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'matcha.4deux@gmail.com',
+    pass: 'Matcha[42];'
+  }
+});
 
-console.log(user);
+const mailOptions = {
+  from: 'matcha.4deux@gmail.com',
+  to: 'jules.jaegle@gmail.com',
+  subject: 'coucou',
+  text: `salut`
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.log('Error: ', error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+})
