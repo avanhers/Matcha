@@ -1,15 +1,24 @@
-const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
-async function getHash() {
-  let ret;
-
-  await bcrypt.hash('yo', 0, (err, hash) => {
-    ret = hash;
-  });
-  console.log('1');
-  return ret;
-}
-
-const hash = getHash().then(val => {
-  console.log('hash= ' + val);
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'matcha.4deux@gmail.com',
+    pass: 'Matcha[42];'
+  }
 });
+
+const mailOptions = {
+  from: 'matcha.4deux@gmail.com',
+  to: 'jules.jaegle@gmail.com',
+  subject: 'coucou',
+  text: `salut`
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.log('Error: ', error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+})

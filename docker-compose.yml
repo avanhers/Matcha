@@ -19,25 +19,6 @@ services:
     networks: 
       - backend
     container_name: api
-  
-  auth:
-    build: ./auth
-    restart: on-failure
-    depends_on: 
-      - mysql
-    volumes: 
-      - ./auth:/usr/src/app
-      # - ./api/node_modules:/usr/src/app/node_modules
-    environment: 
-      PORT: 8080
-      MYSQL_HOST: mysql
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_PORT: 3306
-    hostname: auth
-    networks: 
-      - backend
-    container_name: auth
 
   mysql:
     image: mysql:5.7
@@ -71,7 +52,6 @@ services:
     image: nginx
     depends_on: 
       - api
-      - auth
     ports: 
       - 80:80
       - 443:443

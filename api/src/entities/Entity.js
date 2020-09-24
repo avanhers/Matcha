@@ -7,7 +7,7 @@ String.prototype.capitalize = function () {
 const Entity = function (kwargs) {
     for (const key in kwargs) {
         const setter = 'set' + key.capitalize();
-        console.log(this[setter]);
+
         if (typeof this[setter] === 'function') {
             this[setter](kwargs[key]);
         }

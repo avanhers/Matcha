@@ -20,6 +20,18 @@ Manager.prototype = {
         })
     },
 
+    findOneById: function (id) {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM ${this.type} WHERE id = ?`;
+            db.query(sql, id, (err, result, fields) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result);
+            })
+        });
+    }
+
 }
 
 module.exports = Manager;
