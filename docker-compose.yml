@@ -15,6 +15,9 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_PORT: 3306
+      SECRET_KEY: 18669f7cfcc6606d4ecd35dde7dc50e9eaa92667833b4566
+      REFRESH_SECRET: bf0cf30bc7c58bd5cf18fd31121fdb10642fc18ea470d9b3
+
     hostname: api
     networks: 
       - backend

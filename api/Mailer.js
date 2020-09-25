@@ -23,15 +23,15 @@ const mailer = {
     },
 
     model: {
-        confirmation: function (id, hash) {
-            return `To confirm your inscription please click here: http://localhost/confirmation/${id}.${hash}`;
+        confirmation: function (hash) {
+            return `To confirm your inscription please click here: http://localhost/confirmation/${hash}`;
         }
     },
 
     sendMail: async function (user, type) {
         this.mailOptions.to = user.getEmail();
         this.mailOptions.subject = this.subject[type];
-        this.mailOptions.text = this.model[type](user.getId(), user.getHashValidation());
+        this.mailOptions.text = this.model[type](user.getHashValidation());
 
         return new Promise((resolve, reject) => {
             this.transporter.sendMail(this.mailOptions, (error, info) => {

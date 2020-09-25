@@ -1,24 +1,30 @@
-const nodemailer = require('nodemailer');
+class test {
+  name = 'jaegle';
+  firstname = 'jules';
+  age = 28;
 
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'matcha.4deux@gmail.com',
-    pass: 'Matcha[42];'
+  constructor(name) {
+    this.name = name;
   }
-});
 
-const mailOptions = {
-  from: 'matcha.4deux@gmail.com',
-  to: 'jules.jaegle@gmail.com',
-  subject: 'coucou',
-  text: `salut`
-};
-
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    console.log('Error: ', error);
-  } else {
-    console.log('Email sent: ' + info.response);
+  calle() {
+    console.log(`my name is ${this.firstname} ${this.name}`);
   }
-})
+}
+
+const obj = {
+  a: 12,
+  b() {
+    console.log('yo');
+  },
+  c() {
+    this.b();
+  }
+}
+
+const jules = new test('jaegle');
+
+jules.calle()
+console.log(Object.keys(jules));
+
+obj.c()
