@@ -96,7 +96,7 @@ const authController = {
         const user = await manager.findUserByUsername(username);
 
         console.log(Object.keys(user));
-        const assessToken = jwt.sign(user.toPlainObject(), process.env.SECRET_KEY);
+        const assessToken = jwt.sign(user.toPlainObject(), process.env.SECRET_KEY, { expiresIn: '30s' });
         response.json({ yo: 'heyyyy', token: assessToken });
     }
 

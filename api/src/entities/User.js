@@ -17,7 +17,9 @@ class User {
         const plainObject = {};
 
         for (const key in this) {
-            plainObject[key] = this[key];
+            if (key !== 'password') {
+                plainObject[key] = this[key];
+            }
         }
         return plainObject;
     }
