@@ -28,8 +28,8 @@ function MainLayout({ requestMatch, setMatches }) {
     <div>
       <HeadBarContainer />
       <FilterDrawerContainer />
-      <MatchWindowContainer />
-      <BackdropLoaderContainer />
+      {/* <MatchWindowContainer /> */}
+      {/* <BackdropLoaderContainer /> */}
     </div>
   );
 }
