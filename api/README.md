@@ -3,7 +3,5 @@ docker exec -ti api node config/populate.js -> populate db
 
 Code d'erreur de l'API:
 
-Auth:
-    - Inscription:
-        401: email already used
-        
+Auth: - Inscription:
+401: email already used

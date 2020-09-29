@@ -17,26 +17,29 @@ function valuetext(value) {
 
 export default function AgeFilter({ ageRange, onAgeChange }) {
   const classes = useStyles();
+  const [age, setAge] = React.useState([18, 75]);
 
   const handleChange = (event, newValue) => {
-    onAgeChange(event, newValue);
+    // onAgeChange(event, newValue);
+    setAge(newValue);
   };
 
   const testFunction = (text) => {
-    console.log("in debounce");
-    return "good";
+    console.log("text : ", text);
+    onAgeChange(text);
+    // return "good";
   };
-  const test = useDebounceRequest(testFunction, ageRange);
+  const test = useDebounceRequest(testFunction, age);
 
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        age : {ageRange[0]} - {ageRange[1]}
+        age : {age[0]} - {age[1]}
       </Typography>
       <Slider
         min={18}
         max={75}
-        value={ageRange}
+        value={age}
         onChange={handleChange}
         aria-labelledby="range-slider"
       />

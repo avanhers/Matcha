@@ -12,18 +12,11 @@ import BackdropLoaderContainer from "../containers/backdropLoaderContainer.js";
 function MainLayout({ requestMatch, setMatches }) {
   const [drawerOpened, setDrawerOpened] = React.useState(false);
 
-  React.useEffect(() => {
-    requestMatch();
-    requestMatches(1, 10, setMatches);
-  });
+  // React.useEffect(() => {
+  //   requestMatch();
+  //   requestMatches({ page: 1 }, setMatches);
+  // });
 
-  const handleDrawerOpen = () => {
-    console.log("ypppp");
-    setDrawerOpened(true);
-  };
-  const handleDrawerClose = () => {
-    setDrawerOpened(false);
-  };
   return (
     <div>
       <HeadBarContainer />

@@ -5,9 +5,7 @@ import CustomCard from "./userCard.js";
 import clsx from "clsx";
 import { drawerWidth } from "./filterDrawer";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import requestMatchesCall from "../common/requestMatches.js";
 import InfiniteScroll from "react-infinite-scroll-component";
-import BackdropLoaderContainer from "../containers/backdropLoaderContainer.js";
 
 const useStyles = makeStyles((theme) => ({
   drawerHeader: {
@@ -36,33 +34,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MatchWindow({
-  drawerStatus,
-  matches,
-  requestMatch,
-  setMatches,
-  toggleBackdropLoader,
-}) {
+export default function MatchWindow({ drawerStatus, matches, setPage }) {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
+  const ref = React.useRef(null);
 
   const handleNextPageLoad = () => {
-    toggleBackdropLoader(true);
-    const timer = setTimeout(() => {
-      requestMatchesCall(
-        matches.pageNb + 1,
-        10,
-        setMatches,
-        null,
-        toggleBackdropLoader
-      );
-    }, 1000);
+    setPage();
   };
+
+  // ScrollToRef est utilisé quand on regénère une seul page de match pour remettre la barre de scroll en haut. Sinon la barre reste en bas et le
+  // component infiniteScroll rappel des pages supplémentaire jusqua arrivé au meme nombre de page qu'avant
+  const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
+
+  React.useEffect(() => {
+    if (matches.pageNb === 1) {
+      scrollToRef(ref);
+    }
+  });
 
   const renderMatches = () => {
     return (
       <Grid item xs={12} id="scrollableDiv">
         <InfiniteScroll
+          style={{ overflow: "hidden" }} //Pour cacher une 2eme barre de scroll qui apparait sur le coté. Semble être lié au backdropLoader
           dataLength={matches.matches.length} //This is important field to render the next data
           next={handleNextPageLoad}
           hasMore={true}
@@ -90,6 +85,7 @@ export default function MatchWindow({
       className={clsx(classes.content, {
         [classes.contentShift]: drawerStatus,
       })}
+      ref={ref}
     >
       <div className={classes.drawerHeader} />
       <div>{matches.isFetching ? <CircularProgress /> : renderMatches()}</div>

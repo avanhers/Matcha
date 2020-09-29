@@ -3,11 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { findByLabelText } from "@testing-library/react";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import axios from "axios";
 
 function getModalStyle() {
   const top = 50;
@@ -35,11 +31,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const checkPassword = (passwd, passwd2) => (passwd === passwd2);
+
+
 export default function InscriptionModal({ open, handleClose }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-
-  const data = { email: "", password: "" };
+  const [err, setErr] = React.useState(0);
+  const data = {};
 
   const handleSubmit = (event) => {
     console.log(event);
@@ -50,16 +49,35 @@ export default function InscriptionModal({ open, handleClose }) {
   };
 
   const onSubmit = () => {
+    // validation des champs
+    //passwd same
+    //
+    console.log(checkPassword(data.password, data.confirmPwd))
     console.log(data);
     console.log("submit");
+    delete data.confirmPwd;
+    axios
+      .post("http://localhost:88/api/auth/inscription", data)
+      .then((response) => {
+        let body = response.data;
+        console.log(response)
+        const status = body.status;
+        if (status != 0) setErr(status);
+        if (status === 201)
+          //redirected home with popup
+          console.log("redirection")
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   };
 
-  const renderTextField = (name) => {
+  const renderTextField = (name, label) => {
     return (
       <TextField
         required
         id="outlined-required"
-        label={name}
+        label={label}
         defaultValue=""
         variant="outlined"
         name={name}
@@ -79,11 +97,12 @@ export default function InscriptionModal({ open, handleClose }) {
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          {renderTextField("Adresse email")}
-          {renderTextField("Nom")}
-          {renderTextField("Prenom")}
-          {renderTextField("Mdp")}
-          {renderTextField("Confirmer Mdp")}
+          {renderTextField("email", "Adresse email")}
+          {renderTextField("name", "Nom")}
+          {renderTextField("firstname", "Prenom")}
+          {renderTextField("password", "Mdp")}
+          {renderTextField("confirmPwd", "Confirmer Mdp")}
+          {renderTextField("username", "login")}
         </div>
         <Button variant="outlined" onClick={onSubmit}>
           Valider

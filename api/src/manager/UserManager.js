@@ -7,6 +7,7 @@ const User = require("../entities/User");
 
 const VALIDATION = 1;
 const FORGET = 2;
+const MATCHES_PER_PAGE = 10;
 
 const UserManager = function () {
   Manager.call(this, "users");
@@ -98,6 +99,31 @@ const UserManager = function () {
     const sql = "DELETE FROM hash WHERE userId = ?";
 
     return db.query(sql, userId);
+  };
+
+  this.findMatches = function (params) {
+    const paramsMap = ["age"];
+    let sqlParams = [];
+    let sql = "SELECT * FROM users";
+    paramsMap.map((filter) => {
+      if (params[filter] !== undefined) {
+        if (filter === "age") {
+          // sql += ` WHERE ${filter} = ?`;
+          console.log(params[filter]);
+          sql += ` WHERE ${filter} BETWEEN ? AND ?`;
+          sqlParams = sqlParams.concat(params[filter]);
+        }
+      }
+    });
+    if (params["page"] !== undefined && params["page"] > 0) {
+      sql += ` LIMIT ${MATCHES_PER_PAGE} OFFSET ${
+        (params["page"] - 1) * MATCHES_PER_PAGE
+      }`;
+    }
+
+    console.log("requete sql : ", sql, sqlParams);
+    // sql = "SELECT * FROM us ers WHERE age = 18 LIMIT 10 OFFSET 0";
+    return db.query(sql, sqlParams);
   };
 };
 
