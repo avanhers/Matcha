@@ -17,13 +17,12 @@ function MainLayout({ requestMatch, setMatches }) {
     requestMatches(1, 10, setMatches);
   });
 
-
   return (
     <div>
       <HeadBarContainer />
       <FilterDrawerContainer />
-      {/* <MatchWindowContainer /> */}
-      {/* <BackdropLoaderContainer /> */}
+      <MatchWindowContainer />
+      <BackdropLoaderContainer />
     </div>
   );
 }
