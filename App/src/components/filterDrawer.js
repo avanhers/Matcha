@@ -43,7 +43,7 @@ function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
         </div>
       );
     }
-    return <div></div>;
+    return null;
   };
 
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, useTheme } from "@material-ui/core";
 import { drawerWidth } from "./filterDrawer.js";
+import NotificationPopover from "./notificationPopover.js";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
@@ -12,6 +13,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
+import ChatPopover from "./chatPopover.js";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -44,10 +46,29 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 }));
-
+//TODO : Using Redux to open component
 function HeadBar({ status, openDrawer }) {
   const classes = useStyles();
   const theme = useTheme();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClickOnNotif = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const render_notification = () => {
+    return (
+      <IconButton onClick={handleClickOnNotif} color="inherit">
+        <Badge badgeContent={49} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+      </IconButton>
+    );
+  };
+
   return (
     <div>
       <AppBar
@@ -76,16 +97,17 @@ function HeadBar({ status, openDrawer }) {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={49} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            {render_notification()}
+            <NotificationPopover
+              anchorEl={anchorEl}
+              handleClose={handleClose}
+            ></NotificationPopover>
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
               </IconButton>
             </Link>
+            <ChatPopover />
           </div>
         </Toolbar>
       </AppBar>
