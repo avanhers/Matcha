@@ -1,6 +1,7 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 function CheckBoxFilter({ filterStatus, toggleFilter }) {
+
   const handleChange = (event) => {
     toggleFilter();
   };

@@ -120,10 +120,10 @@ export default function ConnectionModal({
         {userRequest.isFetching ? (
           <CircularProgress />
         ) : (
-          <Button variant="outlined" onClick={onSubmit}>
-            Valider
-          </Button>
-        )}
+            <Button variant="outlined" onClick={onSubmit}>
+              Valider
+            </Button>
+          )}
       </form>
     </div>
   );

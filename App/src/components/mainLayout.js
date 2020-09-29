@@ -17,13 +17,7 @@ function MainLayout({ requestMatch, setMatches }) {
     requestMatches(1, 10, setMatches);
   });
 
-  const handleDrawerOpen = () => {
-    console.log("ypppp");
-    setDrawerOpened(true);
-  };
-  const handleDrawerClose = () => {
-    setDrawerOpened(false);
-  };
+
   return (
     <div>
       <HeadBarContainer />
