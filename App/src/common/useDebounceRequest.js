@@ -11,11 +11,10 @@ const useDebounceRequest = (requestFunction, ageRange) => {
   const searchResults = useAsync(async () => {
     console.log("in async");
     //Cond a parametrer si besoins
-    if (ageRange[0] === 18) {
-      return [];
-    } else {
-      return debouncedSearchFunction(ageRange);
-    }
+    // if (ageRange[0] === 18) {
+    //   return [];
+    // }
+    return debouncedSearchFunction(ageRange);
   }, [debouncedSearchFunction, ageRange]);
 
   return searchResults;

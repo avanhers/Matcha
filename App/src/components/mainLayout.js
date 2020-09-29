@@ -12,10 +12,10 @@ import BackdropLoaderContainer from "../containers/backdropLoaderContainer.js";
 function MainLayout({ requestMatch, setMatches }) {
   const [drawerOpened, setDrawerOpened] = React.useState(false);
 
-  React.useEffect(() => {
-    requestMatch();
-    requestMatches(1, 10, setMatches);
-  });
+  // React.useEffect(() => {
+  //   requestMatch();
+  //   requestMatches({ page: 1 }, setMatches);
+  // });
 
   return (
     <div>

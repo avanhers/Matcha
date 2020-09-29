@@ -63,12 +63,14 @@ export default function CustomCard({ user }) {
           component="img"
           alt="Contemplative Reptile"
           height="200"
-          image="https://www.fondation-louisbonduelle.org/wp-content/uploads/2016/09/patate-douche_338642402.png"
+          image={user.avatar}
           title="Contemplative Reptile"
         />
 
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2"></Typography>
+          <Typography gutterBottom variant="h5" component="h2">
+            {user.age} ans
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {user.username}
           </Typography>
@@ -78,7 +80,7 @@ export default function CustomCard({ user }) {
         <Button size="small" color="primary">
           See profile
         </Button>
-        <PopularityScore score={60} />
+        <PopularityScore score={user.popularityScore} />
         <FormControlLabel
           control={
             <Checkbox
