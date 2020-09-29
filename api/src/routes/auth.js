@@ -1,10 +1,16 @@
-'use strict';
+"use strict";
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const controller = require('../controller/AuthController');
+const controller = require("../controller/AuthController");
+const auth = require("../midleware/auth");
 
-router.post('/inscription', controller.inscription);
-router.get('/confirmation/:infos', controller.confirmation);
+router.post("/inscription", controller.inscription);
+router.get("/confirmation/:hash", controller.confirmation);
+router.post("/login", controller.login);
+router.get("/logout", auth.addUser, controller.logout);
+router.post("/resetPassword", controller.resetPassword);
+router.post("/forgetPassword", controller.forgetPassword);
+router.get("/test", controller.test);
 
 module.exports = router;

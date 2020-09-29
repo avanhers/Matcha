@@ -1,53 +1,97 @@
-'use strict';
+"use strict";
+const bcrypt = require("bcryptjs");
 
-const Entity = require('./Entity');
+class User {
+  constructor(kwargs) {
+    for (const key in kwargs) {
+      const setter = "set" + this.capitalize(key);
 
-const User = function (kwargs) {
-
-    this.isWritable = function () {
-        return this.email && this.username && this.name && this.firstname && this.password;
-    };
-
-    this.setEmail = function (email) {
-        this.email = email;
-    };
-
-    this.setId = function (id) {
-        this.id = id;
+      if (typeof this[setter] === "function") {
+        this[setter](kwargs[key]);
+      }
     }
+  }
 
-    this.setHashValidation = function (hashValidation) {
-        this.hashValidation = hashValidation;
+  toPlainObject() {
+    const plainObject = {};
+
+    for (const key in this) {
+      if (key !== "password") {
+        plainObject[key] = this[key];
+      }
     }
+    return plainObject;
+  }
 
-    this.setUsername = function (username) {
-        this.username = username;
-    };
+  capitalize(string) {
+    return string[0].toUpperCase() + string.slice(1);
+  }
 
-    this.setPassword = function (password) {
-        this.password = password;
-    }
+  isWritable() {
+    return (
+      this.email &&
+      this.username &&
+      this.name &&
+      this.firstname &&
+      this.password
+    );
+  }
 
-    this.setName = function (name) {
-        this.name = name;
-    };
+  setEmail(email) {
+    this.email = email;
+  }
 
-    this.setFirstname = function (firstname) {
-        this.firstname = firstname;
-    };
+  setId(id) {
+    this.id = id;
+  }
 
-    this.getEmail = function () { return this.email };
-    this.getUsername = function () { return this.username };
-    this.getPassword = function () { return this.password };
-    this.getName = function () { return this.name };
-    this.getFirstname = function () { return this.firstname };
-    this.getHashValidation = function () { return this.hashValidation };
-    this.getId = function () { return this.id };
+  setUsername(username) {
+    this.username = username;
+  }
 
-    Entity.call(this, kwargs);
+  setPassword(password) {
+    this.password = password;
+  }
+
+  setHashPassword(password) {
+    this.password = bcrypt.hashSync(password, 0);
+  }
+
+  setName(name) {
+    this.name = name;
+  }
+
+  setIsLogin(bool) {
+    this.isLogin = bool;
+  }
+
+  setFirstname(firstname) {
+    this.firstname = firstname;
+  }
+
+  getEmail = () => this.email;
+  getUsername() {
+    return this.username;
+  }
+  getPassword() {
+    return this.password;
+  }
+  getName() {
+    return this.name;
+  }
+  getFirstname() {
+    return this.firstname;
+  }
+  getId() {
+    return this.id;
+  }
+  getIsLogin() {
+    return this.isLogin;
+  }
+
+  confirmPassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
 }
-
-User.prototype = Object.create(Entity.prototype);
-User.prototype.constructor = User;
 
 module.exports = User;
