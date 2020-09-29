@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 function PopularityScore({ score }) {
   const classes = useStyles();
   const col = score === 100 ? 900 : Math.trunc(score / 10) * 100;
-  console.log(col);
   return (
     <div className={classes.wrapper}>
       <Fab aria-label="save">

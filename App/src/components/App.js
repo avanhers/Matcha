@@ -5,6 +5,8 @@ import MainLayoutContainer from "../containers/mainLayoutContainer.js";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ProfilLayout from "./profilLayout.js";
 import ProfilLayoutContainer from "../containers/profilLayoutContainer.js";
+import MatchRequestContainer from "../containers/matchRequestContainer.js";
+
 function App({ user }) {
   return (
     <div className="App">
@@ -22,6 +24,7 @@ function App({ user }) {
         </Switch>
       </Router>
       {/* <Home /> */}
+      <MatchRequestContainer />
     </div>
   );
 }

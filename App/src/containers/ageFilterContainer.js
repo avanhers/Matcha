@@ -4,14 +4,14 @@ import AgeFilter from "../components/ageFilter.js";
 
 const mapStateToProps = (state) => {
   return {
-    ageRange: state.age,
+    ageRange: state.filter.age,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAgeChange: (event, value) => {
-      dispatch(changeAge(event, value));
+    onAgeChange: (value) => {
+      dispatch(changeAge(value));
     },
   };
 };

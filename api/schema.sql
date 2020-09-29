@@ -91,6 +91,8 @@ NOT NULL,
 (76) CHARACTER
 SET utf8
 NOT NULL,
+`age` int
+(11) NOT NULL,
   `sexualOrientation` enum
 ('hetero','homo','bi') NOT NULL DEFAULT 'bi',
   `description` text CHARACTER
@@ -104,7 +106,11 @@ utf8,
   `popularityScore` int
 (11) NOT NULL DEFAULT '0',
   `latitude` double NOT NULL DEFAULT '0',
-  `longitude` double NOT NULL DEFAULT '0'
+  `longitude` double NOT NULL DEFAULT '0',
+  `avatar` VARCHAR
+(512) CHARACTER
+SET utf8
+NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
