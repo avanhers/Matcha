@@ -10,7 +10,7 @@ const requestMatches = (
   if (loaderEventCallback) loaderEventCallback(true);
   const timer = setTimeout(() => {
     axios
-      .post("http://localhost:8088/user/matchesPage", params)
+      .post("http://localhost/api/match/matchesPage", params)
       .then((response) => {
         let err = response.data.error;
         if (err) console.log("Error message", err);

@@ -31,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const checkPassword = (passwd, passwd2) => (passwd === passwd2);
-
+const checkPassword = (passwd, passwd2) => passwd === passwd2;
 
 export default function InscriptionModal({ open, handleClose }) {
   const classes = useStyles();
@@ -52,24 +51,24 @@ export default function InscriptionModal({ open, handleClose }) {
     // validation des champs
     //passwd same
     //
-    console.log(checkPassword(data.password, data.confirmPwd))
+    console.log(checkPassword(data.password, data.confirmPwd));
     console.log(data);
     console.log("submit");
     delete data.confirmPwd;
     axios
-      .post("http://localhost:88/api/auth/inscription", data)
+      .post("http://localhost/api/auth/inscription", data)
       .then((response) => {
         let body = response.data;
-        console.log(response)
+        console.log(response);
         const status = body.status;
         if (status != 0) setErr(status);
         if (status === 201)
           //redirected home with popup
-          console.log("redirection")
+          console.log("redirection");
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   const renderTextField = (name, label) => {
