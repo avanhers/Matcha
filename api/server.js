@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use('/auth', authRoute);
-app.use('/test', auth.verifyToken, (req, res) => {
-    res.json({ test: 'valide' });
+app.use('/test', auth.addUser, (req, res) => {
+    res.json({ userId: req.userId });
 })
 
 app.listen(PORT, HOST);

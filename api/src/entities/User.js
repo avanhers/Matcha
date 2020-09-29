@@ -1,76 +1,97 @@
-'use strict';
-const bcrypt = require('bcryptjs');
+"use strict";
+const bcrypt = require("bcryptjs");
 
 class User {
+  constructor(kwargs) {
+    for (const key in kwargs) {
+      const setter = "set" + this.capitalize(key);
 
-    constructor(kwargs) {
-        for (const key in kwargs) {
-            const setter = 'set' + this.capitalize(key);
-
-            if (typeof this[setter] === 'function') {
-                this[setter](kwargs[key]);
-            }
-        }
+      if (typeof this[setter] === "function") {
+        this[setter](kwargs[key]);
+      }
     }
+  }
 
-    toPlainObject() {
-        const plainObject = {};
+  toPlainObject() {
+    const plainObject = {};
 
-        for (const key in this) {
-            if (key !== 'password') {
-                plainObject[key] = this[key];
-            }
-        }
-        return plainObject;
+    for (const key in this) {
+      if (key !== "password") {
+        plainObject[key] = this[key];
+      }
     }
+    return plainObject;
+  }
 
-    capitalize(string) {
-        return string[0].toUpperCase() + string.slice(1);
-    }
+  capitalize(string) {
+    return string[0].toUpperCase() + string.slice(1);
+  }
 
-    isWritable() {
-        return this.email && this.username && this.name && this.firstname && this.password;
-    };
+  isWritable() {
+    return (
+      this.email &&
+      this.username &&
+      this.name &&
+      this.firstname &&
+      this.password
+    );
+  }
 
-    setEmail(email) {
-        this.email = email;
-    };
+  setEmail(email) {
+    this.email = email;
+  }
 
-    setId(id) {
-        this.id = id;
-    }
+  setId(id) {
+    this.id = id;
+  }
 
-    setHashValidation(hashValidation) {
-        this.hashValidation = hashValidation;
-    }
+  setUsername(username) {
+    this.username = username;
+  }
 
-    setUsername(username) {
-        this.username = username;
-    };
+  setPassword(password) {
+    this.password = password;
+  }
 
-    setPassword(password) {
-        this.password = password;
-    }
+  setHashPassword(password) {
+    this.password = bcrypt.hashSync(password, 0);
+  }
 
-    setName(name) {
-        this.name = name;
-    };
+  setName(name) {
+    this.name = name;
+  }
 
-    setFirstname(firstname) {
-        this.firstname = firstname;
-    };
+  setIsLogin(bool) {
+    this.isLogin = bool;
+  }
 
-    getEmail() { return this.email };
-    getUsername() { return this.username };
-    getPassword() { return this.password };
-    getName() { return this.name };
-    getFirstname() { return this.firstname };
-    getHashValidation() { return this.hashValidation };
-    getId() { return this.id };
+  setFirstname(firstname) {
+    this.firstname = firstname;
+  }
 
-    confirmPassword(password) { return bcrypt.compareSync(password, this.password) };
+  getEmail = () => this.email;
+  getUsername() {
+    return this.username;
+  }
+  getPassword() {
+    return this.password;
+  }
+  getName() {
+    return this.name;
+  }
+  getFirstname() {
+    return this.firstname;
+  }
+  getId() {
+    return this.id;
+  }
+  getIsLogin() {
+    return this.isLogin;
+  }
 
-
+  confirmPassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  }
 }
 
 module.exports = User;
