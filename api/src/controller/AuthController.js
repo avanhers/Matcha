@@ -101,7 +101,14 @@ const authController = {
         }
         const tokens = tokenManager.createTokens(user);
         await manager.login(user);
-        return response.status(200).json({ tokens: tokens });
+        response.set({
+          "Access-Control-Expose-Headers": "x-token, x-refresh-token",
+          "x-token": tokens.accessToken,
+          "x-refresh-token": tokens.newRefreshToken,
+        });
+        return response
+          .status(200)
+          .json({ status: 200, user: user.toPlainObject() });
       }
       return response.json({ error: "password incorrect " });
     }
