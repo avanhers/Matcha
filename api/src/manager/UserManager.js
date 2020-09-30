@@ -35,6 +35,41 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
+  this.updateAvatar = function (user) {
+    const sql = "UPDATE users SET avatar = ? where id = ?";
+    const values = [user.getAvatar(), user.getId()];
+
+    return db.query(sql, values);
+  };
+
+  this.getOldAvatar = async function (user) {
+    const sql = "SELECT avatar FROM users where id = ?";
+    const result = await db.query(sql, user.getId());
+
+    return result[0].avatar;
+  };
+
+  this.getOldImage = async function (imageId) {
+    const sql = "SELECT image FROM images WHERE id = ?";
+    const result = await db.query(sql, imageId);
+
+    return result[0].image;
+  };
+
+  this.updateImage = function (imageId, path) {
+    const sql = "UPDATE images SET image = ? WHERE id = ?";
+    const values = [path, imageId];
+
+    return db.query(sql, values);
+  };
+
+  this.createImage = function (userId, path) {
+    const sql = "INSERT INTO images (userId, image) VALUES(?, ?)";
+    const values = [userId, path];
+
+    return db.query(sql, values);
+  };
+
   this.login = function (user) {
     const sql = "UPDATE users SET isLogin = 1 WHERE id = ?";
 

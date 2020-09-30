@@ -37,6 +37,10 @@ class User {
     );
   }
 
+  setAvatar(avatar) {
+    this.avatar = avatar;
+  }
+
   setEmail(email) {
     this.email = email;
   }
@@ -69,7 +73,12 @@ class User {
     this.firstname = firstname;
   }
 
-  getEmail = () => this.email;
+  getEmail() {
+    return this.email;
+  }
+  getAvatar() {
+    return this.avatar;
+  }
   getUsername() {
     return this.username;
   }

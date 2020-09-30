@@ -9,6 +9,9 @@
 /db
 ./db/*
 
+#uploads
+./api/uploads/*
+
 # testing
 /coverage
 
