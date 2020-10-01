@@ -66,6 +66,7 @@ const utilValidation = {
     errorMessage: "Les mots de passe ne correspondent pas",
   },
 };
+
 /*Generic function to change data*/
 
 const changeData = (data, name, pair) => {
@@ -73,6 +74,47 @@ const changeData = (data, name, pair) => {
   for (const [key, value] of Object.entries(pair)) {
     newData = { ...newData, [key]: { ...newData[key], [name]: value } };
   }
+  return newData;
+};
+
+/* utility function to handle passwd error*/
+const handlePasswordLoseFocus = (newData) => {
+  if (
+    newData.value.password &&
+    newData.value.confirmPwd &&
+    !checkEqualPassword(newData.value.password, newData.value.confirmPwd)
+  )
+    newData = changeData(newData, "confirmPwd", {
+      showError: true,
+      error: utilValidation.confirmPwd.errorMessage,
+    });
+  else
+    newData = changeData(newData, "confirmPwd", {
+      showError: false,
+      error: "",
+    });
+  return newData;
+};
+
+const handleAllLoseFocus = (newData, name, value) => {
+  const error = value && !utilValidation[name].callback(value);
+  if (error)
+    newData = changeData(newData, name, {
+      showError: true,
+      error: utilValidation[name].errorMessage,
+    });
+  else {
+    newData = changeData(newData, name, {
+      showError: false,
+      error: "",
+    });
+  }
+
+  if (value)
+    newData = {
+      ...newData,
+      readyToSubmit: { ...newData.readyToSubmit, [name]: true },
+    };
   return newData;
 };
 
@@ -88,7 +130,7 @@ const initialData = {
     username: "",
     confirmPwd: "",
   },
-  valid: {
+  showError: {
     name: false,
     email: false,
     password: false,
@@ -103,6 +145,14 @@ const initialData = {
     firstname: " ",
     username: " ",
     confirmPwd: " ",
+  },
+  readyToSubmit: {
+    name: false,
+    email: false,
+    password: false,
+    firstname: false,
+    username: false,
+    confirmPwd: false,
   },
 };
 
@@ -127,7 +177,7 @@ export default function InscriptionModal({ open, handleClose }) {
     setData({
       ...data,
       value: { ...data.value, [name]: value },
-      valid: { ...data.valid, [name]: true },
+      showError: { ...data.showError, [name]: false },
       error: { ...data.error, [name]: " " },
     });
   };
@@ -135,14 +185,14 @@ export default function InscriptionModal({ open, handleClose }) {
   /*
    ** Front validation of Input
    */
-  const checkValidations = () => {
+  const readyToSubmit = () => {
     return (
-      data.valid.name &&
-      data.valid.email &&
-      data.valid.password &&
-      data.valid.firstname &&
-      data.valid.username &&
-      data.valid.confirmPwd
+      data.readyToSubmit.name &&
+      data.readyToSubmit.email &&
+      data.readyToSubmit.password &&
+      data.readyToSubmit.firstname &&
+      data.readyToSubmit.username &&
+      data.readyToSubmit.confirmPwd
     );
   };
 
@@ -160,13 +210,13 @@ export default function InscriptionModal({ open, handleClose }) {
       setData({
         ...data,
         error: { ...data.error, email: "Cette email est déjà utilisé" },
-        valid: { ...data.valid, email: false },
+        showError: { ...data.showError, email: true },
       });
     } else if (status === 402) {
       setData({
         ...data,
         error: { ...data.error, username: "Cette login est déjà utilisé" },
-        valid: { ...data.valid, username: false },
+        showError: { ...data.showError, username: true },
       });
     } else if (status === 403) {
       setErr({ code: status, message: "erreur mail non joignable" });
@@ -176,9 +226,7 @@ export default function InscriptionModal({ open, handleClose }) {
   };
 
   const onSubmit = () => {
-    console.log(checkValidations());
-    if (checkValidations()) {
-      console.log("lalalaal");
+    if (readyToSubmit()) {
       apiCall(
         INSCRIPTION_ROUTE,
         data.value,
@@ -195,21 +243,16 @@ export default function InscriptionModal({ open, handleClose }) {
    */
   const handleBlur = (event) => {
     const { name, value } = event.target;
-    console.log("ici");
-    const error =
-      name === "confirmPwd"
-        ? !utilValidation[name].callback(data.value.password, value)
-        : !utilValidation[name].callback(value);
+    let newData = { ...data };
 
-    if (error) {
-      setData({
-        ...data,
-        error: { ...data.error, [name]: utilValidation[name].errorMessage },
-        valid: { ...data.valid, [name]: false },
-      });
+    if (name === "confirmPwd" || name === "password") {
+      newData = handlePasswordLoseFocus(newData);
     }
+    if (name != "confirmPwd") {
+      newData = handleAllLoseFocus(newData, name, value);
+    }
+    setData(newData);
   };
-
   /*
    ****************Renders Method
    */
@@ -222,7 +265,7 @@ export default function InscriptionModal({ open, handleClose }) {
         value={data.value[name]}
         variant="outlined"
         name={name}
-        error={!data.valid[name] && data.value[name]}
+        error={data.showError[name]}
         helperText={data.error[name]}
         onChange={onInputChange}
         onBlur={handleBlur}

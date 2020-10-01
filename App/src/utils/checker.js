@@ -16,8 +16,8 @@ export const checkPassword = (passwd) => {
 };
 
 export const checkEqualPassword = (passwd, passwd2) => {
-  console.log("resultat:", passwd === passwd2);
-  return passwd === passwd2;
+  console.log("test equal");
+  if (passwd && passwd2) return passwd === passwd2;
 };
 
 //Login : lowercase alpha,  2 < taille < 10

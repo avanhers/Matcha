@@ -9,7 +9,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import GoogleMapReact from "google-map-react";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
