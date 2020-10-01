@@ -1,6 +1,8 @@
 import React from "react";
 import requestMatchesCall from "../common/requestMatches.js";
 
+const MATCH_PROFIL_ROUTE = "http://localhost:8088/match/matchesPage";
+
 function MatchRequest({
   filter,
   user,
@@ -15,7 +17,8 @@ function MatchRequest({
     if (Object.keys(user).length !== 0) {
       console.log("pasteque");
       requestMatchesCall(
-        { age: filter.age, page: filter.page },
+        MATCH_PROFIL_ROUTE,
+        filter,
         filter.page > 1 ? setMatches : setMatchesReset,
         null,
         toggleBackdropLoader
