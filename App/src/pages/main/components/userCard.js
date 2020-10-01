@@ -13,6 +13,10 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import PopularityScore from "../../../common/components/popularityScore.js";
+import { CSSTransition } from "react-transition-group";
+
+import ProfilModal from "../../../profilModal.js";
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
@@ -55,10 +59,19 @@ const user = {
 
 export default function CustomCard({ user }) {
   const classes = useStyles();
+  const [profilModalOpened, setProfilModalOpened] = React.useState(false);
+
+  const handleProfilClick = () => {
+    setProfilModalOpened(true);
+  };
+
+  const handleProfilModalClose = () => {
+    setProfilModalOpened(false);
+  };
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={handleProfilClick}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
@@ -92,6 +105,11 @@ export default function CustomCard({ user }) {
           label="Like"
         />
       </CardActions>
+      <ProfilModal
+        open={profilModalOpened}
+        handleClose={handleProfilModalClose}
+        user={user}
+      />
     </Card>
   );
 }
