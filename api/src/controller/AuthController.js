@@ -20,16 +20,16 @@ const authController = {
       );
 
       if (emailExist) {
-        response.status(401).json({ status: 401, error: "email already used" });
+        response.status(200).json({ status: 401, error: "email already used" });
       } else if (usernameExist) {
         response
-          .status(402)
+          .status(200)
           .json({ status: 402, error: "username already used" });
       } else {
         database.db.beginTransaction(async (beginTransactionError) => {
           if (beginTransactionError) {
             return response
-              .status(400)
+              .status(200)
               .json({ error: beginTransactionError.message });
           }
           try {
@@ -58,7 +58,7 @@ const authController = {
         });
       }
     } else {
-      response.status(400).json({ status: 400, error: "value missing" });
+      response.status(200).json({ status: 400, error: "value missing" });
     }
   },
 

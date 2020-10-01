@@ -1,0 +1,13 @@
+export const TOGGLE_TAG = "TOGGLE_TAG";
+
+export const CHANGE_AGE = "CHANGE_AGE";
+export const SET_PAGE_NB = "SET_PAGE_NB";
+export const SET_USER = "SET_USER";
+export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
+export const AUTH_REQUEST = "AUTH_REQUEST";
+export const AUTH_RESPONSE = "AUTH_RESPONSE";
+export const MATCH_REQUEST = "MATCH_REQUEST";
+export const MATCH_RESPONSE = "MATCH_RESPONSE";
+export const MATCH_RESPONSE_RESET = "MATCH_RESPONSE_RESET";
+export const TOGGLE_GLOBAL_LOADER = "TOGGLE_GLOBAL_LOADER";
+export const TOGGLE_USE_FILTER = "TOGGLE_USE_FILTER";

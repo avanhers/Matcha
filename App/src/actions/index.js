@@ -8,10 +8,6 @@ export const changeAge = (value) => ({
   value,
 });
 
-export const setPageNb = () => ({
-  type: "SET_PAGE_NB",
-});
-
 export const setUser = (user) => ({
   type: "SET_USER",
   user,
