@@ -15,7 +15,7 @@ import Favorite from "@material-ui/icons/Favorite";
 import PopularityScore from "../../../common/components/popularityScore.js";
 import { CSSTransition } from "react-transition-group";
 
-import ProfilModal from "../../../profilModal.js";
+import ProfilModal from "./profilModal.js";
 
 const useStyles = makeStyles({
   root: {
