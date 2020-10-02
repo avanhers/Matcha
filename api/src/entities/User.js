@@ -23,6 +23,16 @@ class User {
     return plainObject;
   }
 
+  setInfos(infos) {
+    for (const key in infos) {
+      const setter = "set" + this.capitalize(key);
+
+      if (typeof this[setter] === "function") {
+        this[setter](infos[key]);
+      }
+    }
+  }
+
   capitalize(string) {
     return string[0].toUpperCase() + string.slice(1);
   }
@@ -37,8 +47,28 @@ class User {
     );
   }
 
+  setAge(age) {
+    this.age = age;
+  }
+
+  setSexualOrientation(orientation) {
+    this.sexualOrientation = orientation;
+  }
+
+  setDescription(description) {
+    this.description = description;
+  }
+
+  setGender(gender) {
+    this.gender = gender;
+  }
+
   setAvatar(avatar) {
     this.avatar = avatar;
+  }
+
+  setTags(tags) {
+    this.tags = tags;
   }
 
   setEmail(email) {
@@ -47,6 +77,10 @@ class User {
 
   setId(id) {
     this.id = id;
+  }
+
+  setLikes(likes) {
+    this.likes = likes;
   }
 
   setUsername(username) {
@@ -73,6 +107,35 @@ class User {
     this.firstname = firstname;
   }
 
+  setMatches(matches) {
+    this.matches = matches;
+  }
+
+  setPopularityScore(score) {
+    this.popularityScore = score;
+  }
+
+  getLikes() {
+    return this.likes;
+  }
+  getPopularityScore() {
+    return this.popularityScore;
+  }
+  getMatches() {
+    return this.matches;
+  }
+  getAge() {
+    return this.age;
+  }
+  getSexualOrientation() {
+    return this.sexualOrientation;
+  }
+  getDescription() {
+    return this.description;
+  }
+  getGender() {
+    return this.gender;
+  }
   getEmail() {
     return this.email;
   }
@@ -96,6 +159,9 @@ class User {
   }
   getIsLogin() {
     return this.isLogin;
+  }
+  getTags() {
+    return this.tags;
   }
 
   confirmPassword(password) {

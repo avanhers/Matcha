@@ -85,7 +85,8 @@ const authController = {
     const { username, password } = request.body;
 
     if (username && password) {
-      const user = await manager.findUserByUsername(username);
+      const user = await manager.readCompleteUser(username);
+      console.log(user);
 
       if (user && user.confirmPassword(password)) {
         const hashCode = await manager.hasHash(user.id);

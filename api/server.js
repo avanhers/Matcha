@@ -29,13 +29,16 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(express.static("./uploads"));
+
 //set request body parsing
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(upload.array());
 
 app.use("/auth", authRoute);
-app.use("/user", /*auth.addUser,*/ userRoute);
+app.use("/user", auth.addUser, userRoute);
 
 app.listen(PORT, HOST);
 console.log("Running on http://" + HOST + ":" + PORT);

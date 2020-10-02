@@ -4,6 +4,7 @@ const db = require("../../framework/Database");
 const bcrypt = require("bcryptjs");
 const Manager = require("./Manager");
 const User = require("../entities/User");
+const queryCreator = require("../../framework/queryCreator");
 
 const VALIDATION = 1;
 const FORGET = 2;
@@ -26,11 +27,43 @@ const UserManager = function () {
     return result[0] ? new User(result[0]) : null;
   };
 
+  this.readCompleteUser = async function (username) {
+    const sql = `SELECT u.username as username, u.email as email, u.firstname as firstname, 
+    u.age as age, u.sexualOrienttion as sexualOrientation, u.description as description, 
+    u.gender as gender, u.matches as matches, u.popularityScore as popularityScore, u.avatar as avatar, 
+    GROUP_CONCAT(t.name) as tags, GROUP_CONCAT(v.watcherId) as watcher
+    `;
+  };
+
   this.createUser = function (user) {
     const sql =
       "INSERT INTO users (email, username, firstname, name, password) VALUES (?, ?, ?, ?, ?)";
     const pwd = bcrypt.hashSync(user.password, 0);
     const values = [user.email, user.username, user.firstname, user.name, pwd];
+
+    return db.query(sql, values);
+  };
+
+  this.updateUser = function (field, user) {
+    const getter = "get" + user.capitalize(field);
+    const sql = `UPDATE users SET ${field} = ? WHERE id = ?`;
+    const values = [user[getter](), user.getId()];
+
+    return db.query(sql, values);
+  };
+
+  this.updateUserInfos = function (user) {
+    const sql = `UPDATE users SET username = ?, name = ?, firstname = ?, gender = ?, sexualOrientation = ?, 
+      description = ? WHERE id = ? `;
+    const values = [
+      user.getUsername(),
+      user.getName(),
+      user.getFirstname(),
+      user.getGender(),
+      user.getSexualOrientation(),
+      user.getDescription(),
+      user.getId(),
+    ];
 
     return db.query(sql, values);
   };
@@ -159,6 +192,39 @@ const UserManager = function () {
     console.log("requete sql : ", sql, sqlParams);
     // sql = "SELECT * FROM us ers WHERE age = 18 LIMIT 10 OFFSET 0";
     return db.query(sql, sqlParams);
+  };
+
+  /* ----------------------------------- TAGS ------------------------------- */
+
+  this.getOldTags = async function (userId) {
+    const sql = "SELECT id FROM user_tag WHERE userId = ?";
+    const rows = await db.query(sql, userId);
+    const ids = [];
+
+    rows.forEach((row) => ids.push(row.id));
+    return ids;
+  };
+
+  this.deleteOldTags = async function (tagsId) {
+    const sql = "DELETE FROM user_tag WHERE id IN (?)";
+
+    return db.query(sql, [tagsId]);
+  };
+
+  this.createNewTags = async function (userId, tagsId) {
+    const sql = "INSERT INTO user_tag (userId, TagId) VALUES ?";
+    const values = tagsId.map((e) => [userId, e]);
+
+    return db.query(sql, [values]);
+  };
+
+  /* ----------------------------------- LIKE ------------------------------- */
+
+  this.createLike = async function (userLiked, likeId) {
+    const sql = "INSERT INTO likes (likeId, likedId) VALUES (?, ?)";
+    const values = [likeId, userLiked.getId()];
+
+    return db.query(sql, values);
   };
 };
 

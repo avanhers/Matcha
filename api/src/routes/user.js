@@ -10,5 +10,13 @@ router.post(
   multer,
   userController.uploadImage.bind(userController)
 );
+router.post("/personnalInfos", userController.personnal.bind(userController));
+router.post("/updateEmail", userController.updateEmail.bind(userController));
+router.post(
+  "/updatePassword",
+  userController.updatePassword.bind(userController)
+);
+router.post("/updateTags", userController.updateTags.bind(userController));
+router.post("/like/:username", userController.like.bind(userController));
 
 module.exports = router;
