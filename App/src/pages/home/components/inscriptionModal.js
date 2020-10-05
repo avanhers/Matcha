@@ -206,13 +206,13 @@ export default function InscriptionModal({ open, handleClose }) {
     } else if (status === 401) {
       setData({
         ...data,
-        error: { ...data.error, email: "Cette email est déjà utilisé" },
+        error: { ...data.error, email: "Cet email est déjà utilisé" },
         showError: { ...data.showError, email: true },
       });
     } else if (status === 402) {
       setData({
         ...data,
-        error: { ...data.error, username: "Cette login est déjà utilisé" },
+        error: { ...data.error, username: "Ce login est déjà utilisé" },
         showError: { ...data.showError, username: true },
       });
     } else if (status === 403) {
@@ -258,7 +258,7 @@ export default function InscriptionModal({ open, handleClose }) {
   /*
    ****************Renders Method
    */
-  const renderTextField = (name, label) => {
+  const renderTextField = (name, label, type) => {
     return (
       <TextField
         required
@@ -271,6 +271,7 @@ export default function InscriptionModal({ open, handleClose }) {
         helperText={data.error[name]}
         onChange={onInputChange}
         onBlur={handleBlur}
+        type={type}
       // onFocus={handleFocus}
       />
     );
@@ -291,12 +292,12 @@ export default function InscriptionModal({ open, handleClose }) {
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          {renderTextField("email", "Adresse email")}
-          {renderTextField("name", "Nom")}
-          {renderTextField("firstname", "Prenom")}
-          {renderTextField("password", "Mdp")}
-          {renderTextField("confirmPwd", "Confirmer Mdp")}
-          {renderTextField("username", "login")}
+          {renderTextField("email", "Adresse email", "text")}
+          {renderTextField("name", "Nom", "text")}
+          {renderTextField("firstname", "Prenom", "text")}
+          {renderTextField("password", "Mdp", "password")}
+          {renderTextField("confirmPwd", "Confirmer Mdp", "password")}
+          {renderTextField("username", "login", "text")}
         </div>
         <ButtonLoader
           fetching={isfetching}

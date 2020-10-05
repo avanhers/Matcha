@@ -5,7 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+/*
+ ******************** CSS STYLE ********************
+ */
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -32,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+/*
+ ******************** Component ********************
+ */
 export default function ConnectionModal({
   open,
   handleClose,
@@ -41,15 +49,16 @@ export default function ConnectionModal({
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  //   const [opened, setOpened] = React.useState(open);
-  const data = { email: "", password: "" };
+  const [data, setData] = React.useState({ email: "", password: "" });
 
   const handleSubmit = (event) => {
     console.log(event);
   };
 
   const onInputChange = (event) => {
-    data[event.target.name] = event.target.value;
+    const { name, value } = event.target;
+
+    setData({ ...data, [name]: value })
   };
 
   const onSubmit = () => {
@@ -90,6 +99,37 @@ export default function ConnectionModal({
     //     console.log(error);
     //   });
   };
+
+  /*
+   ******************** Render methods ********************
+   */
+  const renderTextField = (name, label, type) => {
+    return (
+      <TextField
+        required
+        id={name}
+        label={label}
+        value={data[name]}
+        variant="outlined"
+        name={name}
+        //error={data.showError[name]}
+        //helperText={data.error[name]}
+        onChange={onInputChange}
+        //onBlur={handleBlur}
+        type={type}
+      // onFocus={handleFocus}
+      />
+    );
+  };
+
+  const renderMdpOublie = () => {
+    return (<div>
+      <Link component={RouterLink} variant="body2" to="/profil">
+        {'mot de passe oublié'}
+      </Link>
+    </div>)
+  }
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Connexion</h2>
@@ -100,38 +140,21 @@ export default function ConnectionModal({
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          <TextField
-            required
-            id="outlined-required"
-            label="Addresse Email"
-            defaultValue=""
-            variant="outlined"
-            name="email"
-            onChange={onInputChange}
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Mot de passe"
-            defaultValue=""
-            variant="outlined"
-            name="password"
-            onChange={onInputChange}
-          />
+          {renderTextField("email", "Adresse email", "text")}
+          {renderTextField("password", "Mdp", "password")}
+          {renderMdpOublie()}
         </div>
         {userRequest.isFetching ? (
           <CircularProgress />
         ) : (
-          <Button variant="outlined" onClick={onSubmit}>
-            Valider
-          </Button>
-        )}
+            <Button variant="outlined" onClick={onSubmit}>
+              Valider
+            </Button>
+          )}
       </form>
     </div>
   );
-  const backDropClickHandler = () => {
-    console.log("backdrop");
-  };
+
   return (
     <div>
       <Modal
