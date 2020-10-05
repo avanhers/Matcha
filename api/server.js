@@ -3,24 +3,22 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/auth");
+const userRoute = require("./src/routes/user");
 const upload = require("multer")();
-const db = require("./framework/Database");
 const auth = require("./src/midleware/auth");
-const { response } = require("express");
 
 const PORT = process.env.PORT;
 const HOST = "0.0.0.0";
 
 const app = express();
+
+//set Response header
 app.use(function (req, res, next) {
-  // Website you wish to allow to connect
   res.setHeader("Access-Control-Allow-Origin", "*");
-  // Request methods you wish to allow
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
   );
-  // Request headers you wish to allow
   res.setHeader(
     "Access-Control-Allow-Headers",
     "X-Requested-With,content-type"
@@ -28,16 +26,19 @@ app.use(function (req, res, next) {
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
   res.setHeader("Access-Control-Allow-Credentials", true);
-  // Pass to next layer of middleware
   next();
 });
+
+app.use(express.static("./uploads"));
+
+//set request body parsing
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(upload.array());
+// app.use(upload.array());
+
 app.use("/auth", authRoute);
-app.use("/test", auth.addUser, (req, res) => {
-  res.json({ userId: req.userId });
-});
+app.use("/user", auth.addUser, userRoute);
 
 app.listen(PORT, HOST);
 console.log("Running on http://" + HOST + ":" + PORT);

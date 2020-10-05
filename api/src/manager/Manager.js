@@ -12,12 +12,14 @@ Manager.prototype = {
     const sql = "SELECT * FROM users";
     return db.query(sql, null);
   },
+
   findAllOffsetLimit: function (limit, offset) {
     console.log(limit, offset);
     const sql = `SELECT * FROM ${this.type} LIMIT ${limit} OFFSET ${offset}`;
     console.log(sql);
     return db.query(sql);
   },
+
   findOneById: async function (id) {
     const sql = `SELECT * FROM ${this.type} WHERE id = ?`;
     const result = await db.query(sql, id);
