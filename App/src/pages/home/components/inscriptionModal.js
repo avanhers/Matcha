@@ -110,13 +110,10 @@ const handleAllLoseFocus = (newData, name, value) => {
     });
   }
 
-  if (value)
-    newData = {
-      ...newData,
-      readyToSubmit: { ...newData.readyToSubmit, [name]: true },
-    };
+
   return newData;
 };
+
 
 /*
  ******************** Initial State ********************
@@ -251,6 +248,11 @@ export default function InscriptionModal({ open, handleClose }) {
     if (name != "confirmPwd") {
       newData = handleAllLoseFocus(newData, name, value);
     }
+    if (value)
+      newData = {
+        ...newData,
+        readyToSubmit: { ...newData.readyToSubmit, [name]: true },
+      };
     setData(newData);
   };
   /*
@@ -269,7 +271,7 @@ export default function InscriptionModal({ open, handleClose }) {
         helperText={data.error[name]}
         onChange={onInputChange}
         onBlur={handleBlur}
-        // onFocus={handleFocus}
+      // onFocus={handleFocus}
       />
     );
   };

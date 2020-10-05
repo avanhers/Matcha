@@ -16,7 +16,7 @@ function App({ user }) {
             exact
             path="/"
             component={
-              Object.keys(user.user).length === 0 ? Home : Home //MainLayoutContainer
+              Object.keys(user.user).length === 0 ? Home : MainLayoutContainer
             }
           />
           <Route exact path="/profil" component={ProfilLayoutContainer} />
