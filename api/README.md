@@ -25,3 +25,6 @@ endPoint:
     updatePassword: content-type json { password: string, oldPassword: string },
 
     updateTags: json { tags: [ ...tag ]  } },
+
+    like/:username: retour 200 -> already liked, 201 -> like added, 202 -> This is a match !
+                    400 -> fail

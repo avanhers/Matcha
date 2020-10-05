@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const Manager = require("./Manager");
 const User = require("../entities/User");
 const queryCreator = require("../../framework/queryCreator");
+const { innerJoin } = require("../../framework/queryCreator");
 
 const VALIDATION = 1;
 const FORGET = 2;
@@ -14,25 +15,54 @@ const UserManager = function () {
   Manager.call(this, "users");
 
   this.findUserByEmail = async function (email) {
-    const sql = "SELECT * FROM users WHERE email = ?";
-    const result = await db.query(sql, email);
+    const rows = await queryCreator
+      .select("*")
+      .from("users")
+      .where("email", email)
+      .sendQuery();
 
-    return result[0] ? new User(result[0]) : null;
+    return rows[0] ? new User(rows[0]) : null;
   };
 
   this.findUserByUsername = async function (username) {
-    const sql = "SELECT * FROM users WHERE username = ?";
-    const result = await db.query(sql, username);
+    const rows = await queryCreator
+      .select("*")
+      .from("users")
+      .where("username", username)
+      .sendQuery();
 
-    return result[0] ? new User(result[0]) : null;
+    return rows[0] ? new User(rows[0]) : null;
   };
 
-  this.readCompleteUser = async function (username) {
-    const sql = `SELECT u.username as username, u.email as email, u.firstname as firstname, 
-    u.age as age, u.sexualOrienttion as sexualOrientation, u.description as description, 
-    u.gender as gender, u.matches as matches, u.popularityScore as popularityScore, u.avatar as avatar, 
-    GROUP_CONCAT(t.name) as tags, GROUP_CONCAT(v.watcherId) as watcher
-    `;
+  this.addLikesToUser = async function (user) {
+    const rows = await queryCreator
+      .select("u2.username")
+      .from("users", "u")
+      .innerJoin("likes", "l")
+      .on("u.id", "l.likeId")
+      .innerJoin("users", "u2")
+      .on("l.likedId", "u2.id")
+      .where("u.id", user.getId())
+      .sendQuery();
+
+    user.setLikes(rows);
+    return user;
+  };
+
+  this.addMatchesToUser = async function (user) {
+    const rows = await queryCreator
+      .select("u2.username", "matches")
+      .from("users", "u")
+      .innerJoin("likes", "l")
+      .on("l.likeId", "u.id")
+      .innerJoin("users", "u2")
+      .on("l.likedId", "u2.id")
+      .where("u.id", user.getId())
+      .sendQuery();
+
+    user.setMatches(rows);
+    console.log("matches= ", rows);
+    return user;
   };
 
   this.createUser = function (user) {
@@ -225,6 +255,14 @@ const UserManager = function () {
     const values = [likeId, userLiked.getId()];
 
     return db.query(sql, values);
+  };
+
+  this.deleteLike = async function (userWhichUnlike, unlikedUser) {
+    return await queryCreator
+      .delete("likes")
+      .where("likeId", userWhichUnlike.getId())
+      .and("likedId", unlikedUser.getId())
+      .sendQuery();
   };
 };
 

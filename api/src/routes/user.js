@@ -18,5 +18,6 @@ router.post(
 );
 router.post("/updateTags", userController.updateTags.bind(userController));
 router.post("/like/:username", userController.like.bind(userController));
+router.post("/unlike/:username", userController.unlike.bind(userController));
 
 module.exports = router;

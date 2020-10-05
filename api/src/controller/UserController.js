@@ -40,12 +40,33 @@ const userController = {
     const userLiked = await manager.findUserByUsername(req.params.username);
     const user = await manager.findOneById(req.userId);
 
-    // console.log("user= ", user);
-    // console.log("userLiked= ", userLiked);
-    // if (user && userLiked) {
-    //   await manager.createLike(userLiked, user.getId());
-    //   return res.json({ status: 201, msg: "like added" });
-    // }
+    if (user && userLiked) {
+      await manager.addLikesToUser(user);
+      if (user.alreadyLike(userLiked)) {
+        return res.json({ status: 200, msg: "already liked" });
+      }
+      await manager.createLike(userLiked, user.getId());
+      await manager.addMatchesToUser(user);
+      if (user.hasMatchWith(userLiked)) {
+        return res.json({ status: 202, msg: "This is a match !!" });
+      }
+      return res.json({ status: 201, msg: "like added" });
+    }
+    res.json({ status: 400, msg: "bad users" });
+  },
+
+  unlike: async function (req, res) {
+    const userUnliked = await manager.findUserByUsername(req.params.username);
+    const user = await manager.findOneById(req.userId);
+
+    if (user && userUnliked) {
+      await manager.addLikesToUser(user);
+      if (!user.alreadyLike(userUnliked)) {
+        return res.json({ status: 200, msg: "like unexist" });
+      }
+      await manager.deleteLike(user, userUnliked);
+      return res.json({ status: 201, msg: "like deleted" });
+    }
     res.json({ status: 400, msg: "bad users" });
   },
 

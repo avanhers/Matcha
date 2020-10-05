@@ -2,12 +2,15 @@
 const bcrypt = require("bcryptjs");
 
 class User {
+  PRIVATE = ["password", "id", "PRIVATE"];
+
   constructor(kwargs) {
     for (const key in kwargs) {
+      const value = kwargs[key];
       const setter = "set" + this.capitalize(key);
 
       if (typeof this[setter] === "function") {
-        this[setter](kwargs[key]);
+        this[setter](value);
       }
     }
   }
@@ -16,19 +19,36 @@ class User {
     const plainObject = {};
 
     for (const key in this) {
-      if (key !== "password") {
+      if (this.PRIVATE.indexOf(key) < 0) {
         plainObject[key] = this[key];
       }
     }
     return plainObject;
   }
 
+  alreadyLike(user) {
+    const userLiked = this.likes.find(
+      (like) => like.username === user.getUsername()
+    );
+
+    return userLiked === undefined ? false : true;
+  }
+
+  hasMatchWith(user) {
+    const matchUser = this.matches.find(
+      (match) => match.matches === user.getUsername()
+    );
+
+    return matchUser === undefined ? false : true;
+  }
+
   setInfos(infos) {
     for (const key in infos) {
+      const value = infos[key];
       const setter = "set" + this.capitalize(key);
 
       if (typeof this[setter] === "function") {
-        this[setter](infos[key]);
+        this[setter](value);
       }
     }
   }
