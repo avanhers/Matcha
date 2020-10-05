@@ -11,3 +11,12 @@ export const MATCH_RESPONSE = "MATCH_RESPONSE";
 export const MATCH_RESPONSE_RESET = "MATCH_RESPONSE_RESET";
 export const TOGGLE_GLOBAL_LOADER = "TOGGLE_GLOBAL_LOADER";
 export const TOGGLE_USE_FILTER = "TOGGLE_USE_FILTER";
+export const HIDE_SNACK_BAR = "HIDE_SNACK_BAR";
+export const SHOW_SNACK_BAR = "SHOW_SNACK_BAR";
+
+/**
+ ** OTHER CONST
+ */
+export const NO_SNACK_BAR = 0;
+export const SNACK_BAR_SUCCESS = 1;
+export const SNACK_BAR_FAILURE = 2;

@@ -47,12 +47,12 @@ const authController = {
               })
               .catch((e) => {
                 database.db.rollback(() =>
-                  response.status(403).json({ status: 403, error: e.message })
+                  response.status(200).json({ status: 403, error: e.message })
                 );
               });
           } catch (e) {
             database.db.rollback(() =>
-              response.status(400).json({ error: "SQL ERRROR: " + e.message })
+              response.status(200).json({ error: "SQL ERRROR: " + e.message })
             );
           }
         });
@@ -76,7 +76,7 @@ const authController = {
         .json({ status: 204, msg: "hash " + hashId + " deleted successfully" });
     } else {
       response
-        .status(401)
+        .status(200)
         .json({ status: 401, error: "No confirmation needed" });
     }
   },
@@ -86,13 +86,14 @@ const authController = {
 
     if (username && password) {
       const user = await manager.findUserByUsername(username);
+      console.log(user);
 
       if (user && user.confirmPassword(password)) {
         const hashCode = await manager.hasHash(user.id);
 
         if (hashCode) {
           return response
-            .status(401)
+            .status(200)
             .json(
               hashCode === VALIDATION
                 ? { status: 401, msg: "Validation needed" }
@@ -110,7 +111,7 @@ const authController = {
           .status(200)
           .json({ status: 200, user: user.toPlainObject() });
       }
-      return response.json({ error: "password incorrect " });
+      return response.json({ status: 403, msg: "password incorrect " });
     }
     response.status(400).json({ status: 400, msg: "incomplete fields" });
   },
@@ -163,13 +164,13 @@ const authController = {
             response.status(200).json({ status: 201, msg: result })
           )
           .catch((e) =>
-            response.status(402).json({ status: 402, error: e.message })
+            response.status(200).json({ status: 402, error: e.message })
           );
       } else {
-        return response.status(400).json({ status: 401, msg: "user unexist" });
+        return response.status(200).json({ status: 401, msg: "user unexist" });
       }
     } else {
-      response.status(402).json({ status: 402, msg: "email needed" });
+      response.status(200).json({ status: 402, msg: "email needed" });
     }
   },
 

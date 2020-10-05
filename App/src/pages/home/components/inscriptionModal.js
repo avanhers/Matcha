@@ -91,7 +91,7 @@ const handlePasswordLoseFocus = (newData) => {
   else
     newData = changeData(newData, "confirmPwd", {
       showError: false,
-      error: "",
+      error: " ",
     });
   return newData;
 };
@@ -106,14 +106,12 @@ const handleAllLoseFocus = (newData, name, value) => {
   else {
     newData = changeData(newData, name, {
       showError: false,
-      error: "",
+      error: " ",
     });
   }
 
-
   return newData;
 };
-
 
 /*
  ******************** Initial State ********************
@@ -272,7 +270,7 @@ export default function InscriptionModal({ open, handleClose }) {
         onChange={onInputChange}
         onBlur={handleBlur}
         type={type}
-      // onFocus={handleFocus}
+        // onFocus={handleFocus}
       />
     );
   };
@@ -292,7 +290,7 @@ export default function InscriptionModal({ open, handleClose }) {
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          {renderTextField("email", "Adresse email", "text")}
+          {renderTextField("email", "Adresse email", "email")}
           {renderTextField("name", "Nom", "text")}
           {renderTextField("firstname", "Prenom", "text")}
           {renderTextField("password", "Mdp", "password")}

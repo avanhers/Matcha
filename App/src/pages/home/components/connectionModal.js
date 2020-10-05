@@ -5,8 +5,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from "react-router-dom";
+import Link from "@material-ui/core/Link";
+import apiCall from "../../../api/api_request";
+import { CONNEXION_ROUTE } from "../../../api/routes.js";
+import {
+  SNACK_BAR_SUCCESS,
+  SNACK_BAR_FAILURE,
+  NO_SNACK_BAR,
+} from "../../../state/actionConst";
 /*
  ******************** CSS STYLE ********************
  */
@@ -20,6 +27,7 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
+import { from } from "../../../../../api/framework/queryCreator";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 /*
  ******************** Component ********************
  */
@@ -49,8 +56,12 @@ export default function ConnectionModal({
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [data, setData] = React.useState({ email: "", password: "" });
-
+  const [data, setData] = React.useState({ username: "", password: "" });
+  const [fetching, setFetching] = React.useState(false);
+  const [snackBar, setSnackBar] = React.useState({
+    status: NO_SNACK_BAR,
+    message: "",
+  });
   const handleSubmit = (event) => {
     console.log(event);
   };
@@ -58,51 +69,61 @@ export default function ConnectionModal({
   const onInputChange = (event) => {
     const { name, value } = event.target;
 
-    setData({ ...data, [name]: value })
+    setData({ ...data, [name]: value });
   };
 
+  const onSuccessApi = (response) => {
+    if (response.data.status === 200) getUser(response.data.user);
+    if (response.data.status === 401)
+      setSnackBar({
+        status: SNACK_BAR_FAILURE,
+        message: "valide ton compte connard !",
+      });
+    if (response.data.status === 402)
+      setSnackBar({
+        status: SNACK_BAR_FAILURE,
+        message:
+          "tas demander a changer ton mot de passe et apres tu te repointe ici en croyant aue ca va marcher tu tes cru ou !",
+      });
+    if (response.data.status === 403)
+      setSnackBar({ status: SNACK_BAR_FAILURE, message: "pw de merde!" });
+  };
   const onSubmit = () => {
     console.log(data);
     requestUser({});
-    const timer = setTimeout(() => {
-      axios
-        .post("http://localhost/api/auth/inscription", {
-          email: "tt@gmail.com",
-          password: "asasdwdwdasd",
-          username: "toto",
-          firstname: "titi",
-          name: "tata",
-        })
-        .then((response) => {
-          let err = response.data.error;
-          if (err) console.log("Error message", err);
-          console.log(response);
-          getUser(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          getUser({ login: "banane" });
-        });
-    }, 1000);
-    // axios
-    //   .post("http://localhost:8080/login", {
-    //     email: data.email,
-    //     password: data.password,
-    //   })
-    //   .then((response) => {
-    //     let err = response.data.error;
-    //     if (err) console.log("Error message", err);
-    //     console.log(response);
-    //     getUser(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    apiCall(CONNEXION_ROUTE, data, onSuccessApi, null, setFetching);
   };
 
+  const handleCloseSnackBar = () => {
+    setSnackBar({ ...snackBar, status: NO_SNACK_BAR });
+  };
   /*
    ******************** Render methods ********************
    */
+  const renderSnackBar = () => {
+    const severity = "";
+    if (snackBar.status === SNACK_BAR_SUCCESS) {
+      severity = "success";
+    } else if (snackBar.status === SNACK_BAR_FAILURE) {
+      severity = "failure";
+    }
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={true}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackBar}
+      >
+        <Alert onClose={handleCloseSnackBar} severity={severity}>
+          {snackBar.message}
+        </Alert>
+      </Snackbar>
+    );
+  };
+
   const renderTextField = (name, label, type) => {
     return (
       <TextField
@@ -117,18 +138,20 @@ export default function ConnectionModal({
         onChange={onInputChange}
         //onBlur={handleBlur}
         type={type}
-      // onFocus={handleFocus}
+        // onFocus={handleFocus}
       />
     );
   };
 
   const renderMdpOublie = () => {
-    return (<div>
-      <Link component={RouterLink} variant="body2" to="/profil">
-        {'mot de passe oublié'}
-      </Link>
-    </div>)
-  }
+    return (
+      <div>
+        <Link component={RouterLink} variant="body2" to="/profil">
+          {"mot de passe oublié"}
+        </Link>
+      </div>
+    );
+  };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -140,17 +163,17 @@ export default function ConnectionModal({
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          {renderTextField("email", "Adresse email", "text")}
+          {renderTextField("username", "Login", "text")}
           {renderTextField("password", "Mdp", "password")}
           {renderMdpOublie()}
         </div>
-        {userRequest.isFetching ? (
+        {fetching ? (
           <CircularProgress />
         ) : (
-            <Button variant="outlined" onClick={onSubmit}>
-              Valider
-            </Button>
-          )}
+          <Button variant="outlined" onClick={onSubmit}>
+            Valider
+          </Button>
+        )}
       </form>
     </div>
   );
@@ -165,6 +188,7 @@ export default function ConnectionModal({
       >
         {body}
       </Modal>
+      {snackbar.status !== NO_SNACK_BAR ? renderSnackBar() : null}
     </div>
   );
 }
