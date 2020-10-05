@@ -3,7 +3,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/auth");
-const matchRoute = require("./src/routes/matches");
 const upload = require("multer")();
 const db = require("./framework/Database");
 const auth = require("./src/midleware/auth");
@@ -38,7 +37,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use("/auth", authRoute);
-app.use("/match", matchRoute);
 app.use("/test", auth.addUser, (req, res) => {
   res.json({ userId: req.userId });
 });
