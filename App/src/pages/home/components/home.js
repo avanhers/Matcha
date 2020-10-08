@@ -2,9 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import backgroundImage from "../../../assets/images/home_background.jpeg";
 import Button from "@material-ui/core/Button";
-import ConnectionModal from "./connectionModal.js";
-import ConnectionModalContainer from "../containers/connectionModalContainer.js";
-import InscriptionModal from "./inscriptionModal.js";
+import FormModalContainer from "../containers/formModalContainer.js";
 
 const useStyle = makeStyles((theme) => ({
   home_background: {
@@ -23,21 +21,14 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function Home({ snackBarStatus, hideSnackBar }) {
-  const [modalConnectionOpen, setModalConnectionOpen] = React.useState(false);
-  const [modalInscriptionOpen, setModalInscriptionOpen] = React.useState(false);
+function Home() {
+  const [modalTypeOpened, setModalTtypeOpened] = React.useState("");
 
-  const handleConnectionOpen = () => {
-    setModalConnectionOpen(true);
+  const handleModalClose = () => {
+    setModalTtypeOpened("");
   };
-  const handleInscriptionOpen = () => {
-    setModalInscriptionOpen(true);
-  };
-  const handleConnectionClose = () => {
-    setModalConnectionOpen(false);
-  };
-  const handleInscriptionClose = () => {
-    setModalInscriptionOpen(false);
+  const handleModalOpen = (type) => {
+    setModalTtypeOpened(type);
   };
 
   const classes = useStyle();
@@ -46,26 +37,26 @@ function Home({ snackBarStatus, hideSnackBar }) {
     <div className={classes.home_background}>
       <div className={classes.buttonDiv}>
         <Button
-          onClick={handleConnectionOpen}
+          onClick={() => handleModalOpen("connection")}
           variant="contained"
           color="secondary"
         >
           Connexion
         </Button>
-        <ConnectionModalContainer
-          open={modalConnectionOpen}
-          handleClose={handleConnectionClose}
-        />
+
         <Button
-          onClick={handleInscriptionOpen}
+          onClick={() => handleModalOpen("inscription")}
           variant="contained"
           color="secondary"
         >
           Inscription
         </Button>
-        <InscriptionModal
-          open={modalInscriptionOpen}
-          handleClose={handleInscriptionClose}
+
+        <FormModalContainer
+          open={!!modalTypeOpened}
+          type={modalTypeOpened}
+          onClose={handleModalClose}
+          changeModalTypeOpened={setModalTtypeOpened}
         />
       </div>
     </div>
