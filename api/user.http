@@ -1,0 +1,33 @@
+POST  http://localhost/api/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "jules",
+    "password": "coucou"
+}
+###
+POST  http://localhost/api/user/like/toto HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMjE1MDc0MywiZXhwIjoxNjAyMjM3MTQzfQ.2zR-f94jl7bz8RdbOZF0TlVM0nloURS1t0enfe9PT2w
+###
+POST  http://localhost/api/user/report/toto HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMjE1MDc0MywiZXhwIjoxNjAyMjM3MTQzfQ.2zR-f94jl7bz8RdbOZF0TlVM0nloURS1t0enfe9PT2w
+###
+
+
+
+GET http://localhost/api/user/likes HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMjE1MDc0MywiZXhwIjoxNjAyMjM3MTQzfQ.2zR-f94jl7bz8RdbOZF0TlVM0nloURS1t0enfe9PT2w
+###
+GET http://localhost/api/user/views HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMjE1MDc0MywiZXhwIjoxNjAyMjM3MTQzfQ.2zR-f94jl7bz8RdbOZF0TlVM0nloURS1t0enfe9PT2w
+###
+GET http://localhost/api/user/profile/toto HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMjE1MDc0MywiZXhwIjoxNjAyMjM3MTQzfQ.2zR-f94jl7bz8RdbOZF0TlVM0nloURS1t0enfe9PT2w
+###

@@ -111,9 +111,12 @@ const authController = {
           .status(200)
           .json({ status: 200, user: user.toPlainObject() });
       }
-      return response.json({ error: "password incorrect " });
+      return response.json({
+        status: 403,
+        msg: "login or password incorrect",
+      });
     }
-    response.status(400).json({ status: 400, msg: "incomplete fields" });
+    response.status(200).json({ status: 400, msg: "incomplete fields" });
   },
 
   logout: async function (request, response, next) {
@@ -121,7 +124,7 @@ const authController = {
       manager.logout(request.userId);
       return response.status(200).json({ msg: "user disconected" });
     }
-    return response.status(400).json({ status: 400, msg: "userId needed" });
+    return response.status(200).json({ status: 400, msg: "userId needed" });
   },
 
   resetPassword: async function (request, response, next) {
@@ -140,12 +143,12 @@ const authController = {
           .json({ status: 201, msg: "password reset" });
       } catch (err) {
         return response
-          .status(401)
+          .status(200)
           .json({ status: 401, msg: "Hash does not exist" });
       }
     }
     return response
-      .status(400)
+      .status(200)
       .json({ status: 400, msg: "parameters are needed" });
   },
 

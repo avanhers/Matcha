@@ -28,3 +28,8 @@ endPoint:
 
     like/:username: retour 200 -> already liked, 201 -> like added, 202 -> This is a match !
                     400 -> fail
+
+<!--                             GET METHOD                     -->
+
+    /views -> return people who watched the user
+    /likes -> return people who liked the user

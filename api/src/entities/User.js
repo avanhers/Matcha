@@ -2,7 +2,8 @@
 const bcrypt = require("bcryptjs");
 
 class User {
-  PRIVATE = ["password", "id", "PRIVATE"];
+  PRIVATE = ["password", "id", "PRIVATE", "PROFILE"];
+  PROFILE = ["password", "id", "PROFILE", "email", "PRIVATE"];
 
   constructor(kwargs) {
     for (const key in kwargs) {
@@ -26,12 +27,31 @@ class User {
     return plainObject;
   }
 
+  toProfile() {
+    const plainObject = {};
+
+    for (const key in this) {
+      if (this.PROFILE.indexOf(key) < 0) {
+        plainObject[key] = this[key];
+      }
+    }
+    return plainObject;
+  }
+
   alreadyLike(user) {
     const userLiked = this.likes.find(
       (like) => like.username === user.getUsername()
     );
 
     return userLiked === undefined ? false : true;
+  }
+
+  alreadyReport(user) {
+    const userReported = this.reports.find(
+      (report) => report.reported === user.getUsername()
+    );
+
+    return userReported === undefined ? false : true;
   }
 
   hasMatchWith(user) {
@@ -65,6 +85,14 @@ class User {
       this.firstname &&
       this.password
     );
+  }
+
+  setReports(reports) {
+    this.reports = reports;
+  }
+
+  setConnectedAt(date) {
+    this.connectedAt = date;
   }
 
   setAge(age) {
@@ -135,6 +163,12 @@ class User {
     this.popularityScore = score;
   }
 
+  getReports() {
+    return this.reports;
+  }
+  getConnectedAt() {
+    return this.connectedAt;
+  }
   getLikes() {
     return this.likes;
   }

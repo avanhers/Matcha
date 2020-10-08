@@ -35,6 +35,7 @@ class QueryCreator {
       this.query += field;
       this.query += fields.isLastIndex(index) ? ") " : ", ";
     });
+    return this;
   }
 
   value(fieldValues) {
@@ -71,14 +72,12 @@ class QueryCreator {
 
   where(field, condition) {
     this.query += `WHERE ${field} = ? `;
-    console.log("WHERE CLAUSE, ", this.query);
     this.values.push(condition);
     return this;
   }
 
   and(field, condition) {
     this.query += `AND ${field} = ? `;
-    console.log("AND CLAUSE, ", this.query);
     this.values.push(condition);
     return this;
   }
@@ -98,6 +97,7 @@ class QueryCreator {
   }
 
   sendQuery() {
+    console.log("QUERY = ", this.query);
     return db.query(this.query, this.values);
   }
 }

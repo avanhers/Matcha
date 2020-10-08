@@ -7,6 +7,8 @@ const fs = require("fs");
 const manager = new UserManager();
 
 const TAGS = ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"];
+const LIKE = 0,
+  VIEW = 1;
 
 function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -36,6 +38,58 @@ const userController = {
     return res.status(200).json({ status: 400, msg: "invalid fields" });
   },
 
+  report: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+    const userReported = await manager.findUserByUsername(req.params.username);
+
+    if (user && userReported) {
+      await manager.addReportsToUser(user);
+      console.log(user);
+      if (user.alreadyReport(userReported)) {
+        return res.json({ status: 400, msg: "user already reported" });
+      }
+      await manager.createReport(user, userReported);
+      return res.json({ status: 200, msg: "report created" });
+    }
+    res.json({ status: 400, msg: "bad users" });
+  },
+
+  getProfile: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+    const userWatched = await manager.findUserByUsername(req.params.username);
+
+    await manager.addLikesToUser(userWatched);
+    await this.setReports(user, userWatched);
+    if (user && userWatched) {
+      await manager.createView(user, userWatched);
+      await manager.addPopularityScore(userWatched, VIEW);
+      return res.json({ status: 200, user: userWatched.toProfile() });
+    }
+    res.json({ status: 400, msg: "bad users" });
+  },
+
+  getViews: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      const views = await manager.getViews(user);
+
+      return res.json({ status: 200, data: views });
+    }
+    res.json({ status: 400, msg: "bad user" });
+  },
+
+  getLikes: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      const views = await manager.getLikes(user);
+
+      return res.json({ status: 200, data: views });
+    }
+    res.json({ status: 400, msg: "bad user" });
+  },
+
   like: async function (req, res) {
     const userLiked = await manager.findUserByUsername(req.params.username);
     const user = await manager.findOneById(req.userId);
@@ -46,6 +100,7 @@ const userController = {
         return res.json({ status: 200, msg: "already liked" });
       }
       await manager.createLike(userLiked, user.getId());
+      await manager.addPopularityScore(userLiked, LIKE);
       await manager.addMatchesToUser(user);
       if (user.hasMatchWith(userLiked)) {
         return res.json({ status: 202, msg: "This is a match !!" });
@@ -65,6 +120,7 @@ const userController = {
         return res.json({ status: 200, msg: "like unexist" });
       }
       await manager.deleteLike(user, userUnliked);
+      await manager.substractPopularityScore(userUnliked, LIKE);
       return res.json({ status: 201, msg: "like deleted" });
     }
     res.json({ status: 400, msg: "bad users" });
@@ -156,6 +212,11 @@ const userController = {
 
     this.removeOldPictures(oldPath);
     await manager.updateImage(imageId, newPath);
+  },
+
+  setReports: async function (user, watched) {
+    await manager.addReportsToUser(user);
+    watched.isReported = user.alreadyReport(watched);
   },
 
   removeOldPictures: function (oldPath) {
