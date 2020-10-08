@@ -1,6 +1,9 @@
 import React from "react";
 import { useParams, Redirect } from "react-router-dom";
-import { CONFIRMATION_ROUTE } from "../../../api/routes.js";
+import {
+  CONFIRMATION_ROUTE,
+  PASSWORD_RESET_ROUTE,
+} from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
 import {
   SNACK_BAR_SUCCESS,
@@ -10,19 +13,35 @@ import {
 /*
  **Component
  */
-export default function Confirmation({ toggleBackdropLoader, showSnackBar }) {
+export default function Confirmation({
+  toggleBackdropLoader,
+  showSnackBar,
+  location,
+}) {
   const { token } = useParams();
   const [response, setResponse] = React.useState(false);
   React.useEffect(() => {
-    if (response === false) {
-      apiCall(
-        CONFIRMATION_ROUTE + "/" + token,
-        null,
-        handleAPIResponse,
-        null,
-        toggleBackdropLoader,
-        "GET"
-      );
+    const route = location.pathname.split("/")[1];
+    if (route && response === false) {
+      if (route === "confirmation") {
+        apiCall(
+          CONFIRMATION_ROUTE + "/" + token,
+          null,
+          handleAPIResponse,
+          null,
+          toggleBackdropLoader,
+          "GET"
+        );
+      } else if (route === "reset") {
+        apiCall(
+          PASSWORD_RESET_ROUTE + "/" + token,
+          null,
+          handleAPIResponse,
+          null,
+          toggleBackdropLoader,
+          "GET"
+        );
+      }
     }
   });
   const handleAPIResponse = (response) => {
@@ -31,11 +50,14 @@ export default function Confirmation({ toggleBackdropLoader, showSnackBar }) {
     console.log("status", status);
     if (status === 204) {
       setResponse(true);
-      showSnackBar(true);
+      showSnackBar(
+        "Votre compte est desormais actif, connectes toi sale con !",
+        "success"
+      );
     } else {
       console.log("ici", status);
       setResponse(true);
-      showSnackBar(false);
+      showSnackBar("WTF!!!! TON HASH EST PAS VALIDE", "error");
     }
   };
 

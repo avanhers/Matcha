@@ -3,17 +3,14 @@ import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import apiCall from "../../../api/api_request";
-import { CONNEXION_ROUTE } from "../../../api/routes.js";
-import {
-  SNACK_BAR_SUCCESS,
-  SNACK_BAR_FAILURE,
-  NO_SNACK_BAR,
-} from "../../../state/actionConst";
+import { CONNEXION_ROUTE, PASSWORD_RESET_ROUTE } from "../../../api/routes.js";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 /*
  ******************** CSS STYLE ********************
  */
@@ -27,7 +24,6 @@ function getModalStyle() {
     transform: `translate(-${top}%, -${left}%)`,
   };
 }
-import { from } from "../../../../../api/framework/queryCreator";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -42,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  passwordReset: {
+    color: "blue",
+    textDecoration: "underline",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }));
 
 /*
@@ -53,15 +56,18 @@ export default function ConnectionModal({
   userRequest,
   getUser,
   requestUser,
+  setSnackBar,
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [data, setData] = React.useState({ username: "", password: "" });
-  const [fetching, setFetching] = React.useState(false);
-  const [snackBar, setSnackBar] = React.useState({
-    status: NO_SNACK_BAR,
-    message: "",
+  const [passwordReset, setPasswordReset] = React.useState(false);
+  const [data, setData] = React.useState({
+    username: "",
+    password: "",
+    email: "",
   });
+  const [fetching, setFetching] = React.useState(false);
+
   const handleSubmit = (event) => {
     console.log(event);
   };
@@ -73,55 +79,58 @@ export default function ConnectionModal({
   };
 
   const onSuccessApi = (response) => {
+    console.log(response);
     if (response.data.status === 200) getUser(response.data.user);
     if (response.data.status === 401)
-      setSnackBar({
-        status: SNACK_BAR_FAILURE,
-        message: "valide ton compte connard !",
-      });
+      setSnackBar("valide ton compte connard !", "error");
     if (response.data.status === 402)
-      setSnackBar({
-        status: SNACK_BAR_FAILURE,
-        message:
-          "tas demander a changer ton mot de passe et apres tu te repointe ici en croyant aue ca va marcher tu tes cru ou !",
-      });
+      setSnackBar(
+        "tas demander a changer ton mot de passe et apres tu te repointe ici en croyant aue ca va marcher tu tes cru ou !",
+        "error"
+      );
     if (response.data.status === 403)
-      setSnackBar({ status: SNACK_BAR_FAILURE, message: "pw de merde!" });
+      setSnackBar("tes donnees sont pas bonnes!", "error");
   };
+
+  const onSuccessAPIpassword = (response) => {
+    if (response.data.status === 201)
+      setSnackBar(
+        "Un email vous a été envoyer check tes mails batard !",
+        "success"
+      );
+    else if (response.data.status === 402)
+      setSnackBar(
+        "Un probleme a ete detecte ques t'essai de nous faire petit salopiaud !",
+        "error"
+      );
+    else if (response.data.status === 401)
+      setSnackBar("connais pas !", "error");
+  };
+
   const onSubmit = () => {
     console.log(data);
     requestUser({});
-    apiCall(CONNEXION_ROUTE, data, onSuccessApi, null, setFetching);
-  };
-
-  const handleCloseSnackBar = () => {
-    setSnackBar({ ...snackBar, status: NO_SNACK_BAR });
-  };
-  /*
-   ******************** Render methods ********************
-   */
-  const renderSnackBar = () => {
-    const severity = "";
-    if (snackBar.status === SNACK_BAR_SUCCESS) {
-      severity = "success";
-    } else if (snackBar.status === SNACK_BAR_FAILURE) {
-      severity = "failure";
+    if (!passwordReset) {
+      apiCall(
+        CONNEXION_ROUTE,
+        { username: data.username, password: data.password },
+        onSuccessApi,
+        null,
+        setFetching,
+        "POST",
+        false
+      );
+    } else {
+      apiCall(
+        PASSWORD_RESET_ROUTE,
+        { email: data.email },
+        onSuccessAPIpassword,
+        null,
+        setFetching,
+        "POST",
+        false
+      );
     }
-    return (
-      <Snackbar
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={true}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackBar}
-      >
-        <Alert onClose={handleCloseSnackBar} severity={severity}>
-          {snackBar.message}
-        </Alert>
-      </Snackbar>
-    );
   };
 
   const renderTextField = (name, label, type) => {
@@ -143,19 +152,45 @@ export default function ConnectionModal({
     );
   };
 
+  const handlePasswordResetClick = () => {
+    setPasswordReset(!passwordReset);
+  };
+
   const renderMdpOublie = () => {
     return (
       <div>
-        <Link component={RouterLink} variant="body2" to="/profil">
+        {/* <Link component={RouterLink} variant="body2" to="/profil">
           {"mot de passe oublié"}
-        </Link>
+        </Link> */}
+        {!passwordReset && (
+          <p
+            className={classes.passwordReset}
+            variant="body2"
+            component={RouterLink}
+            onClick={handlePasswordResetClick}
+          >
+            Mot de passe oublié
+          </p>
+        )}
+        {passwordReset && (
+          <IconButton
+            onClick={handlePasswordResetClick}
+            color="primary"
+            aria-label="upload picture"
+            component="span"
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        )}
       </div>
     );
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Connexion</h2>
+      <h2 id="simple-modal-title">
+        {!passwordReset ? "Connexion" : "Reinitialiser mom mot de passe"}
+      </h2>
       <form
         className={classes.root}
         noValidate
@@ -163,8 +198,9 @@ export default function ConnectionModal({
         onSubmit={handleSubmit}
       >
         <div className={classes.formContainer}>
-          {renderTextField("username", "Login", "text")}
-          {renderTextField("password", "Mdp", "password")}
+          {!passwordReset && renderTextField("username", "Login", "text")}
+          {!passwordReset && renderTextField("password", "Mdp", "password")}
+          {passwordReset && renderTextField("email", "Email", "email")}
           {renderMdpOublie()}
         </div>
         {fetching ? (
@@ -188,7 +224,6 @@ export default function ConnectionModal({
       >
         {body}
       </Modal>
-      {snackbar.status !== NO_SNACK_BAR ? renderSnackBar() : null}
     </div>
   );
 }

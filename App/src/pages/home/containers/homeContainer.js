@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { hideSnackBar } from "../../../state/hashConfirmationSnackBar/hashConfirmationSnackBarAction.js";
+import { hideSnackBar } from "../../../state/snackBar/snackBarAction.js";
 import Home from "../components/home.js";
 
 const mapStateToProps = (state) => {

@@ -4,6 +4,7 @@ import {
   authRequest,
   authResponse,
 } from "../../../state/user/userAction.js";
+import { showSnackBar } from "../../../state/snackBar/snackBarAction.js";
 import ConnectionModal from "../components/connectionModal.js";
 
 const mapStateToProps = (state, ownProps) => {
@@ -22,6 +23,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getUser: (user) => {
       dispatch(authResponse(user));
+    },
+    setSnackBar: (message, severity) => {
+      dispatch(showSnackBar(message, severity));
     },
   };
 };

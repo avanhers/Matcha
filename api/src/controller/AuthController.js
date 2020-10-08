@@ -111,7 +111,7 @@ const authController = {
           .status(200)
           .json({ status: 200, user: user.toPlainObject() });
       }
-      return response.json({ status: 403, msg: "password incorrect " });
+      return response.json({ status: 403, msg: "incorrect fields " });
     }
     response.status(400).json({ status: 400, msg: "incomplete fields" });
   },

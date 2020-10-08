@@ -227,7 +227,8 @@ export default function InscriptionModal({ open, handleClose }) {
         data.value,
         handleAPIResponse,
         null,
-        setIsFetching
+        setIsFetching,
+        false
       );
     }
   };
