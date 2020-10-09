@@ -1,0 +1,53 @@
+import React from "react";
+import MusicNoteIcon from "@material-ui/icons/MusicNote";
+import { Grid } from "@material-ui/core";
+import Chip from "@material-ui/core/Chip";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+const initialTags = [
+  { label: "tag1", value: true },
+  { label: "tag2", value: true },
+  { label: "tag3", value: true },
+  { label: "tag4", value: false },
+  { label: "tag5", value: true },
+  { label: "tag6", value: false },
+  { label: "tag7", value: true },
+  { label: "tag8", value: true },
+];
+
+function TagsList() {
+  const [tags, setTags] = React.useState(initialTags);
+
+  const handleClick = (index) => {
+    const ne = tags.map((elem, ind) =>
+      index == ind
+        ? {
+            ...elem,
+            value: !elem.value,
+          }
+        : elem
+    );
+    setTags(ne);
+  };
+
+  return (
+    <Container>
+      <Grid container spacing={3}>
+        {tags.map((tag, i) => (
+          <Grid key={tag.label} item xs={6} md={12}>
+            <Chip
+              label={tag.label}
+              clickable={true}
+              color={tag.value === true ? "primary" : "default"}
+              onClick={() => handleClick(i)}
+            />
+          </Grid>
+        ))}
+        <Grid item xs={12}>
+          <Button variant="contained">Valider</Button>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+}
+export default TagsList;
