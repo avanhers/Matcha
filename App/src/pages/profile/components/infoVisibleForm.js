@@ -9,7 +9,21 @@ import OrientationRadio from "./orientationRadio";
 import FormLabel from "@material-ui/core/FormLabel";
 
 import Button from "@material-ui/core/Button";
+
 export default function InfoVisibleForm() {
+
+  const renderTextField = (name, label, type) => {
+    return (<TextField
+      style={{ width: "70%" }}
+      required
+      id={name}
+      name={name}
+      label={label}
+      autoComplete={label}
+      type={type}
+    />)
+  }
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -17,47 +31,16 @@ export default function InfoVisibleForm() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <TextField
-            style={{ width: "70%" }}
-            required
-            id="userName"
-            name="userName"
-            label="Login"
-            autoComplete="login"
-          />
+          {renderTextField("userName", "Login", "text")}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            style={{ width: "70%" }}
-            required
-            id="age"
-            name="age"
-            label="age"
-            autoComplete="age"
-            type="number"
-          />
+          {renderTextField("age", "age", "number")}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            style={{ width: "70%" }}
-            required
-            id="firstName"
-            name="firstName"
-            label="First name"
-            fullWidth
-            autoComplete="given-name"
-          />
+          {renderTextField("firstName", "prenom", "text")}
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            style={{ width: "70%" }}
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-          />
+          {renderTextField("lastName", "nom", "text")}
         </Grid>
         <Grid item xs={12}>
           <GenderRadio />
@@ -66,8 +49,11 @@ export default function InfoVisibleForm() {
           <OrientationRadio />
         </Grid>
         <Grid item xs={12}>
-          <FormLabel component="legend">Description</FormLabel>
-          <TextField multiline={true} style={{ width: "70%" }} />
+          <TextField multiline={true}
+            style={{ width: "90%" }}
+            id="Description"
+            name="Description"
+            label="Description" />
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained">Valider</Button>

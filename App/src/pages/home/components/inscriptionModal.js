@@ -228,6 +228,7 @@ export default function InscriptionModal({ open, handleClose }) {
         handleAPIResponse,
         null,
         setIsFetching,
+        "POST",
         false
       );
     }
@@ -271,7 +272,7 @@ export default function InscriptionModal({ open, handleClose }) {
         onChange={onInputChange}
         onBlur={handleBlur}
         type={type}
-        // onFocus={handleFocus}
+      // onFocus={handleFocus}
       />
     );
   };
