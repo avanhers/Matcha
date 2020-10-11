@@ -13,15 +13,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function OrientationRadio() {
+function OrientationRadio({ orientation, handleClick }) {
+  const renderRadio = (name, label) => {
+    return (
+      <FormControlLabel
+        value={label}
+        control={
+          <Radio
+            id={name}
+            checked={orientation === name}
+            onClick={handleClick}
+          />
+        }
+        label={label}
+      />
+    );
+  };
+
   const classes = useStyles();
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">Orientation</FormLabel>
-      <RadioGroup row defaultValue="Bi" aria-label="gender" name="gender-radio">
-        <FormControlLabel value="bi" control={<Radio />} label="Bi" />
-        <FormControlLabel value="hetero" control={<Radio />} label="Hetero" />
-        <FormControlLabel value="homo" control={<Radio />} label="Homo" />
+      <RadioGroup row aria-label="gender" name="gender-radio">
+        {renderRadio("bi", "Bisex")}
+        {renderRadio("homo", "homo")}
+        {renderRadio("hetero", "Hetero")}
       </RadioGroup>
     </FormControl>
   );

@@ -6,12 +6,18 @@ import Avatar from "@material-ui/core/Avatar";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import InfoVisibleForm from "./infoVisibleForm.js";
 import TagsList from "./tagsList.js";
+import ListImages from "./listImages.js";
+
+/*
+ ********************** CSS STYLE *****************************
+ */
 
 const useStyles = makeStyles((theme) => ({
   myPaper: {
     backgroundColor: "#F9F7F7",
   },
 }));
+
 function renderProfilPicture(url) {
   return (
     <Avatar
@@ -22,6 +28,18 @@ function renderProfilPicture(url) {
     />
   );
 }
+
+/*TODO BACK: 
+check if login allready exist
+delete image by img_url
+add_image
+set image as avatar
+ */
+//::TODO FRONT: check if all field are valid
+
+/*
+ ********************** Component *****************************
+ */
 
 function MainProfile() {
   const classes = useStyles();
@@ -48,10 +66,11 @@ function MainProfile() {
               <TagsList />
             </Paper>
           </Grid>
-
           {/* Recent Orders */}
           <Grid item xs={12}>
-            <Paper></Paper>
+            <Paper>
+              <ListImages />
+            </Paper>
           </Grid>
         </Grid>
       </Container>

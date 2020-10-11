@@ -12,6 +12,11 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
 const drawerWidth = 240;
+
+/*
+ ********************** CSS STYLE *****************************
+ */
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -43,7 +48,11 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 }));
-//TODO : Using Redux to open component
+
+/*
+ ********************** Component *****************************
+ */
+
 function HeadBar(props) {
   const classes = useStyles();
   const theme = useTheme();
@@ -56,6 +65,7 @@ function HeadBar(props) {
     setAnchorEl(null);
   };
 
+  /********         START OF RENDERING            ********/
   const render_notification = () => {
     return (
       <IconButton onClick={handleClickOnNotif} color="inherit">

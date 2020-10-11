@@ -16,6 +16,11 @@ import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 const drawerWidth = 240;
+
+/*
+ ********************** CSS STYLE *****************************
+ */
+
 const useStyles = makeStyles((theme) => ({
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -24,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/*
+ ********************** Component *****************************
+ */
 function SideBar(props) {
   const { window } = props;
   const classes = useStyles();
@@ -31,35 +39,33 @@ function SideBar(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const listItem = (
-    <div>
-      <div className={classes.toolbar} />
-      <List>
-        <ListItem button key="profil">
-          <ListItemIcon>
-            <PersonOutlineIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profil" />
-        </ListItem>
-        <ListItem button key="stats">
-          <ListItemIcon>
-            <EqualizerIcon />
-          </ListItemIcon>
-          <ListItemText primary="Statistiques" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button key="private">
-          <ListItemIcon>
-            <LockIcon />
-          </ListItemIcon>
-          <ListItemText primary="Infos Personnelles" />
-        </ListItem>
-      </List>
-    </div>
-  );
+  const renderItem = (key, icon, text) => {
+    return (
+      <ListItem
+        button
+        value={key}
+        onClick={(k) => props.handleClick(key)}
+        key={key}
+      >
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText primary={text}></ListItemText>
+      </ListItem>
+    );
+  };
 
+  const renderListItem = () => {
+    return (
+      <div>
+        <div className={classes.toolbar} />
+        <List>
+          {renderItem("profil", <PersonOutlineIcon />, "Profil")}
+          {renderItem("stats", <EqualizerIcon />, "Statistques")}
+        </List>
+        <Divider />
+        <List>{renderItem("private", <LockIcon />, "Infos Personnelles")}</List>
+      </div>
+    );
+  };
   return (
     <div>
       <Hidden smUp implementation="css">
@@ -76,10 +82,9 @@ function SideBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          {listItem}
+          {renderListItem()}
         </Drawer>
       </Hidden>
-
       {/*  Part show when big size        */}
       <Hidden xsDown implementation="css">
         <Drawer
@@ -89,7 +94,7 @@ function SideBar(props) {
           variant="permanent"
           open
         >
-          {listItem}
+          {renderListItem()}
         </Drawer>
       </Hidden>
     </div>

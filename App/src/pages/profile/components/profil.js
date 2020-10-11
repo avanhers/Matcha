@@ -18,7 +18,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import SideBar from "./sideBar";
 import MainProfile from "./mainProfil.js";
-
+import MainStat from "./mainStat.js";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -59,9 +59,15 @@ function ResponsiveDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mainComponent, setMainComponent] = React.useState(<MainProfile />);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleClickSideBar = (key) => {
+    if (key === "profil") setMainComponent(<MainProfile />);
+    else if (key === "stats") setMainComponent(<MainStat />);
   };
 
   const drawer = (
@@ -121,11 +127,12 @@ function ResponsiveDrawer(props) {
         <SideBar
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
+          handleClick={handleClickSideBar}
         />
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <MainProfile />
+        {mainComponent}
       </main>
     </div>
   );

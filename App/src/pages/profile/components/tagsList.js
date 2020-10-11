@@ -5,8 +5,8 @@ import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
-import { UPDATE_TAGS } from "../../../api/routes.js"
-import apiCall from "../../../api/api_request.js"
+import { UPDATE_TAGS } from "../../../api/routes.js";
+import apiCall from "../../../api/api_request.js";
 
 const initialTags = [
   { label: "tag1", value: true },
@@ -19,33 +19,29 @@ const initialTags = [
   { label: "tag8", value: true },
 ];
 
-const getTagsName = (tags) => {
-  return (tags.filter((i) => i.value == true)
-    .map((i) => i.label));
-}
+const getTagsArray = (tags) => {
+  return tags.filter((i) => i.value === true).map((i) => i.label);
+};
 
 function TagsList() {
   const [tags, setTags] = React.useState(initialTags);
-
-
 
   const handleClick = (index) => {
     const ne = tags.map((elem, ind) =>
       index == ind
         ? {
-          ...elem,
-          value: !elem.value,
-        }
+            ...elem,
+            value: !elem.value,
+          }
         : elem
     );
     setTags(ne);
   };
 
   const handleSubmit = () => {
-    const data = { tags: getTagsName(tags), userId: "206" };
+    const data = { tags: getTagsArray(tags) };
     apiCall(UPDATE_TAGS, data, null, null, null, "POST", true);
-
-  }
+  };
   return (
     <Container>
       <Grid container spacing={3}>
@@ -60,7 +56,9 @@ function TagsList() {
           </Grid>
         ))}
         <Grid item xs={12}>
-          <Button variant="contained" onClick={handleSubmit}>Valider</Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Valider
+          </Button>
         </Grid>
       </Grid>
     </Container>
