@@ -1,17 +1,18 @@
 import React from "react";
-import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link as RouterLink } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import apiCall from "../../../api/api_request";
-import { CONNEXION_ROUTE, PASSWORD_RESET_ROUTE } from "../../../api/routes.js";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { CONNEXION_ROUTE } from "../../../api/routes.js";
 import useValidation from "../../../common/validator/validatorHook.js";
+import Avatar from "@material-ui/core/Avatar";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import BathtubOutlinedIcon from "@material-ui/icons/BathtubOutlined";
 /*
  ******************** CSS STYLE ********************
  */
@@ -20,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
   formContainer: {
     display: "flex",
     flexDirection: "column",
-    height: 250,
-    justifyContent: "space-around",
+    alignItems: "center",
   },
   passwordReset: {
     color: "blue",
@@ -29,6 +29,17 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       cursor: "pointer",
     },
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(1, 0, 2),
   },
 }));
 
@@ -63,13 +74,10 @@ const validatorConfig = {
  ******************** Component ********************
  */
 export default function ConnectionForm({
-  userRequest,
   getUser,
-  requestUser,
   setSnackBar,
   changeModalTypeOpened,
 }) {
-  console.log("in conn");
   const classes = useStyles();
   const [fetching, setFetching] = React.useState(false);
 
@@ -107,12 +115,13 @@ export default function ConnectionForm({
     return (
       <TextField
         required
+        fullWidth
         id={name}
         label={label}
         variant="outlined"
         type={type}
         error={showError(name) && !!errors[name]}
-        helperText={showError(name) && errors[name]}
+        helperText={(showError(name) && errors[name]) || " "}
         {...getFieldProps(name)}
       />
     );
@@ -122,42 +131,51 @@ export default function ConnectionForm({
     changeModalTypeOpened("resetPassword");
   };
 
-  const renderMdpOublie = () => {
-    return (
-      <div>
-        {/* <Link component={RouterLink} variant="body2" to="/profil">
-          {"mot de passe oublié"}
-        </Link> */}
-        {
-          <p
-            className={classes.passwordReset}
-            variant="body2"
-            component={RouterLink}
-            onClick={handlePasswordResetClick}
-          >
-            Mot de passe oublié
-          </p>
-        }
-      </div>
-    );
+  const handleSignUpClick = () => {
+    changeModalTypeOpened("inscription");
   };
 
   return (
-    <div>
-      <h2 id="simple-modal-title">Connexion</h2>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.formContainer}>
-          {renderTextField("username", "Login", "text")}
-          {renderTextField("password", "Mdp", "password")}
-          {renderMdpOublie()}
-        </div>
+    <div className={classes.formContainer}>
+      <Avatar className={classes.avatar}>
+        <BathtubOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Connexion
+      </Typography>
+      <form className={classes.form} noValidate autoComplete="off">
+        {renderTextField("username", "Login", "text")}
+        {renderTextField("password", "Mdp", "password")}
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Remember me"
+        />
         {fetching ? (
           <CircularProgress />
         ) : (
-          <Button variant="outlined" onClick={() => onSubmitVal(onSubmit)}>
+          <Button
+            className={classes.submit}
+            variant="outlined"
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={() => onSubmitVal(onSubmit)}
+          >
             Valider
           </Button>
         )}
+        <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2" onClick={handlePasswordResetClick}>
+              J'ai oublié mon mot de passe
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="#" variant="body2" onClick={handleSignUpClick}>
+              Pas de compte ? Je m'inscris
+            </Link>
+          </Grid>
+        </Grid>
       </form>
     </div>
   );

@@ -1,13 +1,16 @@
 import React from "react";
-import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import apiCall from "../../../api/api_request.js";
-import ButtonLoader from "../../../common/components/buttonLoader.js";
 import { INSCRIPTION_ROUTE } from "../../../api/routes.js";
 import useValidation from "../../../common/validator/validatorHook.js";
-
+import Avatar from "@material-ui/core/Avatar";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Link from "@material-ui/core/Link";
+import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
 /*
  ******************** CSS STYLE ********************
  */
@@ -16,11 +19,25 @@ const useStyles = makeStyles((theme) => ({
   formContainer: {
     display: "flex",
     flexDirection: "column",
-    height: 540,
-    justifyContent: "space-around",
-    // "& .MuiTextField-root": {
-    //   margin: theme.spacing(1),
-    // },
+    alignItems: "center",
+  },
+  passwordReset: {
+    color: "blue",
+    textDecoration: "underline",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(1, 0, 2),
   },
 }));
 /*
@@ -77,7 +94,10 @@ const validatorConfig = {
  ******************** Component ********************
  */
 
-export default function InscriptionForm({}) {
+export default function InscriptionForm({
+  setSnackBar,
+  changeModalTypeOpened,
+}) {
   const classes = useStyles();
   const [err, setErr] = React.useState(null);
   const [isfetching, setIsFetching] = React.useState(false);
@@ -92,15 +112,19 @@ export default function InscriptionForm({}) {
   const handleAPIResponse = (response) => {
     let body = response.data;
     const status = body.status;
-
-    if (status === 400) {
-      setErr({ code: status, message: "value missing" });
+    if (status === 200) {
+      setSnackBar(
+        "Un email vous a été envoyer pour confirmer votre inscription",
+        "success"
+      );
+    } else if (status === 400) {
+      setSnackBar("Manque des trucs", "success");
     } else if (status === 401) {
-      setErr({ code: status, message: "Cette email est déjà utilisé" });
+      setSnackBar("Cette adresse email est déjà utilisée", "failure");
     } else if (status === 402) {
-      setErr({ code: status, message: "Ce login est déjà utilisé" });
+      setSnackBar("Cet identifiant est déjà utilisé", "failure");
     } else if (status === 403) {
-      setErr({ code: status, message: "erreur mail non joignable" });
+      setSnackBar("Cette adresse email semble invalide", "faiilure");
     } else {
       setErr(null);
     }
@@ -117,43 +141,59 @@ export default function InscriptionForm({}) {
     return (
       <TextField
         required
+        fullWidth
         id={name}
         label={label}
         variant="outlined"
         type={type}
         error={showError(name) && !!errors[name]}
-        helperText={showError(name) && errors[name]}
+        helperText={(showError(name) && errors[name]) || " "}
         {...getFieldProps(name)}
       />
     );
   };
 
-  const renderError = () => {
-    if (err) return <p>{err.message}</p>;
+  const handleSignInClick = () => {
+    changeModalTypeOpened("connection");
   };
 
   //body that will be print in render
-  return (
-    <div>
-      <h2 id="simple-modal-title" style={{ textAlign: "center" }}>
-        Inscription
-      </h2>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.formContainer}>
-          {renderTextField("email", "Adresse email", "email")}
-          {renderTextField("name", "Nom", "text")}
-          {renderTextField("firstname", "Prenom", "text")}
-          {renderTextField("password", "Mdp", "password")}
-          {renderTextField("confirmPwd", "Confirmer Mdp", "password")}
-          {renderTextField("username", "login", "text")}
-          <ButtonLoader
-            fetching={isfetching}
-            handleClick={() => onSubmitVal(onSubmitInscription)}
-            buttonText="valider"
-          />
-        </div>
 
-        {renderError()}
+  return (
+    <div className={classes.formContainer}>
+      <Avatar className={classes.avatar}>
+        <PersonAddOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Inscription
+      </Typography>
+      <form className={classes.form} noValidate autoComplete="off">
+        {renderTextField("email", "Adresse email", "email")}
+        {renderTextField("name", "Nom", "text")}
+        {renderTextField("firstname", "Prenom", "text")}
+        {renderTextField("password", "Mdp", "password")}
+        {renderTextField("confirmPwd", "Confirmer Mdp", "password")}
+        {renderTextField("username", "login", "text")}
+        {isfetching ? (
+          <CircularProgress />
+        ) : (
+          <Button
+            className={classes.submit}
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={() => onSubmitVal(onSubmitInscription)}
+          >
+            Valider
+          </Button>
+        )}
+        <Grid container>
+          <Grid item>
+            <Link href="#" variant="body2" onClick={handleSignInClick}>
+              J'ai déjà un compte ! connexion
+            </Link>
+          </Grid>
+        </Grid>
       </form>
     </div>
   );

@@ -7,6 +7,7 @@ import ProfilLayoutContainer from "./pages/profile/containers/profilLayoutContai
 import MatchRequestContainer from "./common/containers/matchRequestContainer.js";
 import ConfirmationContainer from "./pages/home/containers/confirmationContainer.js";
 import BackdropLoaderContainer from "./common/containers/backdropLoaderContainer.js";
+import SnackBarContainer from "./common/containers/snackBarContainer.js";
 function App({ user }) {
   return (
     <div className="App">
@@ -30,9 +31,9 @@ function App({ user }) {
           />
         </Switch>
       </Router>
-      {/* <Home /> */}
       <MatchRequestContainer />
       <BackdropLoaderContainer />
+      <SnackBarContainer />
     </div>
   );
 }

@@ -1,16 +1,17 @@
 import React from "react";
-import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link as RouterLink } from "react-router-dom";
-import Link from "@material-ui/core/Link";
 import apiCall from "../../../api/api_request";
-import { CONNEXION_ROUTE, PASSWORD_RESET_ROUTE } from "../../../api/routes.js";
+import { PASSWORD_RESET_ROUTE } from "../../../api/routes.js";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import useValidation from "../../../common/validator/validatorHook.js";
+import Avatar from "@material-ui/core/Avatar";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import SportsKabaddiOutlinedIcon from "@material-ui/icons/SportsKabaddiOutlined";
 /*
  ******************** CSS STYLE ********************
  */
@@ -19,15 +20,18 @@ const useStyles = makeStyles((theme) => ({
   formContainer: {
     display: "flex",
     flexDirection: "column",
-    height: 150,
-    justifyContent: "space-around",
+    alignItems: "center",
   },
-  passwordReset: {
-    color: "blue",
-    textDecoration: "underline",
-    "&:hover": {
-      cursor: "pointer",
-    },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(1, 0, 2),
   },
 }));
 
@@ -49,9 +53,6 @@ const validatorConfig = {
  ******************** Component ********************
  */
 export default function PasswordResetForm({
-  userRequest,
-  getUser,
-  requestUser,
   setSnackBar,
   changeModalTypeOpened,
 }) {
@@ -93,12 +94,13 @@ export default function PasswordResetForm({
     return (
       <TextField
         required
+        fullWidth
         id={name}
         label={label}
         variant="outlined"
         type={type}
         error={showError(name) && !!errors[name]}
-        helperText={showError(name) && errors[name]}
+        helperText={(showError(name) && errors[name]) || " "}
         {...getFieldProps(name)}
       />
     );
@@ -124,22 +126,33 @@ export default function PasswordResetForm({
       </div>
     );
   };
-
   return (
-    <div>
-      <h2 id="simple-modal-title">{"Reinitialiser mom mot de passe"}</h2>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.formContainer}>
-          {renderTextField("email", "Email", "email")}
-          {renderMdpOublie()}
-        </div>
+    <div className={classes.formContainer}>
+      <Avatar className={classes.avatar}>
+        <SportsKabaddiOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Mot de passe oublié
+      </Typography>
+      <form className={classes.form} noValidate autoComplete="off">
+        {renderTextField("email", "Email", "email")}
         {fetching ? (
           <CircularProgress />
         ) : (
-          <Button variant="outlined" onClick={() => onSubmitVal(onSubmit)}>
+          <Button
+            className={classes.submit}
+            variant="outlined"
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={() => onSubmitVal(onSubmit)}
+          >
             Valider
           </Button>
         )}
+        <Grid container>
+          <Grid item>{renderMdpOublie()}</Grid>
+        </Grid>
       </form>
     </div>
   );

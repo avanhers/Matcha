@@ -51,14 +51,13 @@ function Home() {
         >
           Inscription
         </Button>
-
-        <FormModalContainer
-          open={!!modalTypeOpened}
-          type={modalTypeOpened}
-          onClose={handleModalClose}
-          changeModalTypeOpened={setModalTtypeOpened}
-        />
       </div>
+      <FormModalContainer
+        open={!!modalTypeOpened}
+        type={modalTypeOpened}
+        onClose={handleModalClose}
+        changeModalTypeOpened={setModalTtypeOpened}
+      />
     </div>
   );
 }
