@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(1, 0, 2),
+    height: 45,
   },
 }));
 
@@ -146,8 +147,9 @@ export default function PasswordResetForm({
             fullWidth
             color="primary"
             onClick={() => onSubmitVal(onSubmit)}
+            startIcon={fetching && <CircularProgress color="inherit" />}
           >
-            Valider
+            {!fetching && "Valider"}
           </Button>
         )}
         <Grid container>

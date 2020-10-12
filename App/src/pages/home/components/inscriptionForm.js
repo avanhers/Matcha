@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(1, 0, 2),
+    height: 45,
   },
 }));
 /*
@@ -72,10 +73,10 @@ const validatorConfig = {
     },
     password: {
       required: { message: "Ce champs est obligatoire" },
-      checkPassword: {
-        message:
-          "Le mot de passe doit contenir au mois 8 charactere avec au minimum: une minuscule,  une majuscule, un chiffre, 1 charactere speciale",
-      },
+      //   checkPassword: {
+      //     message:
+      //       "Le mot de passe doit contenir au mois 8 charactere avec au minimum: une minuscule,  une majuscule, un chiffre, 1 charactere speciale",
+      //   },
     },
     confirmPwd: {
       required: { message: "Ce champs est obligatoire" },
@@ -120,11 +121,11 @@ export default function InscriptionForm({
     } else if (status === 400) {
       setSnackBar("Manque des trucs", "success");
     } else if (status === 401) {
-      setSnackBar("Cette adresse email est déjà utilisée", "failure");
+      setSnackBar("Cette adresse email est déjà utilisée", "error");
     } else if (status === 402) {
-      setSnackBar("Cet identifiant est déjà utilisé", "failure");
+      setSnackBar("Cet identifiant est déjà utilisé", "error");
     } else if (status === 403) {
-      setSnackBar("Cette adresse email semble invalide", "faiilure");
+      setSnackBar("Cette adresse email semble invalide", "error");
     } else {
       setErr(null);
     }
@@ -174,19 +175,16 @@ export default function InscriptionForm({
         {renderTextField("password", "Mdp", "password")}
         {renderTextField("confirmPwd", "Confirmer Mdp", "password")}
         {renderTextField("username", "login", "text")}
-        {isfetching ? (
-          <CircularProgress />
-        ) : (
-          <Button
-            className={classes.submit}
-            variant="contained"
-            fullWidth
-            color="primary"
-            onClick={() => onSubmitVal(onSubmitInscription)}
-          >
-            Valider
-          </Button>
-        )}
+        <Button
+          className={classes.submit}
+          variant="contained"
+          fullWidth
+          color="primary"
+          onClick={() => onSubmitVal(onSubmitInscription)}
+          startIcon={isfetching && <CircularProgress color="inherit" />}
+        >
+          {!isfetching && "Valider"}
+        </Button>
         <Grid container>
           <Grid item>
             <Link href="#" variant="body2" onClick={handleSignInClick}>

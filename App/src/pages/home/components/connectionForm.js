@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(1, 0, 2),
+    height: 45,
   },
 }));
 
@@ -150,20 +151,17 @@ export default function ConnectionForm({
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        {fetching ? (
-          <CircularProgress />
-        ) : (
-          <Button
-            className={classes.submit}
-            variant="outlined"
-            variant="contained"
-            fullWidth
-            color="primary"
-            onClick={() => onSubmitVal(onSubmit)}
-          >
-            Valider
-          </Button>
-        )}
+        <Button
+          className={classes.submit}
+          variant="outlined"
+          variant="contained"
+          fullWidth
+          color="primary"
+          onClick={() => onSubmitVal(onSubmit)}
+          startIcon={fetching && <CircularProgress color="inherit" />}
+        >
+          {!fetching && "Valider"}
+        </Button>
         <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2" onClick={handlePasswordResetClick}>
