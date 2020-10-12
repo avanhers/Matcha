@@ -144,7 +144,12 @@ export default function ConnectionForm({
       <Typography component="h1" variant="h5">
         Connexion
       </Typography>
-      <form className={classes.form} noValidate autoComplete="off">
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={(event) => onSubmitVal(event, onSubmit)}
+      >
         {renderTextField("username", "Login", "text")}
         {renderTextField("password", "Mdp", "password")}
         <FormControlLabel
@@ -157,7 +162,7 @@ export default function ConnectionForm({
           variant="contained"
           fullWidth
           color="primary"
-          onClick={() => onSubmitVal(onSubmit)}
+          type="submit"
           startIcon={fetching && <CircularProgress color="inherit" />}
         >
           {!fetching && "Valider"}

@@ -168,7 +168,12 @@ export default function InscriptionForm({
       <Typography component="h1" variant="h5">
         Inscription
       </Typography>
-      <form className={classes.form} noValidate autoComplete="off">
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={(event) => onSubmitVal(event, onSubmitInscription)}
+      >
         {renderTextField("email", "Adresse email", "email")}
         {renderTextField("name", "Nom", "text")}
         {renderTextField("firstname", "Prenom", "text")}
@@ -180,7 +185,7 @@ export default function InscriptionForm({
           variant="contained"
           fullWidth
           color="primary"
-          onClick={() => onSubmitVal(onSubmitInscription)}
+          type="submit"
           startIcon={isfetching && <CircularProgress color="inherit" />}
         >
           {!isfetching && "Valider"}

@@ -91,7 +91,8 @@ export default function useValidation(config) {
         },
       };
     },
-    onSubmitVal: (submitFunction) => {
+    onSubmitVal: (event, submitFunction) => {
+      event.preventDefault();
       dispatch({ type: "SUBMIT", payload: true });
       if (Object.keys(state.error).every((k) => !state.error[k])) {
         if (config.onSubmit) {

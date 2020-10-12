@@ -135,7 +135,12 @@ export default function PasswordResetForm({
       <Typography component="h1" variant="h5">
         Mot de passe oublié
       </Typography>
-      <form className={classes.form} noValidate autoComplete="off">
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={(event) => onSubmitVal(event, onSubmit)}
+      >
         {renderTextField("email", "Email", "email")}
         <Button
           className={classes.submit}
@@ -143,7 +148,7 @@ export default function PasswordResetForm({
           variant="contained"
           fullWidth
           color="primary"
-          onClick={() => onSubmitVal(onSubmit)}
+          type="submit"
           startIcon={fetching && <CircularProgress color="inherit" />}
         >
           {!fetching && "Valider"}
