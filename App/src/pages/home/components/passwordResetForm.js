@@ -137,21 +137,17 @@ export default function PasswordResetForm({
       </Typography>
       <form className={classes.form} noValidate autoComplete="off">
         {renderTextField("email", "Email", "email")}
-        {fetching ? (
-          <CircularProgress />
-        ) : (
-          <Button
-            className={classes.submit}
-            variant="outlined"
-            variant="contained"
-            fullWidth
-            color="primary"
-            onClick={() => onSubmitVal(onSubmit)}
-            startIcon={fetching && <CircularProgress color="inherit" />}
-          >
-            {!fetching && "Valider"}
-          </Button>
-        )}
+        <Button
+          className={classes.submit}
+          variant="outlined"
+          variant="contained"
+          fullWidth
+          color="primary"
+          onClick={() => onSubmitVal(onSubmit)}
+          startIcon={fetching && <CircularProgress color="inherit" />}
+        >
+          {!fetching && "Valider"}
+        </Button>
         <Grid container>
           <Grid item>{renderMdpOublie()}</Grid>
         </Grid>
