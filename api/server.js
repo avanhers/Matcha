@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/user");
-const upload = require("multer")();
+const matchRoute = require("./src/routes/matches");
 const auth = require("./src/midleware/auth");
 
 const PORT = process.env.PORT;
@@ -39,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/auth", authRoute);
 app.use("/user", auth.addUser, userRoute);
+app.use("/matches", auth.addUser, matchRoute);
 
 app.listen(PORT, HOST);
 console.log("Running on http://" + HOST + ":" + PORT);

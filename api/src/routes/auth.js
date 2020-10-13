@@ -7,6 +7,7 @@ const auth = require("../midleware/auth");
 
 router.post("/inscription", controller.inscription);
 router.get("/confirmation/:hash", controller.confirmation);
+router.get("/hashExist/:hash", controller.hashExist);
 router.post("/login", controller.login);
 router.get("/logout", auth.addUser, controller.logout);
 router.post("/resetPassword", controller.resetPassword);

@@ -19,5 +19,17 @@ router.post(
 router.post("/updateTags", userController.updateTags.bind(userController));
 router.post("/like/:username", userController.like.bind(userController));
 router.post("/unlike/:username", userController.unlike.bind(userController));
+router.post("/report/:username", userController.report.bind(userController));
+router.post("/block/:username", userController.block.bind(userController));
+
+router.get("/views", userController.getViews.bind(userController));
+router.get("/likes", userController.getLikes.bind(userController));
+router.get(
+  "/profile/:username",
+  userController.getProfile.bind(userController)
+);
+router.get("/infos", userController.getInfos.bind(userController));
+router.get("/tags", userController.getTags.bind(userController));
+router.get("/avatar", userController.getAvatar.bind(userController));
 
 module.exports = router;

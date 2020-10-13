@@ -4,6 +4,6 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controller/MatchController");
 
-router.post("/matchesPage", controller.findMatches);
+router.get("/", controller.findMatches.bind(controller));
 
 module.exports = router;

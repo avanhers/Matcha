@@ -107,13 +107,17 @@ const authController = {
           "x-token": tokens.accessToken,
           "x-refresh-token": tokens.newRefreshToken,
         });
+        console.log(user.isComplete());
         return response
           .status(200)
-          .json({ status: 200, user: user.toPlainObject() });
+          .json({ status: 200, complete: user.isComplete() });
       }
-      return response.json({ status: 403, msg: "incorrect fields " });
+      return response.json({
+        status: 403,
+        msg: "login or password incorrect",
+      });
     }
-    response.status(400).json({ status: 400, msg: "incomplete fields" });
+    response.status(200).json({ status: 400, msg: "incomplete fields" });
   },
 
   logout: async function (request, response, next) {
@@ -121,7 +125,17 @@ const authController = {
       manager.logout(request.userId);
       return response.status(200).json({ msg: "user disconected" });
     }
-    return response.status(400).json({ status: 400, msg: "userId needed" });
+    return response.status(200).json({ status: 400, msg: "userId needed" });
+  },
+
+  hashExist: async function (req, res) {
+    const { hash } = req.params;
+
+    const userId = await manager.getUserIdByHashForget(hash);
+    if (userId) {
+      return res.json({ status: 200, msg: "hash exist" });
+    }
+    res.json({ status: 400, msg: "hash does not exists" });
   },
 
   resetPassword: async function (request, response, next) {
@@ -140,12 +154,12 @@ const authController = {
           .json({ status: 201, msg: "password reset" });
       } catch (err) {
         return response
-          .status(401)
+          .status(200)
           .json({ status: 401, msg: "Hash does not exist" });
       }
     }
     return response
-      .status(400)
+      .status(200)
       .json({ status: 400, msg: "parameters are needed" });
   },
 
