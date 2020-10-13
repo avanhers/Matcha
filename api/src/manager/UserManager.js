@@ -124,7 +124,12 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
-  this.createHashForget = function (user, hash) {};
+  this.createHashForget = function (user, hash) {
+    const sql = "INSERT INTO hash (userId, hashForget) VALUES (?, ?)";
+    const values = [user.getId(), hash];
+
+    return db.query(sql, values);
+  };
 
   this.hasHash = async function (id) {
     const sql = "SELECT * FROM hash WHERE userId = ?";
