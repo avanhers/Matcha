@@ -11,6 +11,9 @@ const matchController = {
       const user = await manager.findOneById(request.userId);
       let parameters;
 
+      if (!user.isComplete()) {
+        return response.json({ status: 401, error: "user not complete" });
+      }
       await manager.addTagsToUser(user);
       parameters = this.getParameters(request, user);
       console.log("coucou");
