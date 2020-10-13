@@ -140,6 +140,34 @@ const userController = {
     res.json({ status: 400, msg: "bad users" });
   },
 
+  getInfos: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      return res.json({ status: 200, infos: user.getInfos() });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
+  getAvatar: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      return res.json({ status: 200, avatar: user.getAvatar() });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
+  getTags: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      await manager.addTagsToUser(user);
+      return res.json({ status: 200, tags: user.getTags() });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
   personnal: async function (req, res) {
     const { infos } = req.body;
     const user = await manager.findOneById(req.userId);

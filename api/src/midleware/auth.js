@@ -10,7 +10,7 @@ exports.addUser = async function (req, res, next) {
     return res.sendStatus(401);
   }
   try {
-    const { userId } = jwt.verify(JSON.parse(token), process.env.SECRET_KEY);
+    const { userId } = jwt.verify(token, process.env.SECRET_KEY);
 
     req.userId = userId;
   } catch (err) {
@@ -24,6 +24,7 @@ exports.addUser = async function (req, res, next) {
         "x-refresh-token": tokens.refreshToken,
       });
     } else {
+      console.log("yohooho");
       return res.sendStatus(401);
     }
     req.userId = tokens.userId;

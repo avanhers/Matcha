@@ -31,7 +31,7 @@ const tokenManager = {
   refreshTokens: async function (refreshToken) {
     let id = false;
     try {
-      const { userId } = jwt.decode(JSON.parse(refreshToken));
+      const { userId } = jwt.decode(refreshToken);
       id = userId;
     } catch (err) {
       return {};
@@ -51,7 +51,7 @@ const tokenManager = {
     const refreshSecret = process.env.REFRESH_SECRET + user.getPassword();
 
     try {
-      jwt.verify(JSON.parse(refreshToken), refreshSecret);
+      jwt.verify(refreshToken, refreshSecret);
     } catch (err) {
       return {};
     }

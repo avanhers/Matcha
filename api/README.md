@@ -15,7 +15,6 @@ endPoint:
     personnalInfos: content-type -> json { infos: { ...fields } },
 
     uploadImage: content-type -> formData {
-        username,
         isProfile => true si oui vide si non,
         imageId => id de l'image si modification
     },
