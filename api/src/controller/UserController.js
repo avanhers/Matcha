@@ -3,10 +3,10 @@ const UserManager = require("../manager/UserManager");
 const User = require("../entities/User");
 const Usermanager = require("../manager/UserManager");
 const fs = require("fs");
+const TAGS = require("../../config/tags").TAGS;
 
 const manager = new UserManager();
 
-const TAGS = ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8"];
 const LIKE = 0,
   VIEW = 1;
 
@@ -44,12 +44,26 @@ const userController = {
 
     if (user && userReported) {
       await manager.addReportsToUser(user);
-      console.log(user);
       if (user.alreadyReport(userReported)) {
         return res.json({ status: 400, msg: "user already reported" });
       }
       await manager.createReport(user, userReported);
       return res.json({ status: 200, msg: "report created" });
+    }
+    res.json({ status: 400, msg: "bad users" });
+  },
+
+  block: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+    const userBlocked = await manager.findUserByUsername(req.params.username);
+
+    if (user && userBlocked) {
+      await manager.addBlocksToUser(user);
+      if (user.alreadyBlock(userBlocked)) {
+        return res.json({ status: 400, msg: "user already blocked" });
+      }
+      await manager.createBlock(user, userBlocked);
+      return res.json({ status: 200, msg: "block created" });
     }
     res.json({ status: 400, msg: "bad users" });
   },

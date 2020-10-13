@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 const Manager = require("./Manager");
 const User = require("../entities/User");
 const queryCreator = require("../../framework/queryCreator");
-const { innerJoin } = require("../../framework/queryCreator");
 
 const VALIDATION = 1;
 const FORGET = 2;
@@ -54,10 +53,11 @@ const UserManager = function () {
   };
 
   this.updateUserInfos = function (user) {
-    const sql = `UPDATE users SET username = ?, name = ?, firstname = ?, gender = ?, sexualOrientation = ?, 
+    const sql = `UPDATE users SET username = ?, age = ?, name = ?, firstname = ?, gender = ?, sexualOrientation = ?, 
       description = ? WHERE id = ? `;
     const values = [
       user.getUsername(),
+      user.getAge(),
       user.getName(),
       user.getFirstname(),
       user.getGender(),
@@ -171,31 +171,6 @@ const UserManager = function () {
     return db.query(sql, userId);
   };
 
-  this.findMatches = function (params) {
-    const paramsMap = ["age"];
-    let sqlParams = [];
-    let sql = "SELECT * FROM users";
-    paramsMap.map((filter) => {
-      if (params[filter] !== undefined) {
-        if (filter === "age") {
-          // sql += ` WHERE ${filter} = ?`;
-          console.log(params[filter]);
-          sql += ` WHERE ${filter} BETWEEN ? AND ?`;
-          sqlParams = sqlParams.concat(params[filter]);
-        }
-      }
-    });
-    if (params["page"] !== undefined && params["page"] > 0) {
-      sql += ` LIMIT ${MATCHES_PER_PAGE} OFFSET ${
-        (params["page"] - 1) * MATCHES_PER_PAGE
-      }`;
-    }
-
-    console.log("requete sql : ", sql, sqlParams);
-    // sql = "SELECT * FROM us ers WHERE age = 18 LIMIT 10 OFFSET 0";
-    return db.query(sql, sqlParams);
-  };
-
   /* ----------------------------------- TAGS ------------------------------- */
 
   this.getOldTags = async function (userId) {
@@ -289,6 +264,17 @@ const UserManager = function () {
     return user;
   };
 
+  this.addTagsToUser = async function (user) {
+    const rows = await queryCreator
+      .select("tagId", "tags")
+      .from("user_tag")
+      .where("userId", user.getId())
+      .sendQuery();
+
+    user.setTags(rows);
+    return user;
+  };
+
   this.addMatchesToUser = async function (user) {
     const rows = await queryCreator
       .select("u2.username", "matches")
@@ -304,6 +290,19 @@ const UserManager = function () {
     return user;
   };
 
+  this.addBlocksToUser = async function (user) {
+    const rows = await queryCreator
+      .select("u.username", "blocked")
+      .from("blocks", "b")
+      .innerJoin("users", "u")
+      .on("b.blockedId", "u.id")
+      .where("b.blockerId", user.getId())
+      .sendQuery();
+
+    user.setBlocks(rows);
+    return user;
+  };
+
   this.addReportsToUser = async function (user) {
     const rows = await queryCreator
       .select("u.username", "reported")
@@ -313,17 +312,23 @@ const UserManager = function () {
       .where("r.reporterId", user.getId())
       .sendQuery();
 
-    console.log("reported = ", rows);
     user.setReports(rows);
     return user;
   };
 
-  /* ----------------------------------- VIEW ------------------------------- */
+  /* ----------------------------------- REPORT AND BLOCK ------------------------------- */
 
   this.createReport = async function (reporter, reported) {
     return queryCreator
       .insert("reports", ["reporterId", "reportedId"])
       .value([reporter.getId(), reported.getId()])
+      .sendQuery();
+  };
+
+  this.createBlock = async function (blocker, blocked) {
+    return queryCreator
+      .insert("blocks", ["blockerId", "blockedId"])
+      .value([blocker.getId(), blocked.getId()])
       .sendQuery();
   };
 

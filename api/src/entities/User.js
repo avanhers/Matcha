@@ -16,6 +16,17 @@ class User {
     }
   }
 
+  isComplete() {
+    for (const key in this) {
+      const val = this[key];
+
+      if (val === null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   toPlainObject() {
     const plainObject = {};
 
@@ -54,6 +65,14 @@ class User {
     return userReported === undefined ? false : true;
   }
 
+  alreadyBlock(user) {
+    const userBlocked = this.blocks.find(
+      (block) => block.blocked === user.getUsername()
+    );
+
+    return userBlocked === undefined ? false : true;
+  }
+
   hasMatchWith(user) {
     const matchUser = this.matches.find(
       (match) => match.matches === user.getUsername()
@@ -85,6 +104,10 @@ class User {
       this.firstname &&
       this.password
     );
+  }
+
+  setBlocks(blocks) {
+    this.blocks = blocks;
   }
 
   setReports(reports) {
@@ -163,6 +186,9 @@ class User {
     this.popularityScore = score;
   }
 
+  getBlocks() {
+    return this.blocks;
+  }
   getReports() {
     return this.reports;
   }
@@ -216,6 +242,18 @@ class User {
   }
   getTags() {
     return this.tags;
+  }
+
+  getSearchingTags() {
+    let ret = "(";
+
+    this.tags.forEach((e, index) => {
+      const tag = e.tags;
+
+      ret += `${tag}`;
+      ret += index === this.tags.length - 1 ? ")" : ",";
+    });
+    return ret;
   }
 
   confirmPassword(password) {

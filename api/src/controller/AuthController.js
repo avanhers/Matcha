@@ -107,9 +107,10 @@ const authController = {
           "x-token": tokens.accessToken,
           "x-refresh-token": tokens.newRefreshToken,
         });
+        console.log(user.isComplete());
         return response
           .status(200)
-          .json({ status: 200, user: user.toPlainObject() });
+          .json({ status: 200, complete: user.isComplete() });
       }
       return response.json({
         status: 403,
