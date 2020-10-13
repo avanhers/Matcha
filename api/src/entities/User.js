@@ -2,7 +2,8 @@
 const bcrypt = require("bcryptjs");
 
 class User {
-  PRIVATE = ["password", "id", "PRIVATE"];
+  PRIVATE = ["password", "id", "PRIVATE", "PROFILE"];
+  PROFILE = ["password", "id", "PROFILE", "email", "PRIVATE"];
 
   constructor(kwargs) {
     for (const key in kwargs) {
@@ -13,6 +14,17 @@ class User {
         this[setter](value);
       }
     }
+  }
+
+  isComplete() {
+    for (const key in this) {
+      const val = this[key];
+
+      if (val === null) {
+        return false;
+      }
+    }
+    return true;
   }
 
   toPlainObject() {
@@ -26,12 +38,39 @@ class User {
     return plainObject;
   }
 
+  toProfile() {
+    const plainObject = {};
+
+    for (const key in this) {
+      if (this.PROFILE.indexOf(key) < 0) {
+        plainObject[key] = this[key];
+      }
+    }
+    return plainObject;
+  }
+
   alreadyLike(user) {
     const userLiked = this.likes.find(
       (like) => like.username === user.getUsername()
     );
 
     return userLiked === undefined ? false : true;
+  }
+
+  alreadyReport(user) {
+    const userReported = this.reports.find(
+      (report) => report.reported === user.getUsername()
+    );
+
+    return userReported === undefined ? false : true;
+  }
+
+  alreadyBlock(user) {
+    const userBlocked = this.blocks.find(
+      (block) => block.blocked === user.getUsername()
+    );
+
+    return userBlocked === undefined ? false : true;
   }
 
   hasMatchWith(user) {
@@ -65,6 +104,18 @@ class User {
       this.firstname &&
       this.password
     );
+  }
+
+  setBlocks(blocks) {
+    this.blocks = blocks;
+  }
+
+  setReports(reports) {
+    this.reports = reports;
+  }
+
+  setConnectedAt(date) {
+    this.connectedAt = date;
   }
 
   setAge(age) {
@@ -135,6 +186,15 @@ class User {
     this.popularityScore = score;
   }
 
+  getBlocks() {
+    return this.blocks;
+  }
+  getReports() {
+    return this.reports;
+  }
+  getConnectedAt() {
+    return this.connectedAt;
+  }
   getLikes() {
     return this.likes;
   }
@@ -182,6 +242,18 @@ class User {
   }
   getTags() {
     return this.tags;
+  }
+
+  getSearchingTags() {
+    let ret = "(";
+
+    this.tags.forEach((e, index) => {
+      const tag = e.tags;
+
+      ret += `${tag}`;
+      ret += index === this.tags.length - 1 ? ")" : ",";
+    });
+    return ret;
   }
 
   confirmPassword(password) {

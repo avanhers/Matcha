@@ -10,6 +10,14 @@ class QueryCreator {
   query = "";
   values = [];
 
+  selectUserInfos() {
+    this.values = [];
+    this.query = `
+    SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar 
+    `;
+    return this;
+  }
+
   select(field, alias = null) {
     this.values = [];
     this.query = `SELECT ${field}`;
@@ -35,6 +43,7 @@ class QueryCreator {
       this.query += field;
       this.query += fields.isLastIndex(index) ? ") " : ", ";
     });
+    return this;
   }
 
   value(fieldValues) {
@@ -71,14 +80,23 @@ class QueryCreator {
 
   where(field, condition) {
     this.query += `WHERE ${field} = ? `;
-    console.log("WHERE CLAUSE, ", this.query);
     this.values.push(condition);
+    return this;
+  }
+
+  groupBy(field) {
+    this.query += `GROUP BY ${field}`;
     return this;
   }
 
   and(field, condition) {
     this.query += `AND ${field} = ? `;
-    console.log("AND CLAUSE, ", this.query);
+    this.values.push(condition);
+    return this;
+  }
+
+  andNot(field, condition) {
+    this.query += `AND ${field} <> ? `;
     this.values.push(condition);
     return this;
   }
@@ -93,11 +111,40 @@ class QueryCreator {
     return this;
   }
 
+  orderBy(field, order) {
+    this.query += `ORDER BY ${field} ${order} `;
+    return this;
+  }
+
+  pagination(page, itemsPerPage = 30) {
+    const start = itemsPerPage * (page - 1);
+
+    this.query += `LIMIT ${itemsPerPage} OFFSET ${start} `;
+    return this;
+  }
+
   getQuery() {
     return this.query;
   }
 
+  addWhereLogic(logic, conditions = null) {
+    this.query += `WHERE ${logic} `;
+    if (conditions) {
+      this.values.concat(conditions);
+    }
+    return this;
+  }
+
+  addAndLogic(logic, conditions = null) {
+    this.query += `AND ${logic} `;
+    if (conditions) {
+      this.values.concat(conditions);
+    }
+    return this;
+  }
+
   sendQuery() {
+    console.log("QUERY = ", this.query);
     return db.query(this.query, this.values);
   }
 }

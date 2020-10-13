@@ -1,21 +1,56 @@
 "use strict";
 const UserManager = require("../manager/UserManager");
+const searcher = require("../manager/SearcherManager");
 const User = require("../entities/User");
 const manager = new UserManager();
 
 const matchController = {
   findMatches: async function (request, response, next) {
-    console.log("in match controller");
     try {
-      console.log(request.body.nbElem, request.body.offset);
-      let results = await manager.findMatches(request.body);
-      //let results = await manager.findUserByEmail("Bud_McCullough76@yahoo.com");
-      //   console.log(results);
-      response.status(200).json(results);
+      let users;
+      const user = await manager.findOneById(request.userId);
+      let parameters;
+
+      await manager.addTagsToUser(user);
+      parameters = this.getParameters(request, user);
+      console.log("coucou");
+      users = await searcher.findMatches(user, parameters);
+      return response.json({ users: users });
     } catch (e) {
-      console.log("bonjour", e);
-      response.sendStatus(500);
+      return response.json({ status: 500, error: e });
     }
+  },
+
+  getParameters: function (req, user) {
+    const params = {
+      sortBy: "LENGTH(tags)",
+      orderBy: "DESC",
+      perPage: 30,
+      page: 1,
+      ageMin: 0,
+      ageMax: 200,
+      popMin: 0,
+      popMax: 100,
+      tags: user.getSearchingTags(),
+    };
+    const queryParams = req.query;
+
+    for (const key in queryParams) {
+      const val = queryParams[key];
+
+      if (params.hasOwnProperty(key)) {
+        params[key] = val;
+      }
+    }
+    for (const key in params) {
+      const val = params[key];
+
+      console.log(typeof val);
+      if (typeof val === "string" && val.indexOf(" ") > -1) {
+        throw val + ": bad Parameters";
+      }
+    }
+    return params;
   },
 };
 
