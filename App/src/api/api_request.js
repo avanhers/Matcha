@@ -37,13 +37,15 @@ const apiCall = (
         .post(route, params, config)
         .then((response) => {
           console.log("in post");
-          successCallback(response, params.page);
-          saveState("x-token", response.headers["x-token"]);
-          saveState("x-refresh-token", response.headers["x-refresh-token"]);
+          if (successCallback) successCallback(response, params.page);
+          if (response.headers["x-token"])
+            saveState("x-token", response.headers["x-token"]);
+          if (response.headers["x-refresh-token"])
+            saveState("x-refresh-token", response.headers["x-refresh-token"]);
           if (loaderEventCallback) loaderEventCallback(false);
         })
         .catch((error) => {
-          console.log("ici catch");
+          console.log(error);
           if (loaderEventCallback) loaderEventCallback(false);
           if (errorCallback) errorCallback(error);
         });

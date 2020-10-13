@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("xs")]: {
       display: "flex",
     },
   },

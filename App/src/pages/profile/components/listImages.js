@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-
+import FilterIcon from "@material-ui/icons/Filter";
 /*
  ********************** CSS STYLE *****************************
  */
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleBar: {
     background:
-      "linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)",
+      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0) 100%)",
   },
 }));
 
@@ -43,18 +43,24 @@ const initialState = [
     img:
       "https://tipatate.bzh/wp-content/uploads/2015/06/insigne_ti_patate_fond_noir.png",
   },
-  {
-    img: "https://www.lerugbynistere.fr/photos/620_px/patate.jpg",
-  },
 ];
 
 /*
  ********************** Component *****************************
  */
 
-export default function ListImages() {
+export default function ListImages({ handleClickAvatar }) {
   const classes = useStyles();
-  const [tileData, setTileData] = React.useState(initialState);
+  const [tileData] = React.useState(initialState);
+  // define an Array of size
+  const arrEmptyImage = Array.apply(null, Array(5 - tileData.length)).map(
+    function (x, i) {
+      return i;
+    }
+  );
+
+  const handleClickUpdate = () => {};
+  const handleClickDelete = () => {};
 
   /********         START OF RENDERING            ********/
   const renderTile = (tile) => {
@@ -68,10 +74,13 @@ export default function ListImages() {
           }}
           actionIcon={
             <div>
-              <IconButton>
+              <IconButton onClick={handleClickAvatar}>
                 <GradeRoundedIcon />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={handleClickUpdate}>
+                <FilterIcon />
+              </IconButton>
+              <IconButton onClick={handleClickDelete}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -81,10 +90,13 @@ export default function ListImages() {
     );
   };
 
-  const renderTileAdd = () => {
+  const renderTileAdd = (i) => {
     return (
-      <GridListTile key="last" cols={1}>
-        <img src="https://www.blog-nouvelles-technologies.fr/wp-content/uploads/2017/12/detective-avatar-icon-01--840x500.jpg" />
+      <GridListTile key={i} cols={1}>
+        <img
+          alt={"img".concat(i)}
+          src="https://www.blog-nouvelles-technologies.fr/wp-content/uploads/2017/12/detective-avatar-icon-01--840x500.jpg"
+        />
         <GridListTileBar
           classes={{
             root: classes.titleBar,
@@ -111,7 +123,7 @@ export default function ListImages() {
     <div className={classes.root}>
       <GridList cols={2}>
         {tileData.map((tile) => renderTile(tile))}
-        {renderTileAdd()}
+        {arrEmptyImage.map((tile) => renderTileAdd(tile))}
       </GridList>
     </div>
   );

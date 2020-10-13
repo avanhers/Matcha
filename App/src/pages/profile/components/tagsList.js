@@ -1,5 +1,5 @@
 import React from "react";
-import MusicNoteIcon from "@material-ui/icons/MusicNote";
+
 import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
@@ -28,7 +28,7 @@ function TagsList() {
 
   const handleClick = (index) => {
     const ne = tags.map((elem, ind) =>
-      index == ind
+      index === ind
         ? {
             ...elem,
             value: !elem.value,

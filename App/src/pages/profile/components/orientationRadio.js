@@ -5,13 +5,10 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
-import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles((theme) => ({
-  input: {
-    display: "inline",
-    horizontalAlign: "middle",
-  },
-}));
+
+/*
+ ********************** Component *****************************
+ */
 
 function OrientationRadio({ orientation, handleClick }) {
   const renderRadio = (name, label) => {
@@ -30,7 +27,6 @@ function OrientationRadio({ orientation, handleClick }) {
     );
   };
 
-  const classes = useStyles();
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">Orientation</FormLabel>

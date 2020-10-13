@@ -17,6 +17,7 @@ import {
 /*
  ******************** CSS STYLE ********************
  */
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -272,7 +273,7 @@ export default function InscriptionModal({ open, handleClose }) {
         onChange={onInputChange}
         onBlur={handleBlur}
         type={type}
-      // onFocus={handleFocus}
+        // onFocus={handleFocus}
       />
     );
   };
