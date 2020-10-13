@@ -28,5 +28,8 @@ router.get(
   "/profile/:username",
   userController.getProfile.bind(userController)
 );
+router.get("/infos", userController.getInfos.bind(userController));
+router.get("/tags", userController.getTags.bind(userController));
+router.get("/avatar", userController.getAvatar.bind(userController));
 
 module.exports = router;

@@ -4,6 +4,15 @@ const bcrypt = require("bcryptjs");
 class User {
   PRIVATE = ["password", "id", "PRIVATE", "PROFILE"];
   PROFILE = ["password", "id", "PROFILE", "email", "PRIVATE"];
+  INFOS = [
+    "name",
+    "firstname",
+    "username",
+    "age",
+    "gender",
+    "sexualOrientation",
+    "description",
+  ];
 
   constructor(kwargs) {
     for (const key in kwargs) {
@@ -43,6 +52,17 @@ class User {
 
     for (const key in this) {
       if (this.PROFILE.indexOf(key) < 0) {
+        plainObject[key] = this[key];
+      }
+    }
+    return plainObject;
+  }
+
+  getInfos() {
+    const plainObject = {};
+
+    for (const key in this) {
+      if (this.INFOS.indexOf(key) >= 0) {
         plainObject[key] = this[key];
       }
     }
