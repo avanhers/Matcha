@@ -1,0 +1,63 @@
+POST  http://localhost/api/auth/inscription HTTP/1.1
+content-type: application/json
+
+{
+    "email": "jules.jaegle@gmail.com",
+    "name": "jules",
+    "firstname": "jules",
+    "username": "jules",
+    "password": "coucou"
+}
+###
+POST  http://localhost/api/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "jules",
+    "password": "coucou"
+}
+###
+POST  http://localhost/api/user/like/toto HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+POST  http://localhost/api/user/report/toto HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+POST  http://localhost/api/user/block/toto HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+
+GET http://localhost/api/user/avatar HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
+###
+GET http://localhost/api/user/tags HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
+###
+GET http://localhost/api/user/infos HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
+###
+GET http://localhost/api/matches?perPage=15&ageMax=24&ageMin=5&orderBy=DESC HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+GET http://localhost/api/user/likes HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+GET http://localhost/api/user/views HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
+GET http://localhost/api/user/profile/toto HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+###
