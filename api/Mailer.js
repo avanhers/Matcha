@@ -23,10 +23,10 @@ const mailer = {
 
   model: {
     confirmation: function (hash) {
-      return `To confirm your inscription please click here: http://localhost/confirmation/${hash}`;
+      return `To confirm your inscription please click here: http://localhost:3000/confirmation/${hash}`;
     },
     reset: function (hash) {
-      return `To reset your password please click here: http://localhost/reset/${hash}`;
+      return `To reset your password please click here: http://localhost:300/reset/${hash}`;
     },
   },
 
