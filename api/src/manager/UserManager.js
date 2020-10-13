@@ -147,7 +147,7 @@ const UserManager = function () {
     const sql = "SELECT userId FROM hash WHERE hashForget = ?";
     const result = await db.query(sql, hashForget);
 
-    if (result) {
+    if (result && result[0]) {
       return result[0].userId;
     }
     return null;

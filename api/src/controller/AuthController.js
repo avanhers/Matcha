@@ -128,6 +128,16 @@ const authController = {
     return response.status(200).json({ status: 400, msg: "userId needed" });
   },
 
+  hashExist: async function (req, res) {
+    const { hash } = req.params;
+
+    const userId = await manager.getUserIdByHashForget(hash);
+    if (userId) {
+      return res.json({ status: 200, msg: "hash exist" });
+    }
+    res.json({ status: 400, msg: "hash does not exists" });
+  },
+
   resetPassword: async function (request, response, next) {
     const { password, hashForget } = request.body;
 
