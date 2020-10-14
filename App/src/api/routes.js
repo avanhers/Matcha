@@ -10,3 +10,4 @@ export const UPDATE_TAGS = "http://localhost/api/user/updateTags";
 export const CHANGE_AVATAR_ROUTE = "http://localhost/api/user/changeAvatar";
 export const GET_AVATAR_ROUTE = "http://localhost/api/user/getAvatar";
 export const GET_TAGS_ROUTE = "http://localhost/api/user/tags";
+export const UPLOAD_IMAGE_ROUTE = "http://localhost/api/user/uploadImage";

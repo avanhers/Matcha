@@ -27,14 +27,12 @@ function TagsList() {
 
   const sucessCall = (response) => {
     const arr = response.data.tags;
-    const arrayLength = arr.length;
     const newTags = [...initialTags];
-
-    for (var i = 0; i < arrayLength; i++) {
-      newTags[arr[i].tags - 1].value = true;
+    for (var i = 0; i < 8; i++) {
+      newTags[i].value = arr[i];
     }
+
     setTags(newTags);
-    console.log("success", tags);
   };
 
   useEffect(() => {

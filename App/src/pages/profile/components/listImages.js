@@ -8,6 +8,8 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import FilterIcon from "@material-ui/icons/Filter";
+import { UPLOAD_IMAGE_ROUTE } from "../../../api/routes.js";
+import apiCall from "../../../api/api_request.js";
 /*
  ********************** CSS STYLE *****************************
  */
@@ -61,7 +63,31 @@ export default function ListImages({ handleClickAvatar }) {
 
   const handleClickUpdate = () => {};
   const handleClickDelete = () => {};
+  const handleCapture = (event) => {
+    var file = event.target.files[0];
+    var reader = new FileReader();
+    /*function call when load succes*/
+    reader.onload = function (event) {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("isProfile", "");
 
+      apiCall(
+        UPLOAD_IMAGE_ROUTE,
+        formData,
+        succesCall,
+        null,
+        null,
+        "POST",
+        true
+      );
+    };
+
+    reader.readAsText(file);
+  };
+  const succesCall = (response) => {
+    console.log(response);
+  };
   /********         START OF RENDERING            ********/
   const renderTile = (tile) => {
     return (
@@ -109,6 +135,7 @@ export default function ListImages({ handleClickAvatar }) {
                 id="icon-button-photo"
                 type="file"
                 style={{ display: "none" }}
+                onChange={handleCapture}
               />
               <label htmlFor="icon-button-photo">
                 <AddCircleRoundedIcon />
