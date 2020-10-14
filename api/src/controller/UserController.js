@@ -162,6 +162,7 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
+      console.log("user: ", user);
       await manager.addTagsToUser(user);
       return res.json({ status: 200, tags: user.getTags() });
     }

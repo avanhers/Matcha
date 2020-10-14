@@ -6,28 +6,15 @@ const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/user");
 const matchRoute = require("./src/routes/matches");
 const auth = require("./src/midleware/auth");
+const cors = require("./src/midleware/cors");
 
 const PORT = process.env.PORT;
 const HOST = "0.0.0.0";
 
-const app = express();
+const app = express(cors);
 
 //set Response header
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+app.use(cors.setCors);
 
 app.use(express.static("./uploads"));
 

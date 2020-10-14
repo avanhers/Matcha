@@ -218,13 +218,21 @@ const UserManager = function () {
   };
 
   this.addTagsToUser = async function (user) {
+    let i = 0;
+    const tags = [];
     const rows = await queryCreator
       .select("tagId", "tags")
       .from("user_tag")
       .where("userId", user.getId())
       .sendQuery();
 
-    user.setTags(rows);
+    while (i < 8) {
+      i++;
+      const filter = rows.filter((tags) => tags.tags === i);
+
+      tags.push(filter[0] ? true : false);
+    }
+    user.setTags(tags);
     return user;
   };
 
