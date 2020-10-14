@@ -217,6 +217,19 @@ const UserManager = function () {
     return user;
   };
 
+  this.addImagesToUser = async function (user) {
+    const images = [];
+    const rows = await queryCreator
+      .select("image")
+      .from("images")
+      .where("userId", user.getId())
+      .sendQuery();
+
+    rows.forEach((im) => images.push(im.image));
+    user.setImages(images);
+    return user;
+  };
+
   this.addTagsToUser = async function (user) {
     let i = 0;
     const tags = [];

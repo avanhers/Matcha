@@ -31,5 +31,6 @@ router.get(
 router.get("/infos", userController.getInfos.bind(userController));
 router.get("/tags", userController.getTags.bind(userController));
 router.get("/avatar", userController.getAvatar.bind(userController));
+router.get("/images", userController.getImages.bind(userController));
 
 module.exports = router;
