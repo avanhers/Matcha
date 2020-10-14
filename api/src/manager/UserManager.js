@@ -221,11 +221,12 @@ const UserManager = function () {
     const images = [];
     const rows = await queryCreator
       .select("image")
+      .addSelect("id")
       .from("images")
       .where("userId", user.getId())
       .sendQuery();
 
-    rows.forEach((im) => images.push(im.image));
+    rows.forEach((im) => images.push({ image: im.image, id: im.id }));
     user.setImages(images);
     return user;
   };
