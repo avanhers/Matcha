@@ -17,6 +17,14 @@ content-type: application/json
     "password": "coucou"
 }
 ###
+POST  http://localhost/api/auth/forgetPassword HTTP/1.1
+content-type: application/json
+
+{
+    "email": "jules.jaegle@gmail.com",
+    "username": "ok"
+}
+###
 POST  http://localhost/api/user/like/toto HTTP/1.1
 content-type: application/json
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o

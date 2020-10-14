@@ -8,6 +8,7 @@ const manager = new UserManager();
 const tokenManager = require("../lib/jwt");
 
 const VALIDATION = 1;
+const FORGET = 2;
 
 const authController = {
   inscription: async function (request, response, next) {
@@ -133,22 +134,21 @@ const authController = {
 
     const userId = await manager.getUserIdByHashForget(hash);
     if (userId) {
-      return res.json({ status: 200, msg: "hash exist" });
+      await manager.deleteHashByUserId(userId);
+      return res.json({ status: 200, id: userId });
     }
     res.json({ status: 400, msg: "hash does not exists" });
   },
 
   resetPassword: async function (request, response, next) {
-    const { password, hashForget } = request.body;
+    const { password, userId } = request.body;
 
-    if (password && hashForget) {
+    if (password && userId) {
       try {
-        const userId = await manager.getUserIdByHashForget(hashForget);
         const user = await manager.findOneById(userId);
 
         user.setHashPassword(password);
         await manager.updatePassword(user);
-        await manager.deleteHashByUserId(userId);
         return response
           .status(201)
           .json({ status: 201, msg: "password reset" });
@@ -171,7 +171,11 @@ const authController = {
       if (user) {
         const hash = uuidv1();
 
-        await manager.createHashForget(user, hash);
+        if (await manager.hasHash(user.getId())) {
+          await manager.updateHashForget(user, hash);
+        } else {
+          await manager.createHashForget(user, hash);
+        }
         mailer
           .sendMail(user, "reset", hash)
           .then((result) =>

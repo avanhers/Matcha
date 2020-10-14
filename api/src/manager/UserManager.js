@@ -117,58 +117,11 @@ const UserManager = function () {
     return db.query(sql, userId);
   };
 
-  this.createHashValidation = function (user, hash) {
-    const sql = "INSERT INTO hash (userId, hashValidation) VALUES (?, ?)";
-    const values = [user.getId(), hash];
-
-    return db.query(sql, values);
-  };
-
-  this.createHashForget = function (user, hash) {};
-
-  this.hasHash = async function (id) {
-    const sql = "SELECT * FROM hash WHERE userId = ?";
-    let result = await db.query(sql, id);
-
-    if ((result = result[0])) {
-      return result.hashValidation ? VALIDATION : FORGET;
-    }
-    return null;
-  };
-
   this.updatePassword = async function (user) {
     const sql = "UPDATE users SET password = ? WHERE id = ?";
     const values = [user.getPassword(), user.getId()];
 
     await db.query(sql, values);
-  };
-
-  this.getUserIdByHashForget = async function (hashForget) {
-    const sql = "SELECT userId FROM hash WHERE hashForget = ?";
-    const result = await db.query(sql, hashForget);
-
-    if (result && result[0]) {
-      return result[0].userId;
-    }
-    return null;
-  };
-
-  this.readHashValidation = function (hash) {
-    const sql = "SELECT * FROM hash WHERE hashValidation = ?";
-
-    return db.query(sql, hash);
-  };
-
-  this.deleteHash = function (id) {
-    const sql = "DELETE FROM hash WHERE id = ?";
-
-    return db.query(sql, id);
-  };
-
-  this.deleteHashByUserId = function (userId) {
-    const sql = "DELETE FROM hash WHERE userId = ?";
-
-    return db.query(sql, userId);
   };
 
   /* ----------------------------------- TAGS ------------------------------- */
@@ -265,13 +218,21 @@ const UserManager = function () {
   };
 
   this.addTagsToUser = async function (user) {
+    let i = 0;
+    const tags = [];
     const rows = await queryCreator
       .select("tagId", "tags")
       .from("user_tag")
       .where("userId", user.getId())
       .sendQuery();
 
-    user.setTags(rows);
+    while (i < 8) {
+      i++;
+      const filter = rows.filter((tags) => tags.tags === i);
+
+      tags.push(filter[0] ? true : false);
+    }
+    user.setTags(tags);
     return user;
   };
 
@@ -314,6 +275,67 @@ const UserManager = function () {
 
     user.setReports(rows);
     return user;
+  };
+
+  /* ----------------------------------- HASH ------------------------------- */
+
+  this.getUserIdByHashForget = async function (hashForget) {
+    const sql = "SELECT userId FROM hash WHERE hashForget = ?";
+    const result = await db.query(sql, hashForget);
+
+    if (result && result[0]) {
+      return result[0].userId;
+    }
+    return null;
+  };
+
+  this.readHashValidation = function (hash) {
+    const sql = "SELECT * FROM hash WHERE hashValidation = ?";
+
+    return db.query(sql, hash);
+  };
+
+  this.updateHashForget = function (user, hash) {
+    const sql = "UPDATE hash SET hashForget = ? WHERE userId = ?";
+    const values = [hash, user.getId()];
+
+    return db.query(sql, values);
+  };
+
+  this.deleteHash = function (id) {
+    const sql = "DELETE FROM hash WHERE id = ?";
+
+    return db.query(sql, id);
+  };
+
+  this.deleteHashByUserId = function (userId) {
+    const sql = "DELETE FROM hash WHERE userId = ?";
+
+    return db.query(sql, userId);
+  };
+
+  this.createHashValidation = function (user, hash) {
+    const sql = "INSERT INTO hash (userId, hashValidation) VALUES (?, ?)";
+    const values = [user.getId(), hash];
+
+    return db.query(sql, values);
+  };
+
+  this.createHashForget = function (user, hash) {
+    const sql = "INSERT INTO hash (userId, hashForget) VALUES (?, ?)";
+    const values = [user.getId(), hash];
+
+    return db.query(sql, values);
+  };
+
+  this.hasHash = async function (id) {
+    const sql = "SELECT * FROM hash WHERE userId = ?";
+    let result = await db.query(sql, id);
+
+    if ((result = result[0])) {
+      return result.hashValidation ? VALIDATION : FORGET;
+    }
+    return null;
   };
 
   /* ----------------------------------- REPORT AND BLOCK ------------------------------- */

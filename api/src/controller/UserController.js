@@ -162,6 +162,7 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
+      console.log("user: ", user);
       await manager.addTagsToUser(user);
       return res.json({ status: 200, tags: user.getTags() });
     }
@@ -170,9 +171,17 @@ const userController = {
 
   personnal: async function (req, res) {
     const { infos } = req.body;
+    const { username } = infos;
     const user = await manager.findOneById(req.userId);
 
     if (user) {
+      if (username) {
+        const userExist = await manager.findUserByUsername(username);
+
+        if (userExist) {
+          return res.json({ status: 401, msg: "username already exists" });
+        }
+      }
       user.setInfos(infos);
       manager.updateUserInfos(user);
       return res.json({ status: 200, msg: "user updated" });
@@ -213,7 +222,11 @@ const userController = {
         return res.json({ status: 401, msg: "bad email" });
       }
       const user = await manager.findOneById(req.userId);
+      const userEmail = await manager.findUserByEmail(email);
 
+      if (userEmail) {
+        return res.json({ status: 401, msg: "email already exists" });
+      }
       if (user) {
         user.setEmail(email);
         await manager.updateUser("email", user);
