@@ -8,6 +8,10 @@ import MatchRequestContainer from "./common/containers/matchRequestContainer.js"
 import ConfirmationContainer from "./pages/home/containers/confirmationContainer.js";
 import BackdropLoaderContainer from "./common/containers/backdropLoaderContainer.js";
 function App({ user }) {
+  const [con, setcon] = React.useState(false);
+  React.useEffect(() => {
+    setcon(!!localStorage.getItem("x-token"));
+  });
   return (
     <div className="App">
       {/* <MainLayout /> */}
@@ -16,11 +20,7 @@ function App({ user }) {
           <Route
             exact
             path="/"
-            component={
-              Object.keys(user.user).length === 0
-                ? HomeContainer
-                : MainLayoutContainer
-            }
+            component={!con ? HomeContainer : MainLayoutContainer}
           />
           <Route exact path="/profil" component={Profil} />
           <Route

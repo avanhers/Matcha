@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-
+import Loader from "./loader.js";
 import GenderRadio from "./genderRadio";
 import OrientationRadio from "./orientationRadio";
 
 import Button from "@material-ui/core/Button";
-import { PERSONNAL_INFO_ROUTE } from "../../../api/routes.js";
+import {
+  PERSONNAL_INFO_ROUTE,
+  GET_PERSONNAL_INFO,
+} from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
+import { toggleGlobalLoader } from "../../../state/globalLoader/globalLoaderAction.js";
 
+const useConstructor = (callBack = () => {}) => {
+  const hasBeenCalled = useRef(false);
+  if (hasBeenCalled.current) return;
+  callBack();
+  hasBeenCalled.current = true;
+};
 /*
  ********************** InitialState *****************************
  */
@@ -18,9 +28,10 @@ const initialState = {
   username: "",
   name: "",
   firstname: "",
-  gender: "female",
-  sexualOrientation: "bi",
+  gender: "",
+  sexualOrientation: "",
   description: "",
+  age: 12,
 };
 
 /*
@@ -29,6 +40,13 @@ const initialState = {
 
 export default function InfoVisibleForm() {
   const [data, setData] = React.useState(initialState);
+  useEffect(() => {
+    apiCall(GET_PERSONNAL_INFO, null, sucessCall, null, null, "GET", true);
+  }, []);
+
+  const sucessCall = (response) => {
+    setData(response.data.infos);
+  };
 
   /********         Method            ********/
   const handleChange = (event) => {
@@ -47,6 +65,8 @@ export default function InfoVisibleForm() {
   };
 
   const handleSubmit = () => {
+    console.log();
+
     const send = { infos: data };
     apiCall(PERSONNAL_INFO_ROUTE, send, null, null, null, "POST", true);
   };

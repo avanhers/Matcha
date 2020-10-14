@@ -14,16 +14,16 @@ function MatchRequest({
   console.log("filter: ", filter);
   React.useEffect(() => {
     console.log(user);
-    if (Object.keys(user).length !== 0) {
-      console.log("pasteque");
-      apiCall(
-        MATCH_PROFIL_ROUTE,
-        filter,
-        filter.page > 1 ? setMatches : setMatchesReset,
-        null,
-        toggleBackdropLoader
-      );
-    }
+    // if (Object.keys(user).length !== 0) {
+    //   console.log("pasteque");
+    //   apiCall(
+    //     MATCH_PROFIL_ROUTE,
+    //     filter,
+    //     filter.page > 1 ? setMatches : setMatchesReset,
+    //     null,
+    //     toggleBackdropLoader
+    //   );
+    // }
   });
 
   return null;

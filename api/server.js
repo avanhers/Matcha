@@ -6,7 +6,7 @@ const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/user");
 const matchRoute = require("./src/routes/matches");
 const auth = require("./src/midleware/auth");
-
+const cors = require("cors");
 const PORT = process.env.PORT;
 const HOST = "0.0.0.0";
 
@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
-
+app.options("*", cors());
 app.use(express.static("./uploads"));
 
 //set request body parsing

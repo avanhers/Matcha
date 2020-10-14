@@ -9,6 +9,7 @@ import TagsList from "./tagsList.js";
 import ListImages from "./listImages.js";
 import apiCall from "../../../api/api_request.js";
 import { GET_AVATAR_ROUTE, CHANGE_AVATAR_ROUTE } from "../../../api/routes.js";
+
 /*
  ********************** CSS STYLE *****************************
  */

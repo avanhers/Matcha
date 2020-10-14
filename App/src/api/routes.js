@@ -5,6 +5,8 @@ export const PASSWORD_RESET_ROUTE = "http://localhost/api/auth/forgetPassword";
 
 /*USER ROUTE*/
 export const PERSONNAL_INFO_ROUTE = "http://localhost/api/user/personnalInfos";
+export const GET_PERSONNAL_INFO = "http://localhost/api/user/infos";
 export const UPDATE_TAGS = "http://localhost/api/user/updateTags";
 export const CHANGE_AVATAR_ROUTE = "http://localhost/api/user/changeAvatar";
 export const GET_AVATAR_ROUTE = "http://localhost/api/user/getAvatar";
+export const GET_TAGS_ROUTE = "http://localhost/api/user/tags";

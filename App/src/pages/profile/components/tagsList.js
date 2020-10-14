@@ -1,30 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 
-import { UPDATE_TAGS } from "../../../api/routes.js";
+import { UPDATE_TAGS, GET_TAGS_ROUTE } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
 
 const initialTags = [
-  { label: "tag1", value: true },
-  { label: "tag2", value: true },
-  { label: "tag3", value: true },
+  { label: "tag1", value: false },
+  { label: "tag2", value: false },
+  { label: "tag3", value: false },
   { label: "tag4", value: false },
-  { label: "tag5", value: true },
+  { label: "tag5", value: false },
   { label: "tag6", value: false },
-  { label: "tag7", value: true },
-  { label: "tag8", value: true },
+  { label: "tag7", value: false },
+  { label: "tag8", value: false },
 ];
-
 const getTagsArray = (tags) => {
   return tags.filter((i) => i.value === true).map((i) => i.label);
 };
 
 function TagsList() {
   const [tags, setTags] = React.useState(initialTags);
+
+  const sucessCall = (response) => {
+    const arr = response.data.tags;
+    const arrayLength = arr.length;
+    const newTags = [...initialTags];
+
+    for (var i = 0; i < arrayLength; i++) {
+      newTags[arr[i].tags - 1].value = true;
+    }
+    setTags(newTags);
+    console.log("success", tags);
+  };
+
+  useEffect(() => {
+    apiCall(GET_TAGS_ROUTE, null, sucessCall, null, null, "GET", true);
+  }, []);
 
   const handleClick = (index) => {
     const ne = tags.map((elem, ind) =>
@@ -50,7 +65,7 @@ function TagsList() {
             <Chip
               label={tag.label}
               clickable={true}
-              color={tag.value === true ? "primary" : "default"}
+              color={tag.value == true ? "primary" : "default"}
               onClick={() => handleClick(i)}
             />
           </Grid>
