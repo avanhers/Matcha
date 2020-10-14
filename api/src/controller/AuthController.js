@@ -59,7 +59,7 @@ const authController = {
         });
       }
     } else {
-      response.status(200).json({ status: 400, error: "value missing" });
+      response.status(200).json({ status: 400, error: "bad values" });
     }
   },
 

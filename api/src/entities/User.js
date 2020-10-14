@@ -116,14 +116,24 @@ class User {
     return string[0].toUpperCase() + string.slice(1);
   }
 
+  isPassword() {
+    const re = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
+
+    return re.test(this.password);
+  }
+
   isWritable() {
     return (
       this.email &&
       this.username &&
       this.name &&
       this.firstname &&
-      this.password
+      this.isPassword(this.password)
     );
+  }
+
+  setImages(images) {
+    this.images = images;
   }
 
   setBlocks(blocks) {
@@ -256,6 +266,9 @@ class User {
   }
   getId() {
     return this.id;
+  }
+  getImages() {
+    return this.images;
   }
   getIsLogin() {
     return this.isLogin;

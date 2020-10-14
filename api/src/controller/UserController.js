@@ -30,10 +30,10 @@ const userController = {
         return res.json({ status: 200, msg: "avatar updated" });
       } else if (imageId) {
         this.changeImage(imageId, newPath);
-        return res.json({ status: 200, msg: "image updated" });
+        return res.json({ status: 200, image: newPath });
       }
       await manager.createImage(user.getId(), newPath);
-      return res.json({ status: 201, msg: "image created" });
+      return res.json({ status: 201, image: newPath });
     }
     return res.status(200).json({ status: 400, msg: "invalid fields" });
   },
@@ -149,6 +149,16 @@ const userController = {
     return res.json({ status: 400, msg: "bad user" });
   },
 
+  getImages: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      await manager.addImagesToUser(user);
+      return res.json({ status: 200, infos: user.getImages() });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
   getAvatar: async function (req, res) {
     const user = await manager.findOneById(req.userId);
 
@@ -162,7 +172,6 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
-      console.log("user: ", user);
       await manager.addTagsToUser(user);
       return res.json({ status: 200, tags: user.getTags() });
     }
@@ -175,7 +184,7 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
-      if (username) {
+      if (username && username !== user.getUsername()) {
         const userExist = await manager.findUserByUsername(username);
 
         if (userExist) {
@@ -245,9 +254,13 @@ const userController = {
 
       if (user) {
         if (user.confirmPassword(oldPassword)) {
-          user.setHashPassword(password);
-          manager.updateUser("password", user);
-          return res.json({ status: 204, msg: "password updated" });
+          user.setPassword(password);
+          if (user.isPassword()) {
+            user.setHashPassword(password);
+            manager.updateUser("password", user);
+            return res.json({ status: 204, msg: "password updated" });
+          }
+          return res.json({ status: 400, error: "bad password" });
         }
       }
       return res.json({ status: 400, msg: "bad user" });
