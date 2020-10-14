@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -8,7 +8,7 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import FilterIcon from "@material-ui/icons/Filter";
-import { UPLOAD_IMAGE_ROUTE } from "../../../api/routes.js";
+import { UPLOAD_IMAGE_ROUTE, GET_IMAGES } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
 /*
  ********************** CSS STYLE *****************************
@@ -38,12 +38,29 @@ const useStyles = makeStyles((theme) => ({
 
 const initialState = [
   {
-    img:
-      "https://blog.1001pharmacies.com/wp-content/uploads/2012/05/patates-photo-e1338474856573.jpg",
+    img: "http://localhost/api/images/placeholder.png",
+    id: 1,
+    placeholder: true,
   },
   {
-    img:
-      "https://tipatate.bzh/wp-content/uploads/2015/06/insigne_ti_patate_fond_noir.png",
+    img: "http://localhost/api/images/placeholder.png",
+    id: 2,
+    placeholder: true,
+  },
+  {
+    img: "http://localhost/api/images/placeholder.png",
+    id: 3,
+    placeholder: true,
+  },
+  {
+    img: "http://localhost/api/images/placeholder.png",
+    id: 4,
+    placeholder: true,
+  },
+  {
+    img: "http://localhost/api/images/placeholder.png",
+    id: 5,
+    placeholder: true,
   },
 ];
 
@@ -51,11 +68,30 @@ const initialState = [
  ********************** Component *****************************
  */
 
+const formattingResponseImage = (image) => {
+  return "http://localhost/api".concat(image.slice(7));
+};
+
 export default function ListImages({ handleClickAvatar }) {
   const classes = useStyles();
-  const [tileData] = React.useState(initialState);
+  const [images, setImages] = React.useState(initialState);
+
+  useEffect(() => {
+    apiCall(GET_IMAGES, null, sucessCallGetImages, null, null, "GET", true);
+  }, []);
+
+  const sucessCallGetImages = (response) => {
+    const arr = response.data.infos;
+    const len = arr.length;
+    const newState = [...initialState];
+    for (let i = 0; i < len; i++) {
+      let newIm = formattingResponseImage(response.data.infos[i].image);
+      newState[response.data.infos[i].id - 1].img = newIm;
+    }
+    setImages(newState);
+  };
   // define an Array of size
-  const arrEmptyImage = Array.apply(null, Array(5 - tileData.length)).map(
+  const arrEmptyImage = Array.apply(null, Array(5 - images.length)).map(
     function (x, i) {
       return i;
     }
@@ -66,6 +102,7 @@ export default function ListImages({ handleClickAvatar }) {
   const handleCapture = (event) => {
     var file = event.target.files[0];
     var reader = new FileReader();
+
     /*function call when load succes*/
     reader.onload = function (event) {
       const formData = new FormData();
@@ -86,43 +123,50 @@ export default function ListImages({ handleClickAvatar }) {
     reader.readAsText(file);
   };
   const succesCall = (response) => {
-    console.log(response);
+    const image = response.data.image;
+    console.log(image);
   };
+
   /********         START OF RENDERING            ********/
   const renderTile = (tile) => {
-    return (
-      <GridListTile key={tile.img} cols={1}>
-        <img src={tile.img} alt={tile.title} />
-        <GridListTileBar
-          classes={{
-            root: classes.titleBar,
-            title: classes.title,
-          }}
-          actionIcon={
-            <div>
-              <IconButton onClick={handleClickAvatar}>
-                <GradeRoundedIcon />
-              </IconButton>
-              <IconButton onClick={handleClickUpdate}>
-                <FilterIcon />
-              </IconButton>
-              <IconButton onClick={handleClickDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </div>
-          }
-        />
-      </GridListTile>
-    );
+    console.log(images.length);
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].placeholder) {
+        console.log("count");
+        return renderTileAdd(i);
+      }
+    }
+    return <div></div>;
+    // return (
+    //   <GridListTile key={tile.id} cols={1}>
+    //     <img src={tile.img} alt={tile.img} />
+    //     <GridListTileBar
+    //       classes={{
+    //         root: classes.titleBar,
+    //         title: classes.title,
+    //       }}
+    //       actionIcon={
+    //         <div>
+    //           <IconButton onClick={handleClickAvatar}>
+    //             <GradeRoundedIcon />
+    //           </IconButton>
+    //           <IconButton onClick={handleClickUpdate}>
+    //             <FilterIcon />
+    //           </IconButton>
+    //           <IconButton onClick={handleClickDelete}>
+    //             <DeleteIcon />
+    //           </IconButton>
+    //         </div>
+    //       }
+    //     />
+    //   </GridListTile>
+    // );
   };
 
   const renderTileAdd = (i) => {
     return (
       <GridListTile key={i} cols={1}>
-        <img
-          alt={"img".concat(i)}
-          src="https://www.blog-nouvelles-technologies.fr/wp-content/uploads/2017/12/detective-avatar-icon-01--840x500.jpg"
-        />
+        <img alt={"img".concat(i)} src={images[i].img} />
         <GridListTileBar
           classes={{
             root: classes.titleBar,
@@ -148,10 +192,7 @@ export default function ListImages({ handleClickAvatar }) {
   };
   return (
     <div className={classes.root}>
-      <GridList cols={2}>
-        {tileData.map((tile) => renderTile(tile))}
-        {arrEmptyImage.map((tile) => renderTileAdd(tile))}
-      </GridList>
+      <GridList cols={2}>{renderTile()}</GridList>
     </div>
   );
 }

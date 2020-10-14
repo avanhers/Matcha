@@ -11,3 +11,4 @@ export const CHANGE_AVATAR_ROUTE = "http://localhost/api/user/changeAvatar";
 export const GET_AVATAR_ROUTE = "http://localhost/api/user/getAvatar";
 export const GET_TAGS_ROUTE = "http://localhost/api/user/tags";
 export const UPLOAD_IMAGE_ROUTE = "http://localhost/api/user/uploadImage";
+export const GET_IMAGES = "http://localhost/api/user/images";
