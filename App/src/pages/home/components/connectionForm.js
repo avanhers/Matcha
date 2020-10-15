@@ -64,7 +64,7 @@ const validatorConfig = {
       required: { message: "Ce champs est obligatoire" },
       checkPassword: {
         message:
-          "Le mot de passe doit contenir au mois 8 charactere avec au minimum: une minuscule,  une majuscule, un chiffre, 1 charactere speciale",
+          "Le mot de passe doit contenir au moins 8 caractères avec au minimum: une minuscule,  une majuscule, un chiffre, 1 caractère special",
       },
     },
   },
@@ -78,6 +78,7 @@ export default function ConnectionForm({
   getUser,
   setSnackBar,
   changeModalTypeOpened,
+  onSuccessRedirect,
 }) {
   const classes = useStyles();
   const [fetching, setFetching] = React.useState(false);
@@ -88,7 +89,9 @@ export default function ConnectionForm({
 
   const onSuccessApi = (response) => {
     console.log(response);
-    if (response.data.status === 200) getUser(response.data.user);
+    if (response.data.status === 200) {
+      onSuccessRedirect("/");
+    }
     if (response.data.status === 401)
       setSnackBar("valide ton compte connard !", "error");
     if (response.data.status === 402)

@@ -13,14 +13,14 @@ const matches = (state = initialeMatchesState, action) => {
         ...state,
         isFetching: false,
         pageNb: action.page,
-        matches: [...state.matches, ...action.matches.data],
+        matches: [...state.matches, ...action.matches],
       };
     case "MATCH_RESPONSE_RESET":
       return {
         ...state,
         isFetching: false,
         pageNb: 1,
-        matches: action.matches.data,
+        matches: action.matches,
       };
     default:
       return state;

@@ -73,10 +73,10 @@ const validatorConfig = {
     },
     password: {
       required: { message: "Ce champs est obligatoire" },
-      //   checkPassword: {
-      //     message:
-      //       "Le mot de passe doit contenir au mois 8 charactere avec au minimum: une minuscule,  une majuscule, un chiffre, 1 charactere speciale",
-      //   },
+      checkPassword: {
+        message:
+          "Le mot de passe doit contenir au moins 8 caractères avec au minimum: une minuscule,  une majuscule, un chiffre, 1 caractère special",
+      },
     },
     confirmPwd: {
       required: { message: "Ce champs est obligatoire" },

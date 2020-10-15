@@ -1,30 +1,45 @@
 import React from "react";
 import apiCall from "../../api/api_request.js";
-
-const MATCH_PROFIL_ROUTE = "http://localhost/api/match/matchesPage";
+import { MATCH_PROFIL_ROUTE } from "../../api/routes.js";
 
 function MatchRequest({
   filter,
-  user,
   toggleBackdropLoader,
   setMatches,
   setMatchesReset,
+  setRedirectPath,
 }) {
-  console.log("in matches request");
-  console.log("filter: ", filter);
+  const [componentMounted, setComponentMounted] = React.useState(false);
+  const handleAPISuccess = (response) => {
+    let status = false;
+    if (response.data) {
+      status = response.data.status;
+    }
+    if (status && status === 401) {
+      setRedirectPath("/profil");
+    } else if (status && status === 200) {
+      filter.page > 1
+        ? setMatches(response.body.users)
+        : setMatchesReset(response.body.users);
+    }
+  };
+
+  const handleAPIError = (response) => {
+    setRedirectPath("/login");
+  };
   React.useEffect(() => {
-    console.log(user);
-    if (Object.keys(user).length !== 0) {
-      console.log("pasteque");
+    if (componentMounted) {
       apiCall(
         MATCH_PROFIL_ROUTE,
-        filter,
-        filter.page > 1 ? setMatches : setMatchesReset,
         null,
-        toggleBackdropLoader
+        handleAPISuccess,
+        handleAPIError,
+        toggleBackdropLoader,
+        "GET"
       );
     }
-  });
+    setComponentMounted(true);
+  }, [filter]);
 
   return null;
 }

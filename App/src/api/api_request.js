@@ -21,14 +21,15 @@ const apiCall = (
   sendToken = true
 ) => {
   console.log("in apiCall");
-  let config = null;
+  let config = {};
   if (sendToken) {
-    config = {
-      headers: {
-        "x-token": localStorage.getItem("x-token"),
-        "x-refresh-token": localStorage.getItem("x-refresh-token"),
-      },
+    config.headers = {
+      "x-token": JSON.parse(localStorage.getItem("x-token")),
+      "x-refresh-token": JSON.parse(localStorage.getItem("x-refresh-token")),
     };
+  }
+  if (type === "GET" && params) {
+    config.params = params;
   }
   if (loaderEventCallback) loaderEventCallback(true);
   const timer = setTimeout(() => {
@@ -37,9 +38,11 @@ const apiCall = (
         .post(route, params, config)
         .then((response) => {
           console.log("in post");
-          successCallback(response, params.page);
-          saveState("x-token", response.headers["x-token"]);
-          saveState("x-refresh-token", response.headers["x-refresh-token"]);
+          if (successCallback) successCallback(response, params.page);
+          if (response.headers["x-token"])
+            saveState("x-token", response.headers["x-token"]);
+          if (response.headers["x-refresh-token"])
+            saveState("x-refresh-token", response.headers["x-refresh-token"]);
           if (loaderEventCallback) loaderEventCallback(false);
         })
         .catch((error) => {
@@ -51,8 +54,12 @@ const apiCall = (
       axios
         .get(route, config)
         .then((response) => {
-          console.log("in get");
-          successCallback(response);
+          console.log("in get", response.request.status);
+          if (successCallback) successCallback(response);
+          if (response.headers["x-token"])
+            saveState("x-token", response.headers["x-token"]);
+          if (response.headers["x-refresh-token"])
+            saveState("x-refresh-token", response.headers["x-refresh-token"]);
           if (loaderEventCallback) loaderEventCallback(false);
         })
         .catch((error) => {

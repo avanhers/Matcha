@@ -6,6 +6,7 @@ import ConnectionForm from "./connectionForm.js";
 import PasswordResetForm from "./passwordResetForm.js";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { Redirect } from "react-router-dom";
 /*
  ******************** CSS STYLE ********************
  */
@@ -46,12 +47,19 @@ export default function FormModal({
 }) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+  const [redirectPath, setRedirectPath] = React.useState("");
+
+  const onSuccessRedirect = (path) => {
+    setRedirectPath(path);
+  };
+
   const typeModalMap = {
     connection: (
       <ConnectionForm
         setSnackBar={setSnackBar}
         getUser={getUser}
         changeModalTypeOpened={changeModalTypeOpened}
+        onSuccessRedirect={onSuccessRedirect}
       />
     ),
     inscription: (
@@ -67,6 +75,7 @@ export default function FormModal({
       />
     ),
   };
+
   return (
     <div>
       <Modal
@@ -82,6 +91,7 @@ export default function FormModal({
           </div>
         </Container>
       </Modal>
+      {redirectPath && <Redirect to={redirectPath} />}
     </div>
   );
 }
