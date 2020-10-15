@@ -40,37 +40,42 @@ const initialState = [
   {
     img: "http://localhost/api/images/placeholder.png",
     id: 1,
+    bddId: -1,
     placeholder: true,
   },
   {
     img: "http://localhost/api/images/placeholder.png",
     id: 2,
+    bddId: -2,
     placeholder: true,
   },
   {
     img: "http://localhost/api/images/placeholder.png",
     id: 3,
+    bddId: -3,
     placeholder: true,
   },
   {
     img: "http://localhost/api/images/placeholder.png",
     id: 4,
+    bddId: -4,
     placeholder: true,
   },
   {
     img: "http://localhost/api/images/placeholder.png",
     id: 5,
+    bddId: -5,
     placeholder: true,
   },
 ];
 
-/*
- ********************** Component *****************************
- */
-
 const formattingResponseImage = (image) => {
   return "http://localhost/api".concat(image.slice(7));
 };
+
+/*
+ ********************** Component *****************************
+ */
 
 export default function ListImages({ handleClickAvatar }) {
   const classes = useStyles();
@@ -81,30 +86,56 @@ export default function ListImages({ handleClickAvatar }) {
   }, []);
 
   const sucessCallGetImages = (response) => {
+    console.log(response.data.infos);
     const arr = response.data.infos;
     const len = arr.length;
     const newState = [...initialState];
+    console.log("images", images);
     for (let i = 0; i < len; i++) {
+      let bddId = response.data.infos[i].id;
       let newIm = formattingResponseImage(response.data.infos[i].image);
-      newState[response.data.infos[i].id - 1].img = newIm;
+      newState[i].img = newIm;
+      newState[i].bddId = bddId;
+
+      newState[i].placeholder = false;
     }
     setImages(newState);
   };
-  // define an Array of size
-  const arrEmptyImage = Array.apply(null, Array(5 - images.length)).map(
-    function (x, i) {
-      return i;
-    }
-  );
 
-  const handleClickUpdate = () => {};
-  const handleClickDelete = () => {};
-  const handleCapture = (event) => {
-    var file = event.target.files[0];
-    var reader = new FileReader();
+  const handleClickUpdate = (image, event) => {
+    let file = event.target.files[0];
+    console.log(event.target);
+
+    let reader = new FileReader();
 
     /*function call when load succes*/
     reader.onload = function (event) {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("isProfile", "");
+      formData.append("imageId", image.bddId);
+      console.log("bddId", image.bddId);
+      apiCall(
+        UPLOAD_IMAGE_ROUTE,
+        formData,
+        succesCall,
+        null,
+        null,
+        "POST",
+        true
+      );
+    };
+
+    reader.readAsText(file);
+  };
+  const handleClickDelete = () => {};
+  const handleCapture = (event) => {
+    console.log(event);
+    let file = event.target.files[0];
+    let reader = new FileReader();
+
+    /*function call when load succes*/
+    reader.onload = function () {
       const formData = new FormData();
       formData.append("image", file);
       formData.append("isProfile", "");
@@ -122,51 +153,62 @@ export default function ListImages({ handleClickAvatar }) {
 
     reader.readAsText(file);
   };
-  const succesCall = (response) => {
-    const image = response.data.image;
-    console.log(image);
+  const succesCall = (response, i) => {
+    console.log(response);
+    const newState = [...images].filter(
+      (image, index) => image.bddId == response.infos.data.imageId
+    );
+    console.log(newState);
   };
 
   /********         START OF RENDERING            ********/
-  const renderTile = (tile) => {
-    console.log(images.length);
-    for (let i = 0; i < images.length; i++) {
-      if (images[i].placeholder) {
-        console.log("count");
-        return renderTileAdd(i);
-      }
-    }
-    return <div></div>;
-    // return (
-    //   <GridListTile key={tile.id} cols={1}>
-    //     <img src={tile.img} alt={tile.img} />
-    //     <GridListTileBar
-    //       classes={{
-    //         root: classes.titleBar,
-    //         title: classes.title,
-    //       }}
-    //       actionIcon={
-    //         <div>
-    //           <IconButton onClick={handleClickAvatar}>
-    //             <GradeRoundedIcon />
-    //           </IconButton>
-    //           <IconButton onClick={handleClickUpdate}>
-    //             <FilterIcon />
-    //           </IconButton>
-    //           <IconButton onClick={handleClickDelete}>
-    //             <DeleteIcon />
-    //           </IconButton>
-    //         </div>
-    //       }
-    //     />
-    //   </GridListTile>
-    // );
+  const renderImage = (image) => {
+    if (image.placeholder) return renderPlaceholderImage(image);
+    else return renderUserImage(image);
   };
 
-  const renderTileAdd = (i) => {
+  //render image from User
+  const renderUserImage = (image) => {
     return (
-      <GridListTile key={i} cols={1}>
-        <img alt={"img".concat(i)} src={images[i].img} />
+      console.log("first", image) ||
+      (true && (
+        <GridListTile key={image.id} cols={1}>
+          <img src={image.img} alt={"img".concat(image.id)} />
+          <GridListTileBar
+            classes={{
+              root: classes.titleBar,
+              title: classes.title,
+            }}
+            actionIcon={
+              <div>
+                <GradeRoundedIcon />
+
+                <input
+                  accept="image/*"
+                  id={image.id}
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    console.log("onChnge", image);
+                    handleClickUpdate(image, e);
+                  }}
+                />
+                <label htmlFor={image.id}>
+                  <FilterIcon />
+                </label>
+
+                <DeleteIcon />
+              </div>
+            }
+          />
+        </GridListTile>
+      ))
+    );
+  };
+  const renderPlaceholderImage = (image) => {
+    return (
+      <GridListTile key={image.id} cols={1}>
+        <img alt={"img".concat(image.id)} src={image.img} />
         <GridListTileBar
           classes={{
             root: classes.titleBar,
@@ -192,7 +234,7 @@ export default function ListImages({ handleClickAvatar }) {
   };
   return (
     <div className={classes.root}>
-      <GridList cols={2}>{renderTile()}</GridList>
+      <GridList cols={2}>{images.map((image) => renderImage(image))}</GridList>
     </div>
   );
 }
