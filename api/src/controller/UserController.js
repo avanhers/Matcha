@@ -30,10 +30,17 @@ const userController = {
         return res.json({ status: 200, msg: "avatar updated" });
       } else if (imageId) {
         this.changeImage(imageId, newPath);
-        return res.json({ status: 200, image: newPath });
+        return res.json({
+          status: 200,
+          image: { id: imageId, path: newPath },
+        });
       }
-      await manager.createImage(user.getId(), newPath);
-      return res.json({ status: 201, image: newPath });
+      const result = await manager.createImage(user.getId(), newPath);
+
+      return res.json({
+        status: 201,
+        image: { id: result.insertId, path: newPath },
+      });
     }
     return res.status(200).json({ status: 400, msg: "invalid fields" });
   },
@@ -254,8 +261,7 @@ const userController = {
 
       if (user) {
         if (user.confirmPassword(oldPassword)) {
-          user.setPassword(password);
-          if (user.isPassword()) {
+          if (user.isPassword(password)) {
             user.setHashPassword(password);
             manager.updateUser("password", user);
             return res.json({ status: 204, msg: "password updated" });

@@ -12,6 +12,6 @@ router.post("/login", controller.login);
 router.get("/logout", auth.addUser, controller.logout);
 router.post("/resetPassword", controller.resetPassword);
 router.post("/forgetPassword", controller.forgetPassword);
-router.get("/test", controller.test);
+router.get("/canLog", auth.addUser, controller.canLog);
 
 module.exports = router;
