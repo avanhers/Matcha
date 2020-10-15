@@ -121,6 +121,18 @@ const authController = {
     response.status(200).json({ status: 400, msg: "incomplete fields" });
   },
 
+  canLog: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      if (user.getIsLogin()) {
+        return res.json({ status: 400, msg: "already logged" });
+      }
+      return res.json({ status: 200, msg: "can connect" });
+    }
+    return res.json({ status: 401, msg: "bad user" });
+  },
+
   logout: async function (request, response, next) {
     if (request.userId) {
       manager.logout(request.userId);
@@ -147,15 +159,16 @@ const authController = {
       try {
         const user = await manager.findOneById(userId);
 
+        if (!user.isPassword(password)) {
+          return response.json({ status: 400, error: "bad password" });
+        }
         user.setHashPassword(password);
         await manager.updatePassword(user);
         return response
           .status(201)
           .json({ status: 201, msg: "password reset" });
       } catch (err) {
-        return response
-          .status(200)
-          .json({ status: 401, msg: "Hash does not exist" });
+        return response.status(200).json({ status: 401, msg: err.message });
       }
     }
     return response

@@ -254,8 +254,7 @@ const userController = {
 
       if (user) {
         if (user.confirmPassword(oldPassword)) {
-          user.setPassword(password);
-          if (user.isPassword()) {
+          if (user.isPassword(password)) {
             user.setHashPassword(password);
             manager.updateUser("password", user);
             return res.json({ status: 204, msg: "password updated" });

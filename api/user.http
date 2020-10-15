@@ -6,7 +6,17 @@ content-type: application/json
     "name": "jules",
     "firstname": "jules",
     "username": "jules",
-    "password": "coucou"
+    "password": "toto"
+}
+###
+POST  http://localhost/api/user/updatePassword HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNjkxMTQzLCJleHAiOjE2MDI2OTEyMDN9.F4r-RQiCnVPmAQMqzRTDQh9uy_mw1YTK1FYTS6HjODM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNjkxODAwLCJleHAiOjE2MDI3NzgyMDB9.s8Ob_8g8Bnvw-ivfIsXQNf7fWDjwfRD3PjYtRtCHEeM
+
+{
+    "oldPassword": "Qwerty12;",
+    "password": "Qwerty12;"
 }
 ###
 POST  http://localhost/api/auth/login HTTP/1.1
@@ -14,7 +24,15 @@ content-type: application/json
 
 {
     "username": "jules",
-    "password": "coucou"
+    "password": "Qwerty12;"
+}
+###
+POST  http://localhost/api/auth/resetPassword HTTP/1.1
+content-type: application/json
+
+{
+    "userId": 201,
+    "password": "Qwerty12;"
 }
 ###
 POST  http://localhost/api/auth/forgetPassword HTTP/1.1
@@ -41,9 +59,13 @@ x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nz
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
 ###
 
+GET http://localhost/api/auth/canLog HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzU0NTkxLCJleHAiOjE2MDI4NDA5OTF9.K9G9XhSY9XYri6am5OvgY2Je3N31eJYTo5HR6Wkf1dQ
+###
 GET http://localhost/api/user/images HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNjkwNDI1LCJleHAiOjE2MDI3NzY4MjV9.sn34SBpP-YUBugSe8rgOtHLoxP5waJRg34g-QtAScSg
 ###
 GET http://localhost/api/user/avatar HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o

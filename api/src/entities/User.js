@@ -116,10 +116,10 @@ class User {
     return string[0].toUpperCase() + string.slice(1);
   }
 
-  isPassword() {
+  isPassword(password) {
     const re = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
 
-    return re.test(this.password);
+    return re.test(password);
   }
 
   isWritable() {
