@@ -69,9 +69,15 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
-  this.updateAvatar = function (user) {
+  this.updateAvatar = async function (user, imageId) {
+    let path = await queryCreator
+      .select("image")
+      .from("images")
+      .where("id", imageId)
+      .sendQuery();
     const sql = "UPDATE users SET avatar = ? where id = ?";
-    const values = [user.getAvatar(), user.getId()];
+    console.log(path, imageId);
+    const values = [path[0].image, user.getId()];
 
     return db.query(sql, values);
   };
@@ -87,7 +93,8 @@ const UserManager = function () {
     const sql = "SELECT image FROM images WHERE id = ?";
     const result = await db.query(sql, imageId);
 
-    return result[0].image;
+    console.log("result: ", result[0] ? result[0].image : undefined);
+    return result[0] ? result[0].image : undefined;
   };
 
   this.updateImage = function (imageId, path) {
@@ -95,6 +102,12 @@ const UserManager = function () {
     const values = [path, imageId];
 
     return db.query(sql, values);
+  };
+
+  this.deleteImage = function (imageId) {
+    const sql = "DELETE FROM images WHERE id = ?";
+
+    return db.query(sql, imageId);
   };
 
   this.createImage = function (userId, path) {

@@ -11,6 +11,7 @@ router.post(
   userController.uploadImage.bind(userController)
 );
 router.post("/personnalInfos", userController.personnal.bind(userController));
+router.post("/setAvatar/:id", userController.setAvatar.bind(userController));
 router.post("/updateEmail", userController.updateEmail.bind(userController));
 router.post(
   "/updatePassword",
@@ -21,6 +22,10 @@ router.post("/like/:username", userController.like.bind(userController));
 router.post("/unlike/:username", userController.unlike.bind(userController));
 router.post("/report/:username", userController.report.bind(userController));
 router.post("/block/:username", userController.block.bind(userController));
+router.post(
+  "/image/:id/delete",
+  userController.deleteImage.bind(userController)
+);
 
 router.get("/views", userController.getViews.bind(userController));
 router.get("/likes", userController.getLikes.bind(userController));
