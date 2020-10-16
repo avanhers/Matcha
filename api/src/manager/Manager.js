@@ -23,7 +23,7 @@ Manager.prototype = {
   findOneById: async function (id) {
     const sql = `SELECT * FROM ${this.type} WHERE id = ?`;
     const result = await db.query(sql, id);
-
+    console.log("findone:", result[0]);
     return new User(result[0]);
   },
 };

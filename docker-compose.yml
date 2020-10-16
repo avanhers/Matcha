@@ -56,7 +56,7 @@ services:
     image: nginx
     depends_on:
       - api
-      # - front
+      - front
     ports:
       - 80:80
       - 443:443
@@ -66,22 +66,22 @@ services:
       - ./reverse/certs:/etc/ssl/private
     networks:
       - backend
-      # - frontend
+      - frontend
     container_name: reverse
 
-  # front:
-  #   build: ./App
-  #   restart: on-failure
-  #   volumes:
-  #     - ./App:/usr/src/App
-  #     # - ./api/node_modules:/usr/src/app/node_modules
-  #   hostname: front
-  #   tty: true
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - frontend
-  #   container_name: front
+  front:
+    build: ./App
+    restart: on-failure
+    volumes:
+      - ./App:/usr/src/App
+      # - ./api/node_modules:/usr/src/app/node_modules
+    hostname: front
+    tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - frontend
+    container_name: front
 
 networks:
   backend:
