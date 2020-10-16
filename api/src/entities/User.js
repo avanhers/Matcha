@@ -279,13 +279,17 @@ class User {
 
   getSearchingTags() {
     let ret = "(";
+    let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
 
-    this.tags.forEach((e, index) => {
-      const tag = e.tags;
-
-      ret += `${tag}`;
-      ret += index === this.tags.length - 1 ? ")" : ",";
+    console.log("NoT: ", numberOfTags);
+    this.tags.forEach((tag, index) => {
+      if (tag) {
+        numberOfTags--;
+        ret += `${index + 1}`;
+        ret += !numberOfTags ? ")" : ",";
+      }
     });
+    console.log("ret = ", ret);
     return ret;
   }
 

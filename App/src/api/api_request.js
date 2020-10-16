@@ -63,7 +63,7 @@ const apiCall = (
           if (errorCallback) errorCallback(error);
         });
     }
-  }, 1000);
+  }, 10);
 };
 
 export default apiCall;

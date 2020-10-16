@@ -20,7 +20,7 @@ const matchController = {
       users = await searcher.findMatches(user, parameters);
       return response.json({ users: users });
     } catch (e) {
-      return response.json({ status: 500, error: e });
+      return response.json({ status: 500, error: e.message });
     }
   },
 
