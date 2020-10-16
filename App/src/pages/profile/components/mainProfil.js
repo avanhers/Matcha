@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -7,8 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import InfoVisibleForm from "./infoVisibleForm.js";
 import TagsList from "./tagsList.js";
 import ListImages from "./listImages.js";
-import apiCall from "../../../api/api_request.js";
-import { GET_AVATAR_ROUTE, CHANGE_AVATAR_ROUTE } from "../../../api/routes.js";
+import { apiCall, apiCallPost } from "../../../api/api_request.js";
+import { CHANGE_AVATAR_ROUTE, GET_AVATAR_ROUTE } from "../../../api/routes.js";
 
 /*
  ********************** CSS STYLE *****************************
@@ -30,20 +30,10 @@ function renderProfilPicture(url) {
     />
   );
 }
-
-/*TODO BACK: 
-check if login allready exist : error 401
-  In server.js: 
-        add : const cors = require("cors"); 
-              app.options("*", cors());   after the first app.use
- JWT : add JSON.parse() in auth.js inside verify
-       add  JSON.parse() in jwt.js
-       comment gesture of Token in case of forget pwd
-  
-
-
- */
-//::TODO FRONT: check if all field are valid
+const initialAvatar = {
+  path: "http://localhost/api/images/placeholder.png",
+  id: -1,
+};
 
 /*
  ********************** Component *****************************
@@ -51,16 +41,36 @@ check if login allready exist : error 401
 
 function MainProfile() {
   const classes = useStyles();
-  const [avatar, setAvatar] = React.useState(null);
+  const [avatar, setAvatar] = React.useState(initialAvatar);
 
-  // apiCall(GET_AVATAR_ROUTE,null,succesGetAvatar,null,"POST",true);
+  useEffect(() => {
+    apiCall(GET_AVATAR_ROUTE, null, successGetAvatar, null, null, "GET", true);
+  }, []);
 
-  // const successGetAvatar = (response)=>{
-  //   setAvatar(response.body.avatar)
-  // }
-  const handleClickChangeAvatar = (event) => {
-    apiCall(CHANGE_AVATAR_ROUTE, avatar, null, null, null, "POST", true);
-    setAvatar(event.value);
+  const successGetAvatar = (response) => {
+    console.log(response);
+    if (response.data.avatar.id > 0)
+      setAvatar({
+        path: "http://localhost/api".concat(response.data.avatar.path.slice(7)),
+        id: response.data.avatar.id,
+      });
+  };
+
+  const changeAvatar = (image) => {
+    apiCallPost(
+      CHANGE_AVATAR_ROUTE.concat("/").concat(image.bddId),
+      image.bddId,
+      successChangeAvatar,
+      image,
+      null,
+      null
+    );
+
+    console.log(avatar);
+  };
+
+  const successChangeAvatar = (response, image) => {
+    setAvatar({ path: image.img, id: image.bddId });
   };
 
   return (
@@ -68,9 +78,7 @@ function MainProfile() {
       <Container maxWidth="lg">
         <Grid container spacing={8}>
           <Grid item xs={8} md={5}>
-            {renderProfilPicture(
-              "https://blog.1001pharmacies.com/wp-content/uploads/2012/05/patates-photo-e1338474856573.jpg"
-            )}
+            {renderProfilPicture(avatar.path)}
           </Grid>
           <Grid item xs={4} md={2}></Grid>
           <Grid item xs={12} md={5}>
@@ -89,10 +97,7 @@ function MainProfile() {
           {/* Recent Orders */}
           <Grid item xs={12}>
             <Paper>
-              <ListImages
-                avatar={avatar}
-                handleClickAvatar={handleClickChangeAvatar}
-              />
+              <ListImages avatar={avatar} changeAvatar={changeAvatar} />
             </Paper>
           </Grid>
         </Grid>

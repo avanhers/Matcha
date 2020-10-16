@@ -11,7 +11,7 @@ export const saveState = (name, state) => {
   }
 };
 
-const apiCall = (
+export const apiCall = (
   route,
   params,
   successCallback,
@@ -37,7 +37,7 @@ const apiCall = (
         .post(route, params, config)
         .then((response) => {
           console.log("in post");
-          if (successCallback) successCallback(response, params.page);
+          if (successCallback) successCallback(response);
           if (response.headers["x-token"])
             saveState("x-token", response.headers["x-token"]);
           if (response.headers["x-refresh-token"])
@@ -66,4 +66,32 @@ const apiCall = (
   }, 10);
 };
 
+const setTokenInHeader = () => {
+  return {
+    headers: {
+      "x-token": localStorage.getItem("x-token"),
+      "x-refresh-token": localStorage.getItem("x-refresh-token"),
+    },
+  };
+};
+
+export const apiCallPost = (
+  route,
+  param,
+  successCallback,
+  successParam,
+  errorCallback,
+  errorParam
+) => {
+  let config = setTokenInHeader();
+  axios
+    .post(route, param, config)
+    .then((response) => {
+      successCallback(response, successParam);
+    })
+    .catch((error) => {
+      console.log("ici catch");
+      if (errorCallback) errorCallback(error, errorParam);
+    });
+};
 export default apiCall;

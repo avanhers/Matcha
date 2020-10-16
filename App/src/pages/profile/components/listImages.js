@@ -9,7 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import FilterIcon from "@material-ui/icons/Filter";
 import { UPLOAD_IMAGE_ROUTE, GET_IMAGES } from "../../../api/routes.js";
-import apiCall from "../../../api/api_request.js";
+import { apiCall, apiCallPost } from "../../../api/api_request.js";
 /*
  ********************** CSS STYLE *****************************
  */
@@ -72,12 +72,25 @@ const initialState = [
 const formattingResponseImage = (image) => {
   return "http://localhost/api".concat(image.slice(7));
 };
+const imageExist = (images, bddId) => {
+  return images.find((image) => image.bddId == bddId);
+};
+const isAvatar = (avatarId, bddId) => {
+  return avatarId == bddId;
+};
+const findIndexNewImage = (images) => {
+  for (let i = 0; i < images.length; i++) {
+    if (images[i].bddId < 0) return i;
+  }
+  return 0;
+};
 
+const addNewImage = () => {};
 /*
  ********************** Component *****************************
  */
 
-export default function ListImages({ changeAvatar }) {
+export default function ListImages({ changeAvatar, avatar }) {
   const classes = useStyles();
   const [images, setImages] = React.useState(initialState);
 
@@ -86,11 +99,9 @@ export default function ListImages({ changeAvatar }) {
   }, []);
 
   const sucessCallGetImages = (response) => {
-    console.log(response.data.infos);
     const arr = response.data.infos;
     const len = arr.length;
     const newState = [...initialState];
-    console.log("images", images);
     for (let i = 0; i < len; i++) {
       let bddId = response.data.infos[i].id;
       let newIm = formattingResponseImage(response.data.infos[i].image);
@@ -103,57 +114,47 @@ export default function ListImages({ changeAvatar }) {
   };
 
   /*Function call when uploading a new photo: happen */
-  const handleUpload = (event, imageId = 0) => {
+  const handleUpload = (event, image = 0) => {
     let file = event.target.files[0];
-    console.log(event.target);
-
+    console.log(image.bddId);
     let reader = new FileReader();
 
     /*function call when load succes*/
     reader.onload = function (event) {
       const formData = new FormData();
       formData.append("image", file);
-      formData.append("isProfile", "");
-      formData.append("imageId", imageId);
-      apiCall(
-        UPLOAD_IMAGE_ROUTE,
-        formData,
-        succesCall,
-        null,
-        null,
-        "POST",
-        true
-      );
+      //formData.append("isProfile", "");
+      formData.append("imageId", image.bddId);
+      apiCallPost(UPLOAD_IMAGE_ROUTE, formData, succesCall, image, null, null);
     };
 
     reader.readAsText(file);
   };
 
-  const succesCall = (response) => {
+  const succesCall = (response, image) => {
+    console.log(response);
     const bddId = response.data.image.id;
     const newPath = formattingResponseImage(response.data.image.path);
     const newState = [...images];
+    // setAvatar
 
-    const found = images.find((image) => image.bddId == bddId);
-    if (found) {
+    if (imageExist(images, bddId)) {
+      if (isAvatar(avatar.id, bddId)) changeAvatar({ ...image, img: newPath });
       images.forEach((image, index) => {
         if (image.bddId == bddId)
           newState[index] = { ...image, img: newPath, placeholder: false };
       });
     } else {
-      let empty = true;
-      images.forEach((image, index) => {
-        if (empty && image.bddId < 0) {
-          newState[index] = {
-            ...image,
-            img: newPath,
-            bddId: bddId,
-            placeholder: false,
-          };
-          empty = false;
-        }
-      });
+      let index = findIndexNewImage(images);
+      //update
+      newState[index] = {
+        ...images[index],
+        img: newPath,
+        bddId: bddId,
+        placeholder: false,
+      };
     }
+
     setImages(newState);
   };
 
@@ -176,14 +177,17 @@ export default function ListImages({ changeAvatar }) {
           }}
           actionIcon={
             <div>
-              <GradeRoundedIcon onClick />
+              <GradeRoundedIcon
+                color={image.bddId == avatar.id ? "primary" : "disabled"}
+                onClick={(i) => changeAvatar(image)}
+              />
 
               <input
                 accept="image/*"
                 id={image.id}
                 type="file"
                 style={{ display: "none" }}
-                onChange={(e) => handleUpload(e, image.bddId)}
+                onChange={(e) => handleUpload(e, image)}
               />
               <label htmlFor={image.id}>
                 <FilterIcon />
