@@ -56,7 +56,7 @@ const tokenManager = {
     const refreshSecret = process.env.REFRESH_SECRET + user.getPassword();
 
     try {
-      jwt.verify(JSON.parse(refreshToken), refreshSecret);
+      jwt.verify(refreshToken, refreshSecret);
     } catch (err) {
       console.log(4);
       return {};

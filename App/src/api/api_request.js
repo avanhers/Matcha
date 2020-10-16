@@ -100,7 +100,7 @@ export const useApiCall = (apiCallConfig) => {
 //   return apiCall;
 // };
 
-const apiCall = (
+export const apiCall = (
   route,
   params,
   successCallback,

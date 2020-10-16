@@ -7,7 +7,7 @@ const setCors = (req, res, next) => {
       "Access-Control-Allow-Headers",
       "X-Requested-With, Content-Type, Accept, x-token, x-refresh-token"
     );
-    res.sendStatus(200);
+    return res.sendStatus(200);
   }
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)

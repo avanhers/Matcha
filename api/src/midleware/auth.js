@@ -10,7 +10,7 @@ exports.addUser = async function (req, res, next) {
     return res.sendStatus(401);
   }
   try {
-    const { userId } = jwt.verify(JSON.parse(token), process.env.SECRET_KEY);
+    const { userId } = jwt.verify(token, process.env.SECRET_KEY);
 
     req.userId = userId;
   } catch (err) {
