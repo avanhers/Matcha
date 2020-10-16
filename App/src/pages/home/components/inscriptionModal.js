@@ -17,6 +17,7 @@ import {
 /*
  ******************** CSS STYLE ********************
  */
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -228,6 +229,7 @@ export default function InscriptionModal({ open, handleClose }) {
         handleAPIResponse,
         null,
         setIsFetching,
+        "POST",
         false
       );
     }

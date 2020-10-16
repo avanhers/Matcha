@@ -127,7 +127,7 @@ const apiCall = (
         .post(route, params, config)
         .then((response) => {
           console.log("in post");
-          if (successCallback) successCallback(response, params.page);
+          if (successCallback) successCallback(response);
           if (response.headers["x-token"])
             saveState("x-token", response.headers["x-token"]);
           if (response.headers["x-refresh-token"])
@@ -135,7 +135,7 @@ const apiCall = (
           if (loaderEventCallback) loaderEventCallback(false);
         })
         .catch((error) => {
-          console.log("ici catch");
+          console.log(error);
           if (loaderEventCallback) loaderEventCallback(false);
           if (errorCallback) errorCallback(error);
           // dispatch(setRedirectPath("/login"));
@@ -158,7 +158,35 @@ const apiCall = (
           if (errorCallback) errorCallback(error);
         });
     }
-  }, 1000);
+  }, 10);
 };
 
+const setTokenInHeader = () => {
+  return {
+    headers: {
+      "x-token": localStorage.getItem("x-token"),
+      "x-refresh-token": localStorage.getItem("x-refresh-token"),
+    },
+  };
+};
+
+export const apiCallPost = (
+  route,
+  param,
+  successCallback,
+  successParam,
+  errorCallback,
+  errorParam
+) => {
+  let config = setTokenInHeader();
+  axios
+    .post(route, param, config)
+    .then((response) => {
+      successCallback(response, successParam);
+    })
+    .catch((error) => {
+      console.log("ici catch");
+      if (errorCallback) errorCallback(error, errorParam);
+    });
+};
 export default apiCall;

@@ -201,7 +201,13 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
-      return res.json({ status: 200, avatar: user.getAvatar() });
+      const imagePath = user.getAvatar();
+      const imageId = await manager.getImageId(imagePath);
+
+      return res.json({
+        status: 200,
+        avatar: { id: imageId[0].id, path: imagePath },
+      });
     }
     return res.json({ status: 400, msg: "bad user" });
   },
@@ -238,7 +244,7 @@ const userController = {
 
   updateTags: async function (req, res) {
     const { tags } = req.body;
-
+    console.log("in update")
     if (!tags.every((e) => TAGS.indexOf(e) > -1)) {
       return res.json({ status: 400, msg: "bad tagName" });
     }
@@ -311,8 +317,9 @@ const userController = {
     if (oldPath) {
       this.removeOldPictures(oldPath);
       await manager.updateImage(imageId, newPath);
+    } else {
+      throw new Error("bad image id");
     }
-    throw new Error("bad image id");
   },
 
   setReports: async function (user, watched) {

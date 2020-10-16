@@ -1,34 +1,26 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
-import { drawerWidth } from "./filterDrawer.js";
-import NotificationPopover from "./notificationPopover.js";
+import { makeStyles } from "@material-ui/core";
+
+// import NotificationPopover from "./notificationPopover.js";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
+import MenuIcon from "@material-ui/icons/Menu";
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
-import ChatPopover from "./chatPopover.js";
-
+//import ChatPopover from "./chatPopover.js";
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
   },
   grow: {
     flexGrow: 1,
@@ -41,27 +33,21 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
   },
   hide: {
     display: "none",
   },
 }));
 //TODO : Using Redux to open component
-function HeadBar({ status, openDrawer }) {
+function HeadBar({ status, handleDrawerToggle }) {
   const classes = useStyles();
-  const theme = useTheme();
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClickOnNotif = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const render_notification = () => {
     return (
-      <IconButton onClick={handleClickOnNotif} color="inherit">
+      <IconButton color="inherit">
         <Badge badgeContent={49} color="secondary">
           <NotificationsIcon />
         </Badge>
@@ -81,11 +67,11 @@ function HeadBar({ status, openDrawer }) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={openDrawer}
             edge="start"
-            className={clsx(classes.menuButton, status && classes.hide)}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
-            <SearchIcon />
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
             Matcha
@@ -98,16 +84,16 @@ function HeadBar({ status, openDrawer }) {
               </Badge>
             </IconButton>
             {render_notification()}
-            <NotificationPopover
+            {/* <NotificationPopover
               anchorEl={anchorEl}
               handleClose={handleClose}
-            ></NotificationPopover>
+            ></NotificationPopover> */}
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
               </IconButton>
             </Link>
-            <ChatPopover />
+            {/* <ChatPopover /> */}
           </div>
         </Toolbar>
       </AppBar>

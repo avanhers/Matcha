@@ -80,7 +80,7 @@ export default function ConnectionModal({
 
   const onSuccessApi = (response) => {
     console.log(response);
-    if (response.data.status === 200) getUser(response.data.user);
+    if (response.data.status === 200) getUser(!response.data.complete);
     if (response.data.status === 401)
       setSnackBar("valide ton compte connard !", "error");
     if (response.data.status === 402)

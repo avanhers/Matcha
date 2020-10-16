@@ -7,6 +7,7 @@ import {
 
 const userInitialState = {
   isFetching: false,
+  completed: false,
   user: {},
   completed: false,
 };

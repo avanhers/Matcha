@@ -15,6 +15,7 @@ import SnackBarContainer from "./common/containers/snackBarContainer.js";
 import PasswordChangeContainer from "./pages/home/containers/passwordChangeContainer.js";
 import PrivateRouteContainer from "./common/containers/privateRouteContainer";
 import PageNotFound from "./pages/home/components/pageNotFound";
+import Profil from "./pages/profile/components/profil.js";
 
 function App() {
   return (
@@ -32,11 +33,7 @@ function App() {
             path="/"
             component={MainLayoutContainer}
           />
-          <PrivateRouteContainer
-            exact
-            path="/profil"
-            component={ProfilLayoutContainer}
-          />
+          <PrivateRouteContainer exact path="/profil" component={Profil} />
           <Route
             exact
             path={["/confirmation/:token", "/reset/:token"]}
