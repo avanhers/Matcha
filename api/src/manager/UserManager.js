@@ -102,6 +102,12 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
+  this.getImageId = function (path) {
+    const sql = "SELECT id FROM images WHERE image = ?";
+
+    return db.query(sql, path);
+  };
+
   this.deleteImage = function (imageId) {
     const sql = "DELETE FROM images WHERE id = ?";
 
