@@ -69,9 +69,14 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
-  this.updateAvatar = function (user) {
+  this.updateAvatar = async function (user, imageId) {
+    let path = await queryCreator
+      .select("image")
+      .from("images")
+      .where("id", imageId)
+      .sendQuery();
     const sql = "UPDATE users SET avatar = ? where id = ?";
-    const values = [user.getAvatar(), user.getId()];
+    const values = [path[0].image, user.getId()];
 
     return db.query(sql, values);
   };
@@ -87,7 +92,7 @@ const UserManager = function () {
     const sql = "SELECT image FROM images WHERE id = ?";
     const result = await db.query(sql, imageId);
 
-    return result[0].image;
+    return result[0] ? result[0].image : undefined;
   };
 
   this.updateImage = function (imageId, path) {
@@ -95,6 +100,12 @@ const UserManager = function () {
     const values = [path, imageId];
 
     return db.query(sql, values);
+  };
+
+  this.deleteImage = function (imageId) {
+    const sql = "DELETE FROM images WHERE id = ?";
+
+    return db.query(sql, imageId);
   };
 
   this.createImage = function (userId, path) {
@@ -157,7 +168,6 @@ const UserManager = function () {
     const sql = "UPDATE users SET popularityScore = ? WHERE id = ?";
     const values = [newScore, user.getId()];
 
-    console.log("newscore: ", newScore);
     return db.query(sql, values);
   };
 
@@ -167,7 +177,6 @@ const UserManager = function () {
     const sql = "UPDATE users SET popularityScore = ? WHERE id = ?";
     const values = [newScore, user.getId()];
 
-    console.log("newscore: ", newScore);
     return db.query(sql, values);
   };
 
@@ -217,14 +226,36 @@ const UserManager = function () {
     return user;
   };
 
+  this.addImagesToUser = async function (user) {
+    const images = [];
+    const rows = await queryCreator
+      .select("image")
+      .addSelect("id")
+      .from("images")
+      .where("userId", user.getId())
+      .sendQuery();
+
+    rows.forEach((im) => images.push({ image: im.image, id: im.id }));
+    user.setImages(images);
+    return user;
+  };
+
   this.addTagsToUser = async function (user) {
+    let i = 0;
+    const tags = [];
     const rows = await queryCreator
       .select("tagId", "tags")
       .from("user_tag")
       .where("userId", user.getId())
       .sendQuery();
 
-    user.setTags(rows);
+    while (i < 8) {
+      i++;
+      const filter = rows.filter((tags) => tags.tags === i);
+
+      tags.push(filter[0] ? true : false);
+    }
+    user.setTags(tags);
     return user;
   };
 

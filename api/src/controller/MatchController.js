@@ -18,9 +18,9 @@ const matchController = {
       parameters = this.getParameters(request, user);
       console.log("coucou");
       users = await searcher.findMatches(user, parameters);
-      return response.json({ users: users });
+      return response.json({ status: 200, users: users });
     } catch (e) {
-      return response.json({ status: 500, error: e });
+      return response.json({ status: 500, error: e.message });
     }
   },
 

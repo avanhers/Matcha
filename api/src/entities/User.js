@@ -116,14 +116,24 @@ class User {
     return string[0].toUpperCase() + string.slice(1);
   }
 
+  isPassword(password) {
+    const re = /^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\W).*$/;
+
+    return re.test(password);
+  }
+
   isWritable() {
     return (
       this.email &&
       this.username &&
       this.name &&
       this.firstname &&
-      this.password
+      this.isPassword(this.password)
     );
+  }
+
+  setImages(images) {
+    this.images = images;
   }
 
   setBlocks(blocks) {
@@ -257,6 +267,9 @@ class User {
   getId() {
     return this.id;
   }
+  getImages() {
+    return this.images;
+  }
   getIsLogin() {
     return this.isLogin;
   }
@@ -266,13 +279,17 @@ class User {
 
   getSearchingTags() {
     let ret = "(";
+    let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
 
-    this.tags.forEach((e, index) => {
-      const tag = e.tags;
-
-      ret += `${tag}`;
-      ret += index === this.tags.length - 1 ? ")" : ",";
+    console.log("NoT: ", numberOfTags);
+    this.tags.forEach((tag, index) => {
+      if (tag) {
+        numberOfTags--;
+        ret += `${index + 1}`;
+        ret += !numberOfTags ? ")" : ",";
+      }
     });
+    console.log("ret = ", ret);
     return ret;
   }
 

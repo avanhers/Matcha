@@ -17,25 +17,63 @@ function validateEmail(email) {
 
 const userController = {
   uploadImage: async function (req, res, next) {
-    let { isProfile, imageId } = req.body;
+    let { imageId } = req.body;
     const newPath = req.file.path;
     imageId = parseInt(imageId);
 
-    if (newPath && isProfile !== undefined) {
+    if (newPath) {
       const user = await manager.findOneById(req.userId);
-      user.setAvatar(newPath);
 
-      if (isProfile) {
-        this.changeAvatar(user);
-        return res.json({ status: 200, msg: "avatar updated" });
-      } else if (imageId) {
-        this.changeImage(imageId, newPath);
-        return res.json({ status: 200, msg: "image updated" });
+      if (imageId) {
+        try {
+          await this.changeImage(imageId, newPath);
+          return res.json({
+            status: 200,
+            image: { id: imageId, path: newPath },
+          });
+        } catch (e) {
+          return res.json({ status: 400, error: e.message });
+        }
       }
-      await manager.createImage(user.getId(), newPath);
-      return res.json({ status: 201, msg: "image created" });
+      const result = await manager.createImage(user.getId(), newPath);
+
+      return res.json({
+        status: 201,
+        image: { id: result.insertId, path: newPath },
+      });
     }
     return res.status(200).json({ status: 400, msg: "invalid fields" });
+  },
+
+  setAvatar: async function (req, res, next) {
+    const { id: imageId } = req.params;
+    const user = await manager.findOneById(req.userId);
+
+    try {
+      if (user) {
+        await manager.updateAvatar(user, imageId);
+        return res.json({ status: 200, msg: "avatar updated" });
+      }
+      return res.status(200).json({ status: 400, msg: "bad users" });
+    } catch (e) {
+      return res.json({ status: 400, msg: "bad Id" });
+    }
+  },
+
+  deleteImage: async function (req, res) {
+    const { id: imageId } = req.params;
+    const path = await manager.getOldImage(imageId);
+    const user = await manager.findOneById(req.userId);
+
+    if (!path) {
+      return res.json({ status: 400, error: "bad id" });
+    } else if (path === user.getAvatar()) {
+      return res.json({ status: 400, msg: "can't delete avatar" });
+    }
+    await this.removeOldPictures(path);
+    await manager.deleteImage(imageId);
+
+    return res.json({ status: 200, msg: "image deleted" });
   },
 
   report: async function (req, res) {
@@ -149,6 +187,16 @@ const userController = {
     return res.json({ status: 400, msg: "bad user" });
   },
 
+  getImages: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      await manager.addImagesToUser(user);
+      return res.json({ status: 200, infos: user.getImages() });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
   getAvatar: async function (req, res) {
     const user = await manager.findOneById(req.userId);
 
@@ -174,7 +222,7 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
-      if (username) {
+      if (username && username !== user.getUsername()) {
         const userExist = await manager.findUserByUsername(username);
 
         if (userExist) {
@@ -244,9 +292,12 @@ const userController = {
 
       if (user) {
         if (user.confirmPassword(oldPassword)) {
-          user.setHashPassword(password);
-          manager.updateUser("password", user);
-          return res.json({ status: 204, msg: "password updated" });
+          if (user.isPassword(password)) {
+            user.setHashPassword(password);
+            manager.updateUser("password", user);
+            return res.json({ status: 204, msg: "password updated" });
+          }
+          return res.json({ status: 400, error: "bad password" });
         }
       }
       return res.json({ status: 400, msg: "bad user" });
@@ -254,18 +305,14 @@ const userController = {
     res.json({ status: 400, msg: "field missing" });
   },
 
-  changeAvatar: async function (user) {
-    const oldPath = await manager.getOldAvatar(user);
-
-    this.removeOldPictures(oldPath);
-    await manager.updateAvatar(user);
-  },
-
   changeImage: async function (imageId, newPath) {
     const oldPath = await manager.getOldImage(imageId);
 
-    this.removeOldPictures(oldPath);
-    await manager.updateImage(imageId, newPath);
+    if (oldPath) {
+      this.removeOldPictures(oldPath);
+      await manager.updateImage(imageId, newPath);
+    }
+    throw new Error("bad image id");
   },
 
   setReports: async function (user, watched) {
