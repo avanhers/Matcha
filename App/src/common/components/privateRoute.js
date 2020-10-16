@@ -14,7 +14,7 @@ function PrivateRoute({
     <Route
       {...params}
       render={(props) => {
-        return !redirectPath ? (
+        return !redirectPath || params.path === redirectPath ? (
           <Component {...props} />
         ) : (
           <Redirect to={redirectPath} />

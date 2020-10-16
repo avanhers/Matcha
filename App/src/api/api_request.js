@@ -28,14 +28,18 @@ export const useApiCall = (apiCallConfig) => {
     console.log("in apiCall");
     let config = {};
     if (apiCallConfig.sendToken || apiCallConfig.sendToken === undefined) {
+      const xToken = localStorage.getItem("x-token");
+      const xRefreshToken = localStorage.getItem("x-refresh-token");
+      if (!xToken || !xRefreshToken) dispatch(setRedirectPath("/login"));
       config.headers = {
-        "x-token": JSON.parse(localStorage.getItem("x-token")),
-        "x-refresh-token": JSON.parse(localStorage.getItem("x-refresh-token")),
+        "x-token": JSON.parse(xToken),
+        "x-refresh-token": JSON.parse(xRefreshToken),
       };
     }
     if (apiCallConfig.method === "GET" && params) {
       config.params = params;
     }
+    console.log(config);
     if (loaderEventCallback) loaderEventCallback(true);
     const timer = setTimeout(() => {
       if (
@@ -97,13 +101,13 @@ export const useApiCall = (apiCallConfig) => {
 // };
 
 const apiCall = (
-  route = route,
-  params = params,
-  successCallback = successCallback,
-  errorCallback = errorCallback,
-  loaderEventCallback = loaderEventCallback,
-  type = type,
-  sendToken = sendToken
+  route,
+  params,
+  successCallback,
+  errorCallback,
+  loaderEventCallback,
+  type = "POST",
+  sendToken = true
 ) => {
   console.log("in apiCall");
   let config = {};

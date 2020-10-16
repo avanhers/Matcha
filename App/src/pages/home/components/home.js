@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core";
 import backgroundImage from "../../../assets/images/home_background.jpeg";
 import Button from "@material-ui/core/Button";
 import FormModalContainer from "../containers/formModalContainer.js";
+import { useApiCall } from "../../../api/api_request.js";
+import { CAN_LOG_ROUTE } from "../../../api/routes.js";
 
 const useStyle = makeStyles((theme) => ({
   home_background: {
@@ -21,8 +23,26 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function Home() {
+const apiCallConfig = {
+  route: CAN_LOG_ROUTE,
+  method: "GET",
+  sendToken: true,
+};
+
+function Home({ setRedirectPath }) {
   const [modalTypeOpened, setModalTtypeOpened] = React.useState("");
+  const apiCall = useApiCall(apiCallConfig);
+
+  const successCallBack = (response) => {
+    const status = response.data.status;
+    if (status === 400) {
+      setRedirectPath("/");
+    }
+  };
+
+  React.useEffect(() => {
+    apiCall(null, successCallBack, null, null);
+  });
 
   const handleModalClose = () => {
     setModalTtypeOpened("");

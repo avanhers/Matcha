@@ -30,10 +30,7 @@ function MatchRequest({
     }
   };
   React.useEffect(() => {
-    if (componentMounted) {
-      apiCall(null, handleAPISuccess, null, toggleBackdropLoader);
-    }
-    setComponentMounted(true);
+    apiCall(filter, handleAPISuccess, null, toggleBackdropLoader);
   }, [filter]);
 
   return null;

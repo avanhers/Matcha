@@ -113,7 +113,7 @@ export default function InscriptionForm({
   const handleAPIResponse = (response) => {
     let body = response.data;
     const status = body.status;
-    if (status === 200) {
+    if (status === 201) {
       setSnackBar(
         "Un email vous a été envoyer pour confirmer votre inscription",
         "success"
