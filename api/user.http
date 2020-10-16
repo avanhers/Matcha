@@ -35,7 +35,7 @@ content-type: application/json
     "password": "Qwerty12;"
 }
 ###
-POST  http://localhost/api/user/setAvatar/1 HTTP/1.1
+POST  http://localhost/api/user/setAvatar/10 HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc0NTMwLCJleHAiOjE2MDI3NzQ1OTB9.Lme6jRlyiLZr8BJqE0jtbJifghZ6kmJCGawytJXmbBQ
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc0NTMwLCJleHAiOjE2MDI4NjA5MzB9.ysBRU0Z8rtxGisgvsZpTIw3aRTVfx3PxF3RKANFzD7s
 
@@ -64,7 +64,7 @@ content-type: application/json
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
 ###
-POST  http://localhost/api/user/image/125/delete HTTP/1.1
+POST  http://localhost/api/user/image/41/delete HTTP/1.1
 content-type: application/json
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc3NTUyLCJleHAiOjE2MDI3Nzc2MTJ9.ugDPRQ6SgSmtPGIybQ2eb-lu1ls_Y7_b-QjHDxLijqY
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc3NTUyLCJleHAiOjE2MDI4NjM5NTJ9.uzsmjs_JrqGbdJNJX59GF0lTUlmFC7QJkIeOm8e-OFk
@@ -91,8 +91,8 @@ x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nz
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
 ###
 GET http://localhost/api/matches?perPage=15&ageMax=24&ageMin=5&orderBy=DESC HTTP/1.1
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyODM3NDI3LCJleHAiOjE2MDI4Mzc0ODd9.DPpWHmhEryefCn4CkicNPCLJwTaKEOLEwLzchApm8Zo
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyODM3NDI3LCJleHAiOjE2MDI5MjM4Mjd9.2I3EFQ_gGsXILi79v-lVW2mNvlcGL7t6UM-EkKKTkqw
 ###
 GET http://localhost/api/user/likes HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o

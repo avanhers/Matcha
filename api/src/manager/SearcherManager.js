@@ -18,6 +18,7 @@ class SearcherManager {
       user.getSexualOrientation()
     );
     this.setOtherFilters(parameters);
+    queryCreator.addAndLogic(`u.id <> ${user.getId()}`);
     this.setSort(parameters);
     this.setPagination(parameters);
     return queryCreator.sendQuery();

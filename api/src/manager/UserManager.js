@@ -76,7 +76,6 @@ const UserManager = function () {
       .where("id", imageId)
       .sendQuery();
     const sql = "UPDATE users SET avatar = ? where id = ?";
-    console.log(path, imageId);
     const values = [path[0].image, user.getId()];
 
     return db.query(sql, values);
@@ -93,7 +92,6 @@ const UserManager = function () {
     const sql = "SELECT image FROM images WHERE id = ?";
     const result = await db.query(sql, imageId);
 
-    console.log("result: ", result[0] ? result[0].image : undefined);
     return result[0] ? result[0].image : undefined;
   };
 
@@ -170,7 +168,6 @@ const UserManager = function () {
     const sql = "UPDATE users SET popularityScore = ? WHERE id = ?";
     const values = [newScore, user.getId()];
 
-    console.log("newscore: ", newScore);
     return db.query(sql, values);
   };
 
@@ -180,7 +177,6 @@ const UserManager = function () {
     const sql = "UPDATE users SET popularityScore = ? WHERE id = ?";
     const values = [newScore, user.getId()];
 
-    console.log("newscore: ", newScore);
     return db.query(sql, values);
   };
 
