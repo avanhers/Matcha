@@ -16,13 +16,21 @@ function App() {
       {/* <MainLayout /> */}
       <Router>
         <Switch>
-          <Route exact path="/login" component={HomeContainer} />
+          <PrivateRouteContainer
+            exact
+            path="/login"
+            component={HomeContainer}
+          />
           <PrivateRouteContainer
             exact
             path="/"
             component={MainLayoutContainer}
           />
-          <Route exact path="/profil" component={ProfilLayoutContainer} />
+          <PrivateRouteContainer
+            exact
+            path="/profil"
+            component={ProfilLayoutContainer}
+          />
           <Route
             exact
             path={["/confirmation/:token", "/reset/:token"]}

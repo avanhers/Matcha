@@ -1,6 +1,11 @@
 import React from "react";
-import apiCall from "../../api/api_request.js";
+import { useApiCall } from "../../api/api_request.js";
 import { MATCH_PROFIL_ROUTE } from "../../api/routes.js";
+
+const apiCallConfig = {
+  route: MATCH_PROFIL_ROUTE,
+  method: "GET",
+};
 
 function MatchRequest({
   filter,
@@ -9,6 +14,7 @@ function MatchRequest({
   setMatchesReset,
   setRedirectPath,
 }) {
+  const apiCall = useApiCall(apiCallConfig);
   const [componentMounted, setComponentMounted] = React.useState(false);
   const handleAPISuccess = (response) => {
     let status = false;
@@ -19,24 +25,13 @@ function MatchRequest({
       setRedirectPath("/profil");
     } else if (status && status === 200) {
       filter.page > 1
-        ? setMatches(response.body.users)
-        : setMatchesReset(response.body.users);
+        ? setMatches(response.data.users)
+        : setMatchesReset(response.data.users);
     }
-  };
-
-  const handleAPIError = (response) => {
-    setRedirectPath("/login");
   };
   React.useEffect(() => {
     if (componentMounted) {
-      apiCall(
-        MATCH_PROFIL_ROUTE,
-        null,
-        handleAPISuccess,
-        handleAPIError,
-        toggleBackdropLoader,
-        "GET"
-      );
+      apiCall(null, handleAPISuccess, null, toggleBackdropLoader);
     }
     setComponentMounted(true);
   }, [filter]);
