@@ -90,6 +90,25 @@ export const apiCallPost = (
       successCallback(response, successParam);
     })
     .catch((error) => {
+      console.log("ici catch post");
+      if (errorCallback) errorCallback(error, errorParam);
+    });
+};
+
+export const apiCallGet = (
+  route,
+  successCallback,
+  successParam,
+  errorCallback,
+  errorParam
+) => {
+  let config = setTokenInHeader();
+  axios
+    .get(route, config)
+    .then((response) => {
+      successCallback(response, successParam);
+    })
+    .catch((error) => {
       console.log("ici catch");
       if (errorCallback) errorCallback(error, errorParam);
     });

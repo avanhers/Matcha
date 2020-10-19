@@ -8,6 +8,7 @@ import InfoVisibleForm from "./infoVisibleForm.js";
 import TagsList from "./tagsList.js";
 import ListImages from "./listImages.js";
 import { apiCall, apiCallPost } from "../../../api/api_request.js";
+import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 import { CHANGE_AVATAR_ROUTE, GET_AVATAR_ROUTE } from "../../../api/routes.js";
 
 /*
@@ -31,7 +32,7 @@ function renderProfilPicture(url) {
   );
 }
 const initialAvatar = {
-  path: "http://localhost/api/images/placeholder.png",
+  path: profilPlaceholder,
   id: -1,
 };
 
