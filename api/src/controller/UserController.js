@@ -255,7 +255,7 @@ const userController = {
 
   updateTags: async function (req, res) {
     const { tags } = req.body;
-
+    console.log("in update")
     if (!tags.every((e) => TAGS.indexOf(e) > -1)) {
       return res.json({ status: 400, msg: "bad tagName" });
     }

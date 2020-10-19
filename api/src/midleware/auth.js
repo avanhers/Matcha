@@ -5,18 +5,19 @@ const manager = new UserManager();
 
 exports.addUser = async function (req, res, next) {
   const token = req.headers["x-token"];
-
+  console.log(token);
   if (!token) {
     return res.sendStatus(401);
   }
   try {
-    const { userId } = jwt.verify(token, process.env.SECRET_KEY);
+    const { userId } = jwt.verify(JSON.parse(token), process.env.SECRET_KEY);
 
     req.userId = userId;
   } catch (err) {
     const refreshToken = req.headers["x-refresh-token"];
-    const tokens = await tokenManager.refreshTokens(refreshToken);
 
+    const tokens = await tokenManager.refreshTokens(refreshToken);
+    console.log("tokens:", tokens);
     if (tokens.token && tokens.refreshToken) {
       res.set({
         "Access-Control-Expose-Headers": "x-token, x-refresh-token",
