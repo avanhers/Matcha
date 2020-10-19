@@ -95,7 +95,7 @@ class User {
 
   hasMatchWith(user) {
     const matchUser = this.matches.find(
-      (match) => match.matches === user.getUsername()
+      (match) => match.username === user.getUsername()
     );
 
     return matchUser === undefined ? false : true;
@@ -275,20 +275,6 @@ class User {
   }
   getTags() {
     return this.tags;
-  }
-
-  getSearchingTags() {
-    let ret = "(";
-    let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
-
-    this.tags.forEach((tag, index) => {
-      if (tag) {
-        numberOfTags--;
-        ret += `${index + 1}`;
-        ret += !numberOfTags ? ")" : ",";
-      }
-    });
-    return ret;
   }
 
   confirmPassword(password) {
