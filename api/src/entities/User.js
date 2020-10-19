@@ -277,22 +277,6 @@ class User {
     return this.tags;
   }
 
-  getSearchingTags() {
-    let ret = "(";
-    let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
-
-    console.log("NoT: ", numberOfTags);
-    this.tags.forEach((tag, index) => {
-      if (tag) {
-        numberOfTags--;
-        ret += `${index + 1}`;
-        ret += !numberOfTags ? ")" : ",";
-      }
-    });
-    console.log("ret = ", ret);
-    return ret;
-  }
-
   confirmPassword(password) {
     return bcrypt.compareSync(password, this.password);
   }

@@ -4,6 +4,22 @@ const searcher = require("../manager/SearcherManager");
 const User = require("../entities/User");
 const manager = new UserManager();
 
+function getSearchingTags(tags) {
+  let ret = "(";
+  let numberOfTags = tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
+
+  console.log("NoT: ", numberOfTags);
+  tags.forEach((tag, index) => {
+    if (tag) {
+      numberOfTags--;
+      ret += `${index + 1}`;
+      ret += !numberOfTags ? ")" : ",";
+    }
+  });
+  console.log("ret = ", ret);
+  return ret;
+}
+
 const matchController = {
   findMatches: async function (request, response, next) {
     try {
@@ -11,12 +27,12 @@ const matchController = {
       const user = await manager.findOneById(request.userId);
       let parameters;
 
+      console.log("parameters: ", request.query);
       if (!user.isComplete()) {
         return response.json({ status: 401, error: "user not complete" });
       }
       await manager.addTagsToUser(user);
       parameters = this.getParameters(request, user);
-      console.log("coucou");
       users = await searcher.findMatches(user, parameters);
       return response.json({ status: 200, users: users });
     } catch (e) {
@@ -34,21 +50,24 @@ const matchController = {
       ageMax: 200,
       popMin: 0,
       popMax: 100,
-      tags: user.getSearchingTags(),
+      tags: getSearchingTags(user.getTags()),
     };
     const queryParams = req.query;
 
     for (const key in queryParams) {
       const val = queryParams[key];
 
-      if (params.hasOwnProperty(key)) {
-        params[key] = val;
+      if (params.hasOwnProperty(key) && val) {
+        if (key === "tags") {
+          params[key] = getSearchingTags(val);
+        } else {
+          params[key] = val;
+        }
       }
     }
     for (const key in params) {
       const val = params[key];
 
-      console.log(typeof val);
       if (typeof val === "string" && val.indexOf(" ") > -1) {
         throw val + ": bad Parameters";
       }
