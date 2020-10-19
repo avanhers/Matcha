@@ -31,34 +31,27 @@ const tokenManager = {
   refreshTokens: async function (refreshToken) {
     let id = false;
     try {
-      const { userId } = jwt.decode(JSON.parse(refreshToken));
+      const { userId } = jwt.decode(refreshToken);
       id = userId;
     } catch (err) {
       return {};
-      console.log(1);
     }
 
     if (!id) {
-      console.log(2);
-
       return {};
     }
 
     const user = await manager.findOneById(id);
-    console.log(id);
 
     if (!(user && user.getIsLogin())) {
-      console.log(3);
       return {};
     }
 
     //inactivate token if change password
     const refreshSecret = process.env.REFRESH_SECRET + user.getPassword();
-
     try {
       jwt.verify(refreshToken, refreshSecret);
     } catch (err) {
-      console.log(4);
       return {};
     }
 

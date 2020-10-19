@@ -281,7 +281,6 @@ class User {
     let ret = "(";
     let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
 
-    console.log("NoT: ", numberOfTags);
     this.tags.forEach((tag, index) => {
       if (tag) {
         numberOfTags--;
@@ -289,7 +288,6 @@ class User {
         ret += !numberOfTags ? ")" : ",";
       }
     });
-    console.log("ret = ", ret);
     return ret;
   }
 

@@ -16,7 +16,6 @@ const matchController = {
       }
       await manager.addTagsToUser(user);
       parameters = this.getParameters(request, user);
-      console.log("coucou");
       users = await searcher.findMatches(user, parameters);
       return response.json({ status: 200, users: users });
     } catch (e) {
@@ -37,7 +36,7 @@ const matchController = {
       tags: user.getSearchingTags(),
     };
     const queryParams = req.query;
-
+    console.log(params);
     for (const key in queryParams) {
       const val = queryParams[key];
 
@@ -48,7 +47,6 @@ const matchController = {
     for (const key in params) {
       const val = params[key];
 
-      console.log(typeof val);
       if (typeof val === "string" && val.indexOf(" ") > -1) {
         throw val + ": bad Parameters";
       }
