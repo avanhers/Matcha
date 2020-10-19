@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InfoVisibleForm from "./infoVisibleForm.js";
 import TagsList from "./tagsList.js";
 import ListImages from "./listImages.js";
+import AddressMap from "./addressMap.js";
 import { apiCall, apiCallPost } from "../../../api/api_request.js";
 import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 import { CHANGE_AVATAR_ROUTE, GET_AVATAR_ROUTE } from "../../../api/routes.js";
@@ -83,7 +84,7 @@ function MainProfile() {
           </Grid>
           <Grid item xs={4} md={2}></Grid>
           <Grid item xs={12} md={5}>
-            {/*empty space in my grid*/}
+            <AddressMap />
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper className={classes.myPaper}>

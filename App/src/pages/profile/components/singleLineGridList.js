@@ -6,7 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 import { apiCallGet } from "../../../api/api_request.js";
-import Paper from "@material-ui/core/Paper";
+
 import VisibilityIcon from "@material-ui/icons/Visibility";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     flexWrap: "nowrap",
+    //width: "100%",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
   },
@@ -73,9 +74,11 @@ function SingleLineGridList({ route }) {
   }, []);
 
   const successGet = (response, param) => {
-    const newData = response.data;
+    console.log(response.data.data);
+    const newData = response.data.data;
     newData.map((item) => {
-      item.avatar = "http://localhost/api".concat(item.avatar(7));
+      if (item.avatar.substr(0, 5) != "https")
+        item.avatar = "http:localhost/api".concat(item.avatar.slice(7));
     });
     setResult(newData);
   };

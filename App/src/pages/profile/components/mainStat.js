@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import {
   GET_LIKES_ROUTE,
   GET_VIEWS_ROUTE,
-  GET_MATCH_ROUTE,
+  GET_MATCHES_ROUTE,
 } from "../../../api/routes.js";
 import Paper from "@material-ui/core/Paper";
 
@@ -26,28 +26,46 @@ function MainStat() {
 
         <Grid item xs={12}>
           <Paper style={{ backgroundColor: "#F9F7F7" }} variant="outlined">
-            <Typography style={{ paddingTop: "50px", fontSize: "40px" }}>
+            <Typography
+              style={{
+                paddingTop: "50px",
+                fontSize: "40px",
+                textAlign: "left",
+              }}
+            >
               Views
             </Typography>
           </Paper>
           <SingleLineGridList route={GET_VIEWS_ROUTE} />
         </Grid>
-        {/* <Grid item xs={12}>
+        <Grid item xs={12}>
           <Paper style={{ backgroundColor: "#F9F7F7" }} variant="outlined">
-            <Typography style={{ paddingTop: "50px", fontSize: "40px" }}>
+            <Typography
+              style={{
+                paddingTop: "50px",
+                fontSize: "40px",
+                textAlign: "left",
+              }}
+            >
               Like
             </Typography>
           </Paper>
-          <SingleLineGridList />
+          <SingleLineGridList route={GET_LIKES_ROUTE} />
         </Grid>
         <Grid item xs={12}>
           <Paper style={{ backgroundColor: "#F9F7F7" }} variant="outlined">
-            <Typography style={{ paddingTop: "50px", fontSize: "40px" }}>
+            <Typography
+              style={{
+                paddingTop: "50px",
+                fontSize: "40px",
+                textAlign: "left",
+              }}
+            >
               Match
             </Typography>
           </Paper>
-          <SingleLineGridList />
-        </Grid> */}
+          <SingleLineGridList route={GET_MATCHES_ROUTE} />
+        </Grid>
       </Container>
     </Container>
   );
