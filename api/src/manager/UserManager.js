@@ -198,10 +198,12 @@ const UserManager = function () {
   this.getLikes = async function (user) {
     const likes = await queryCreator
       .select("u.username", "username")
+      .addSelect("u.avatar")
       .from("likes", "l")
       .innerJoin("users", "u")
       .on("l.likeId", "u.id")
       .where("l.likedId", user.getId())
+      .orderBy("l.id", "DESC")
       .sendQuery();
 
     return likes;
@@ -219,13 +221,11 @@ const UserManager = function () {
 
   this.addLikesToUser = async function (user) {
     const rows = await queryCreator
-      .select("u2.username")
+      .select("u.username")
       .from("users", "u")
       .innerJoin("likes", "l")
       .on("u.id", "l.likeId")
-      .innerJoin("users", "u2")
-      .on("l.likedId", "u2.id")
-      .where("u.id", user.getId())
+      .where("l.likedId", user.getId())
       .sendQuery();
 
     user.setLikes(rows);
@@ -267,13 +267,15 @@ const UserManager = function () {
 
   this.addMatchesToUser = async function (user) {
     const rows = await queryCreator
-      .select("u2.username", "matches")
+      .select("u2.username")
+      .addSelect("u2.avatar")
       .from("users", "u")
       .innerJoin("likes", "l")
       .on("l.likeId", "u.id")
       .innerJoin("users", "u2")
       .on("l.likedId", "u2.id")
       .where("u.id", user.getId())
+      .orderBy("l.id", "DESC")
       .sendQuery();
 
     user.setMatches(rows);
@@ -389,10 +391,12 @@ const UserManager = function () {
     const views = await queryCreator
       .select("u.username", "username")
       .addSelect("v.viewAt", "viewAt")
+      .addSelect("u.avatar")
       .from("views", "v")
       .innerJoin("users", "u")
       .on("v.watcherId", "u.id")
       .where("v.watchedId", user.getId())
+      .orderBy("v.id", "DESC")
       .sendQuery();
 
     return views;

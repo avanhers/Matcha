@@ -24,7 +24,6 @@ exports.addUser = async function (req, res, next) {
         "x-refresh-token": tokens.refreshToken,
       });
     } else {
-      console.log("yohooho");
       return res.sendStatus(401);
     }
     req.userId = tokens.userId;

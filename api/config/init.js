@@ -34,7 +34,7 @@ const Initializer = function (db) {
     let i = 0;
 
     while (i < number) {
-      const gender = i < number / 2 ? "male" : "female";
+      const gender = i < number % 2 ? "male" : "female";
       const genderPics = gender === " male" ? "men" : "women";
       const avatar = `https://randomuser.me/api/portraits/${genderPics}/${
         i % 100
