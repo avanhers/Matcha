@@ -95,7 +95,7 @@ class User {
 
   hasMatchWith(user) {
     const matchUser = this.matches.find(
-      (match) => match.matches === user.getUsername()
+      (match) => match.username === user.getUsername()
     );
 
     return matchUser === undefined ? false : true;

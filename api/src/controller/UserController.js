@@ -142,6 +142,17 @@ const userController = {
     res.json({ status: 400, msg: "bad user" });
   },
 
+  getMatches: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      await manager.addMatchesToUser(user);
+
+      return res.json({ status: 200, data: user.getMatches() });
+    }
+    res.json({ status: 400, msg: "bad user" });
+  },
+
   like: async function (req, res) {
     const userLiked = await manager.findUserByUsername(req.params.username);
     const user = await manager.findOneById(req.userId);
@@ -206,7 +217,7 @@ const userController = {
 
       return res.json({
         status: 200,
-        avatar: { id: imageId[0].id, path: imagePath },
+        avatar: { id: imageId[0] ? imageId[0].id : -1, path: imagePath },
       });
     }
     return res.json({ status: 400, msg: "bad user" });

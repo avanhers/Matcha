@@ -29,6 +29,7 @@ router.post(
 
 router.get("/views", userController.getViews.bind(userController));
 router.get("/likes", userController.getLikes.bind(userController));
+router.get("/matches", userController.getMatches.bind(userController));
 router.get(
   "/profile/:username",
   userController.getProfile.bind(userController)
