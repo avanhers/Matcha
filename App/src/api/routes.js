@@ -12,5 +12,8 @@ export const GET_AVATAR_ROUTE = "http://localhost/api/user/avatar";
 export const GET_TAGS_ROUTE = "http://localhost/api/user/tags";
 export const UPLOAD_IMAGE_ROUTE = "http://localhost/api/user/uploadImage";
 export const GET_IMAGES = "http://localhost/api/user/images";
-export const GET_LIKES_ROUTE = "http://localhost/api/user/likes";
+
 export const DELETE_IMAGE_ROUTE = "http://localhost/api/user/image";
+export const GET_LIKES_ROUTE = "http://localhost/api/user/likes";
+export const GET_VIEWS_ROUTE = "http://localhost/api/user/views";
+export const GET_VIEWS_MATCHES = "http://localhost/api/user/matches";
