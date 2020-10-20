@@ -132,6 +132,12 @@ class User {
     );
   }
 
+  setLongitude(lng) {
+    this.longitude = lng;
+  }
+  setLatitude(lat) {
+    this.latitude = lat;
+  }
   setImages(images) {
     this.images = images;
   }
@@ -216,6 +222,12 @@ class User {
     this.popularityScore = score;
   }
 
+  getLongitude() {
+    return this.longitude;
+  }
+  getLatitude() {
+    return this.latitude;
+  }
   getBlocks() {
     return this.blocks;
   }

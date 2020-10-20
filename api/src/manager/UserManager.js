@@ -102,6 +102,13 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
+  this.updateLocation = function (user, lng, lat) {
+    const sql = "UPDATE users SET longitude = ?, latitude = ? WHERE id = ?";
+    const values = [lng, lat, user.getId()];
+
+    return db.query(sql, values);
+  };
+
   this.getImageId = function (path) {
     const sql = "SELECT id FROM images WHERE image = ?";
 

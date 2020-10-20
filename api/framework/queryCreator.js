@@ -13,7 +13,7 @@ class QueryCreator {
   selectUserInfos() {
     this.values = [];
     this.query = `
-    SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar 
+    SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar, t.distance, l.likedId 
     `;
     return this;
   }
@@ -103,6 +103,11 @@ class QueryCreator {
 
   innerJoin(table, alias) {
     this.query += `INNER JOIN ${table} as ${alias} `;
+    return this;
+  }
+
+  leftJoin(table, alias) {
+    this.query += `LEFT JOIN ${table} as ${alias} `;
     return this;
   }
 

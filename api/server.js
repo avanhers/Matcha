@@ -10,7 +10,6 @@ const matchRoute = require("./src/routes/matches");
 const auth = require("./src/midleware/auth");
 const cors = require("./src/midleware/cors");
 const io = require("./socket");
-const fs = require("fs");
 
 const PORT = process.env.PORT;
 // const HOST = "0.0.0.0";
@@ -18,7 +17,6 @@ const HOST = process.env.HOST;
 
 const app = express(cors);
 
-//set Response header
 app.use(cors.setCors);
 app.use(express.static("./uploads"));
 
@@ -31,9 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/auth", authRoute);
 app.use("/user", auth.addUser, userRoute);
 app.use("/matches", auth.addUser, matchRoute);
-app.use("/test", (req, res) => {
-  res.status(200).sendFile("./test.html");
-});
 
 const server = app.listen(PORT, HOST);
 io.startIo(server);

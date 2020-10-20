@@ -11,6 +11,7 @@ router.post(
   userController.uploadImage.bind(userController)
 );
 router.post("/personnalInfos", userController.personnal.bind(userController));
+router.post("/location", userController.setLocation.bind(userController));
 router.post("/setAvatar/:id", userController.setAvatar.bind(userController));
 router.post("/updateEmail", userController.updateEmail.bind(userController));
 router.post(
@@ -36,6 +37,7 @@ router.get(
 );
 router.get("/infos", userController.getInfos.bind(userController));
 router.get("/tags", userController.getTags.bind(userController));
+router.get("/location", userController.getLocation.bind(userController));
 router.get("/avatar", userController.getAvatar.bind(userController));
 router.get("/images", userController.getImages.bind(userController));
 

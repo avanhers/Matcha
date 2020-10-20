@@ -27,7 +27,6 @@ const matchController = {
       const user = await manager.findOneById(request.userId);
       let parameters;
 
-      console.log("parameters: ", request.query);
       if (!user.isComplete()) {
         return response.json({ status: 401, error: "user not complete" });
       }

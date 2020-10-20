@@ -69,7 +69,21 @@ content-type: application/json
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc3NTUyLCJleHAiOjE2MDI3Nzc2MTJ9.ugDPRQ6SgSmtPGIybQ2eb-lu1ls_Y7_b-QjHDxLijqY
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc3NTUyLCJleHAiOjE2MDI4NjM5NTJ9.uzsmjs_JrqGbdJNJX59GF0lTUlmFC7QJkIeOm8e-OFk
 ###
+POST http://localhost/api/user/location HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
+content-type: application/json
 
+{
+    "lng": 13,
+    "lat": 55
+}
+###
+
+GET http://localhost/api/user/location HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
+###
 GET http://localhost/api/auth/canLog HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTAwODU2LCJleHAiOjE2MDMxMDA5MTZ9.T7jV3KIlxsPM5kTELHsXrP70vgRkUK3HHRW5DME2Q5s
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTAwODU2LCJleHAiOjE2MDMxODcyNTZ9.mXWoslsTVStfwGTPj2XWXcQHRwq-Af9P6evRHAIWYGc
@@ -90,9 +104,9 @@ GET http://localhost/api/user/infos HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
 ###
-GET http://localhost/api/matches?perPage=15&ageMax=24&tags[0]=true&tags[1]=false&tags[2]=true&tags[3]=false&ageMin=5&orderBy=DESC HTTP/1.1
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTAwOTI4LCJleHAiOjE2MDMxMDA5ODh9.FHdeSKoVaJ1S84pu5o_PEpLqHPOz6C1zDXkayPd2UI8
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTAwOTI4LCJleHAiOjE2MDMxODczMjh9.WW_-tAQbnBbFlFe9rc4EAdejfvBpTW5b8ZU2VsL894c
+GET http://localhost/api/matches?perPage=15&ageMax=24&tags[0]=1&tags[1]=&tags[2]=1&tags[3]=&ageMin=5&orderBy=DESC HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
 ###
 GET http://localhost/api/user/likes HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMDk3NzAxLCJleHAiOjE2MDMwOTc3NjF9.Lf7-pUh5KuV3N14cNXQ_tX7JOulkobTGF03fjqTtcHU
@@ -110,3 +124,21 @@ GET http://localhost/api/user/profile/toto HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
 ###
+GET http://localhost/api/test HTTP/1.
+
+
+SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar, s.tags, t.distance, l.likedId
+FROM users AS u
+##Jointure pour les likes
+LEFT JOIN likes as l ON l.likedId = 201 AND l.likeId = u.id
+##Jointure pour les distances
+INNER JOIN (SELECT a, id, c, 6371 * c as distance, longitude, latitude
+            FROM (SELECT a, id, 2 * ATAN(SQRT(a) / SQRT(1 - a)) as c , longitude, latitude
+                  FROM (SELECT(POW(SIN((-26.3319 - latitude) / 2),2) + COS(latitude) * 		COS(-26.3319) * POW(SIN((-160.9677 - longitude) / 2),2)) as a, longitude, latitude, id
+     FROM users) t1) t2) as t ON u.id = t.id
+INNER JOIN (SELECT userId, GROUP_CONCAT(tagId) as tags 
+            FROM user_tag 
+            WHERE tagId IN (1,3, 2, 6) GROUP BY userId) as s 
+ON u.id = s.userId WHERE u.id <> 1 ORDER BY LENGTH(tags) DESC 
+LIMIT 170 OFFSET 0
+
