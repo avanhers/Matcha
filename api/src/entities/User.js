@@ -132,6 +132,12 @@ class User {
     );
   }
 
+  setLongitude(lng) {
+    this.longitude = lng;
+  }
+  setLatitude(lat) {
+    this.latitude = lat;
+  }
   setImages(images) {
     this.images = images;
   }
@@ -216,6 +222,12 @@ class User {
     this.popularityScore = score;
   }
 
+  getLongitude() {
+    return this.longitude;
+  }
+  getLatitude() {
+    return this.latitude;
+  }
   getBlocks() {
     return this.blocks;
   }
@@ -275,22 +287,6 @@ class User {
   }
   getTags() {
     return this.tags;
-  }
-
-  getSearchingTags() {
-    let ret = "(";
-    let numberOfTags = this.tags.reduce((acc, cv) => (cv ? ++acc : acc), 0);
-
-    console.log("NoT: ", numberOfTags);
-    this.tags.forEach((tag, index) => {
-      if (tag) {
-        numberOfTags--;
-        ret += `${index + 1}`;
-        ret += !numberOfTags ? ")" : ",";
-      }
-    });
-    console.log("ret = ", ret);
-    return ret;
   }
 
   confirmPassword(password) {

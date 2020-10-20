@@ -1,5 +1,4 @@
 "use strict";
-const cors2 = require("cors");
 const express = require("express");
 const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/auth");
@@ -14,9 +13,7 @@ const HOST = "0.0.0.0";
 
 const app = express(cors);
 
-//set Response header
 app.use(cors.setCors);
-app.options("*", cors2());
 app.use(express.static("./uploads"));
 
 //set request body parsing
