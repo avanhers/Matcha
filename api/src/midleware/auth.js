@@ -10,7 +10,6 @@ exports.addUser = async function (req, res, next) {
   }
   try {
     const { userId } = jwt.verify(token, process.env.SECRET_KEY);
-
     req.userId = userId;
   } catch (err) {
     const refreshToken = req.headers["x-refresh-token"];

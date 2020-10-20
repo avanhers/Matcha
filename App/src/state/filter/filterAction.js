@@ -3,6 +3,8 @@ import {
   CHANGE_AGE,
   SET_PAGE_NB,
   TOGGLE_USE_FILTER,
+  CHANGE_POPULARITY,
+  SET_SORT_BY,
 } from "../actionConst.js";
 
 export const toggleTag = (name) => ({
@@ -15,10 +17,20 @@ export const changeAge = (value) => ({
   value,
 });
 
+export const changePopularity = (value) => ({
+  type: CHANGE_POPULARITY,
+  value,
+});
+
 export const setPageNb = () => ({
   type: SET_PAGE_NB,
 });
 
 export const toggleUseFilter = () => ({
   type: TOGGLE_USE_FILTER,
+});
+
+export const setSortBy = (payload) => ({
+  type: SET_SORT_BY,
+  payload,
 });

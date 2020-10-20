@@ -1,30 +1,39 @@
 import React from "react";
-import apiCall from "../../api/api_request.js";
+import { useApiCall } from "../../api/api_request.js";
+import { MATCH_PROFIL_ROUTE } from "../../api/routes.js";
 
-const MATCH_PROFIL_ROUTE = "http://localhost/api/match/matchesPage";
+const apiCallConfig = {
+  route: MATCH_PROFIL_ROUTE,
+  method: "GET",
+};
 
 function MatchRequest({
   filter,
-  user,
   toggleBackdropLoader,
   setMatches,
   setMatchesReset,
+  setRedirectPath,
 }) {
-  console.log("in matches request");
-  console.log("filter: ", filter);
+  const apiCall = useApiCall(apiCallConfig);
+  const [componentMounted, setComponentMounted] = React.useState(false);
+  const handleAPISuccess = (response) => {
+    let status = false;
+    if (response.data) {
+      status = response.data.status;
+    }
+    if (status && status === 401) {
+      setRedirectPath("/profil");
+    } else if (status && status === 200) {
+      filter.page > 1
+        ? setMatches(response.data.users)
+        : setMatchesReset(response.data.users);
+    }
+  };
   React.useEffect(() => {
-    console.log(user);
-    // if (Object.keys(user).length !== 0) {
-    //   console.log("pasteque");
-    //   apiCall(
-    //     MATCH_PROFIL_ROUTE,
-    //     filter,
-    //     filter.page > 1 ? setMatches : setMatchesReset,
-    //     null,
-    //     toggleBackdropLoader
-    //   );
-    // }
-  });
+    const { tagsObject, ...filterSent } = filter;
+
+    apiCall(filterSent, handleAPISuccess, null, toggleBackdropLoader);
+  }, [filter]);
 
   return null;
 }

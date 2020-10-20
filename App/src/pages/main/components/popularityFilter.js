@@ -15,29 +15,33 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function AgeFilter({ ageMin, ageMax, onAgeChange }) {
+export default function PopularityFilter({ onPopularityChange }) {
   const classes = useStyles();
-  const [age, setAge] = React.useState([18, 75]);
+  const [popularity, setPopularity] = React.useState([0, 100]);
 
   const handleChange = (event, newValue) => {
-    setAge(newValue);
+    // onPopularityChange(event, newValue);
+    console.log("in change popularity");
+    setPopularity(newValue);
   };
 
   const testFunction = (text) => {
-    onAgeChange(text);
+    console.log("text : ", text);
+    onPopularityChange(text);
+    // return "good";
   };
-  const test = useDebounceRequest(testFunction, age);
+  const test = useDebounceRequest(testFunction, popularity);
 
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        age : {age[0]} - {age[1]}
+        popularity : {popularity[0]} - {popularity[1]}
       </Typography>
       <Slider
         style={{ width: "85%" }}
-        min={18}
-        max={75}
-        value={age}
+        min={0}
+        max={100}
+        value={popularity}
         onChange={handleChange}
         aria-labelledby="range-slider"
       />

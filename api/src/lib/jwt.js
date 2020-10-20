@@ -42,7 +42,6 @@ const tokenManager = {
     }
 
     const user = await manager.findOneById(id);
-    console.log(id);
 
     if (!(user && user.getIsLogin())) {
       return {};
@@ -50,7 +49,6 @@ const tokenManager = {
 
     //inactivate token if change password
     const refreshSecret = process.env.REFRESH_SECRET + user.getPassword();
-
     try {
       jwt.verify(refreshToken, refreshSecret);
     } catch (err) {

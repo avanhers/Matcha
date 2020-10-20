@@ -8,7 +8,12 @@ function ButtonLoader({ fetching, handleClick, buttonText }) {
         {fetching ? (
           <CircularProgress />
         ) : (
-          <Button variant="outlined" onClick={handleClick}>
+          <Button
+            variant="contained"
+            fullWidth
+            color="primary"
+            onClick={handleClick}
+          >
             {buttonText}
           </Button>
         )}
