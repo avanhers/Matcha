@@ -1,6 +1,6 @@
 "use strict";
-require("dotenv").config();
-const cors2 = require("cors");
+// require("dotenv").config();
+// const cors2 = require("cors");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -12,8 +12,8 @@ const cors = require("./src/midleware/cors");
 const io = require("./socket");
 
 const PORT = process.env.PORT;
-// const HOST = "0.0.0.0";
-const HOST = process.env.HOST;
+const HOST = "0.0.0.0";
+// const HOST = process.env.HOST;
 
 const app = express(cors);
 
