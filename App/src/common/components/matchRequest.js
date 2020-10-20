@@ -30,7 +30,9 @@ function MatchRequest({
     }
   };
   React.useEffect(() => {
-    apiCall(filter, handleAPISuccess, null, toggleBackdropLoader);
+    const { tagsObject, ...filterSent } = filter;
+
+    apiCall(filterSent, handleAPISuccess, null, toggleBackdropLoader);
   }, [filter]);
 
   return null;

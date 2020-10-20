@@ -4,6 +4,7 @@ import {
   SET_PAGE_NB,
   TOGGLE_USE_FILTER,
   CHANGE_POPULARITY,
+  SET_SORT_BY,
 } from "../actionConst.js";
 
 export const toggleTag = (name) => ({
@@ -27,4 +28,9 @@ export const setPageNb = () => ({
 
 export const toggleUseFilter = () => ({
   type: TOGGLE_USE_FILTER,
+});
+
+export const setSortBy = (payload) => ({
+  type: SET_SORT_BY,
+  payload,
 });

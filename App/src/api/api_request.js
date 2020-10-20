@@ -17,20 +17,41 @@ export const useApiCall = (apiCallConfig) => {
   const dispatch = useDispatch();
 
   const apiCallfunction = (
-    // route,
     params,
     successCallback,
     errorCallback,
     loaderEventCallback
-    // type = "POST",
-    // sendToken = true
   ) => {
     console.log("in apiCall");
     let config = {};
+    let successCallbackParams = [];
+    let errorCallbackParams = [];
+    let route = apiCallConfig.route;
+    if (successCallback && successCallback.params && successCallback.callback) {
+      successCallbackParams = Array.isArray(successCallback.params)
+        ? successCallback.params
+        : [successCallback.params];
+      successCallback = successCallback.callback;
+    }
+    if (errorCallback && errorCallback.params && errorCallback.callback) {
+      errorCallbackParams = Array.isArray(errorCallback.params)
+        ? errorCallback.params
+        : [errorCallback.params];
+      errorCallback = errorCallback.callback;
+    }
+    if (params && params.urlParams) {
+      route = apiCallConfig.route + "/" + params.urlParams;
+      const { urlParams, ...rest } = params;
+      params = rest;
+      console.log("params : ", params);
+    }
     if (apiCallConfig.sendToken || apiCallConfig.sendToken === undefined) {
       const xToken = localStorage.getItem("x-token");
       const xRefreshToken = localStorage.getItem("x-refresh-token");
-      if (!xToken || !xRefreshToken) dispatch(setRedirectPath("/login"));
+      if (!xToken || !xRefreshToken) {
+        dispatch(setRedirectPath("/login"));
+        return;
+      }
       config.headers = {
         "x-token": JSON.parse(xToken),
         "x-refresh-token": JSON.parse(xRefreshToken),
@@ -39,55 +60,35 @@ export const useApiCall = (apiCallConfig) => {
     if (apiCallConfig.method === "GET" && params) {
       config.params = params;
     }
-    console.log(config);
+    const getOrPost =
+      apiCallConfig.method === "GET"
+        ? () => axios.get(route, config)
+        : () => axios.post(route, params, config);
     if (loaderEventCallback) loaderEventCallback(true);
+
     const timer = setTimeout(() => {
-      if (
-        apiCallConfig.method === "POST" ||
-        apiCallConfig.method === undefined
-      ) {
-        axios
-          .post(apiCallConfig.route, params, config)
-          .then((response) => {
-            console.log("in post");
-            if (successCallback) successCallback(response, params.page);
-            if (response.headers["x-token"])
-              saveState("x-token", response.headers["x-token"]);
-            if (response.headers["x-refresh-token"])
-              saveState("x-refresh-token", response.headers["x-refresh-token"]);
-            if (loaderEventCallback) loaderEventCallback(false);
-          })
-          .catch((error) => {
-            const status = error.response.status;
-            console.log("ici catch");
-            if (loaderEventCallback) loaderEventCallback(false);
-            if (errorCallback) errorCallback(error);
-            console.log("avant dispatch");
-            if (status === 401) {
-              dispatch(setRedirectPath("/login"));
-            }
-          });
-      } else {
-        axios
-          .get(apiCallConfig.route, config)
-          .then((response) => {
-            console.log("in get", response.request.status);
-            if (successCallback) successCallback(response);
-            if (response.headers["x-token"])
-              saveState("x-token", response.headers["x-token"]);
-            if (response.headers["x-refresh-token"])
-              saveState("x-refresh-token", response.headers["x-refresh-token"]);
-            if (loaderEventCallback) loaderEventCallback(false);
-          })
-          .catch((error) => {
-            const status = error.response.status;
-            if (loaderEventCallback) loaderEventCallback(false);
-            if (errorCallback) errorCallback(error);
-            if (status === 401) {
-              dispatch(setRedirectPath("/login"));
-            }
-          });
-      }
+      getOrPost()
+        .then((response) => {
+          console.log("in post");
+          if (successCallback)
+            successCallback(response, ...successCallbackParams);
+          if (response.headers["x-token"])
+            saveState("x-token", response.headers["x-token"]);
+          if (response.headers["x-refresh-token"])
+            saveState("x-refresh-token", response.headers["x-refresh-token"]);
+          if (loaderEventCallback) loaderEventCallback(false);
+        })
+        .catch((error) => {
+          console.log("error response : ", error);
+          const status = error.response.status;
+          console.log("ici catch");
+          if (loaderEventCallback) loaderEventCallback(false);
+          if (errorCallback) errorCallback(error, ...errorCallbackParams);
+          console.log("avant dispatch");
+          if (status === 401) {
+            dispatch(setRedirectPath("/login"));
+          }
+        });
     }, 1000);
   };
 
@@ -164,8 +165,8 @@ export const apiCall = (
 const setTokenInHeader = () => {
   return {
     headers: {
-      "x-token": localStorage.getItem("x-token"),
-      "x-refresh-token": localStorage.getItem("x-refresh-token"),
+      "x-token": JSON.parse(localStorage.getItem("x-token")),
+      "x-refresh-token": JSON.parse(localStorage.getItem("x-refresh-token")),
     },
   };
 };

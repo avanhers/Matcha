@@ -2,6 +2,7 @@ export const TOGGLE_TAG = "TOGGLE_TAG";
 
 export const CHANGE_AGE = "CHANGE_AGE";
 export const CHANGE_POPULARITY = "CHANGE_POPULARITY";
+export const SET_SORT_BY = "SET_SORT_BY";
 export const SET_PAGE_NB = "SET_PAGE_NB";
 export const SET_USER = "SET_USER";
 export const TOGGLE_DRAWER = "TOGGLE_DRAWER";

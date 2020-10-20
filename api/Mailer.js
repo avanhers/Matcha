@@ -26,7 +26,7 @@ const mailer = {
       return `To confirm your inscription please click here: http://localhost:3000/confirmation/${hash}`;
     },
     reset: function (hash) {
-      return `To reset your password please click here: http://localhost:300/reset/${hash}`;
+      return `To reset your password please click here: http://localhost:3000/reset/${hash}`;
     },
   },
 

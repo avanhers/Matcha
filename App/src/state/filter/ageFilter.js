@@ -4,6 +4,18 @@ const defaultFilter = {
   ageMax: 75,
   popMin: 0,
   popMax: 100,
+  sortBy: "LENGTH(tags)",
+  tags: [],
+  tagsObject: {
+    tag1: "",
+    tag2: "",
+    tag3: "",
+    tag4: "",
+    tag5: "",
+    tag6: "",
+    tag7: "",
+    tag8: "",
+  },
 };
 
 const defaultAgeSTate = [18, 75];
@@ -27,6 +39,15 @@ const filter = (state = defaultFilter, action) => {
       };
     case "SET_PAGE_NB":
       return { ...state, page: state.page + 1 };
+    case "TOGGLE_TAG":
+      const tagsObject = {
+        ...state.tagsObject,
+        [action.name]: !state.tagsObject[action.name] ? "1" : "",
+      };
+      const tags = Object.values(tagsObject);
+      return { ...state, page: 1, tags: tags, tagsObject: tagsObject };
+    case "SET_SORT_BY":
+      return { ...state, page: 1, sortBy: action.payload };
     default:
       return state;
   }

@@ -38,6 +38,7 @@ export default function PopularityFilter({ onPopularityChange }) {
         popularity : {popularity[0]} - {popularity[1]}
       </Typography>
       <Slider
+        style={{ width: "85%" }}
         min={0}
         max={100}
         value={popularity}

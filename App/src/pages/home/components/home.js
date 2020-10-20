@@ -42,7 +42,7 @@ function Home({ setRedirectPath }) {
 
   React.useEffect(() => {
     apiCall(null, successCallBack, null, null);
-  });
+  }, []);
 
   const handleModalClose = () => {
     setModalTtypeOpened("");

@@ -34,6 +34,7 @@ export default function AgeFilter({ ageMin, ageMax, onAgeChange }) {
         age : {age[0]} - {age[1]}
       </Typography>
       <Slider
+        style={{ width: "85%" }}
         min={18}
         max={75}
         value={age}
