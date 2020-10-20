@@ -19,6 +19,7 @@ router.post(
   userController.updatePassword.bind(userController)
 );
 router.post("/updateTags", userController.updateTags.bind(userController));
+router.post("/password", userController.setPassword.bind(userController));
 router.post("/like/:username", userController.like.bind(userController));
 router.post("/unlike/:username", userController.unlike.bind(userController));
 router.post("/report/:username", userController.report.bind(userController));
@@ -36,6 +37,7 @@ router.get(
   userController.getProfile.bind(userController)
 );
 router.get("/infos", userController.getInfos.bind(userController));
+router.get("/email", userController.getEmail.bind(userController));
 router.get("/tags", userController.getTags.bind(userController));
 router.get("/location", userController.getLocation.bind(userController));
 router.get("/avatar", userController.getAvatar.bind(userController));

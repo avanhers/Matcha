@@ -260,6 +260,18 @@ const userController = {
     return res.json({ status: 400, msg: "bad user" });
   },
 
+  getEmail: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      return res.json({
+        status: 200,
+        email: user.getEmail(),
+      });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
   personnal: async function (req, res) {
     const { infos } = req.body;
     const { username } = infos;
