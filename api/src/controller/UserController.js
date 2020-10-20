@@ -233,6 +233,33 @@ const userController = {
     return res.json({ status: 400, msg: "bad user" });
   },
 
+  setLocation: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+    const { lng, lat } = req.body;
+
+    if (user) {
+      await manager.updateLocation(user, lng, lat);
+      return res.json({
+        status: 200,
+        msg: "user updated",
+      });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
+  getLocation: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      return res.json({
+        status: 200,
+        lng: user.getLongitude(),
+        lat: user.getLatitude(),
+      });
+    }
+    return res.json({ status: 400, msg: "bad user" });
+  },
+
   personnal: async function (req, res) {
     const { infos } = req.body;
     const { username } = infos;
@@ -255,7 +282,7 @@ const userController = {
 
   updateTags: async function (req, res) {
     const { tags } = req.body;
-    console.log("in update")
+    console.log("in update");
     if (!tags.every((e) => TAGS.indexOf(e) > -1)) {
       return res.json({ status: 400, msg: "bad tagName" });
     }
