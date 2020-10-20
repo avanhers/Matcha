@@ -1,6 +1,8 @@
 export const TOGGLE_TAG = "TOGGLE_TAG";
 
 export const CHANGE_AGE = "CHANGE_AGE";
+export const CHANGE_POPULARITY = "CHANGE_POPULARITY";
+export const SET_SORT_BY = "SET_SORT_BY";
 export const SET_PAGE_NB = "SET_PAGE_NB";
 export const SET_USER = "SET_USER";
 export const TOGGLE_DRAWER = "TOGGLE_DRAWER";
@@ -13,6 +15,8 @@ export const TOGGLE_GLOBAL_LOADER = "TOGGLE_GLOBAL_LOADER";
 export const TOGGLE_USE_FILTER = "TOGGLE_USE_FILTER";
 export const HIDE_SNACK_BAR = "HIDE_SNACK_BAR";
 export const SHOW_SNACK_BAR = "SHOW_SNACK_BAR";
+export const USER_COMPLETE = "USER_COMPLETE";
+export const REDIRECT_PATH = "REDIRECT_PATH";
 
 /**
  ** OTHER CONST

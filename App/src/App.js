@@ -2,37 +2,54 @@ import React from "react";
 import "./App.css";
 import HomeContainer from "./pages/home/containers/homeContainer.js";
 import MainLayoutContainer from "./pages/main/containers/mainLayoutContainer.js";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Profil from "./pages/profile/components/profil.js";
-import MatchRequestContainer from "./common/containers/matchRequestContainer.js";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import ProfilLayoutContainer from "./pages/profile/containers/profilLayoutContainer.js";
 import ConfirmationContainer from "./pages/home/containers/confirmationContainer.js";
 import BackdropLoaderContainer from "./common/containers/backdropLoaderContainer.js";
-function App({ user }) {
-  const [con, setcon] = React.useState(false);
-  React.useEffect(() => {
-    setcon(!!localStorage.getItem("x-token"));
-  });
+import SnackBarContainer from "./common/containers/snackBarContainer.js";
+import PasswordChangeContainer from "./pages/home/containers/passwordChangeContainer.js";
+import PrivateRouteContainer from "./common/containers/privateRouteContainer";
+import PageNotFound from "./pages/home/components/pageNotFound";
+import Profil from "./pages/profile/components/profil.js";
+
+function App() {
   return (
     <div className="App">
       {/* <MainLayout /> */}
       <Router>
         <Switch>
-          <Route
+          <PrivateRouteContainer
+            exact
+            path="/login"
+            component={HomeContainer}
+          />
+          <PrivateRouteContainer
             exact
             path="/"
-            component={!con ? HomeContainer : MainLayoutContainer}
+            component={MainLayoutContainer}
           />
-          <Route exact path="/profil" component={Profil} />
+          <PrivateRouteContainer exact path="/profil" component={Profil} />
           <Route
             exact
-            path="/confirmation/:token"
+            path={["/confirmation/:token", "/reset/:token"]}
             component={ConfirmationContainer}
           />
+          <Route
+            exact
+            path="/reset-password"
+            component={PasswordChangeContainer}
+          />
+          <Route exact path="/404" component={PageNotFound} />
+          <Redirect to="/404" />
         </Switch>
       </Router>
-      {/* <Home /> */}
-      <MatchRequestContainer />
       <BackdropLoaderContainer />
+      <SnackBarContainer />
     </div>
   );
 }

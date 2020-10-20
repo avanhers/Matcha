@@ -3,8 +3,9 @@ import App from "./App.js";
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    userCompleted: state.user.completed,
     checkBox: state.useFilter,
+    redirectPath: state.redirectPath,
   };
 };
 

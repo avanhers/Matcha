@@ -52,7 +52,7 @@ const matchController = {
       tags: getSearchingTags(user.getTags()),
     };
     const queryParams = req.query;
-
+    console.log(params);
     for (const key in queryParams) {
       const val = queryParams[key];
 
