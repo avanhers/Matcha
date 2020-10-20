@@ -103,5 +103,11 @@ export default function useValidation(config) {
         }
       }
     },
+    setValue: (fieldName, value) => {
+      dispatch({
+        type: "CHANGE",
+        payload: { [fieldName]: value },
+      });
+    },
   };
 }
