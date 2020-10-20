@@ -1,7 +1,6 @@
-import React, { createRef } from "react";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import React from "react";
+import { Map, Marker, TileLayer } from "react-leaflet";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import "leaflet/dist/leaflet.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,8 +31,6 @@ function MyMap({ data, setData }) {
 
     // setData({ ...data, lat: latlng.lat, lng: latlng.lng });
   }, []);
-
-  window.navigator.geolocation.getCurrentPosition(console.log, console.log);
 
   return (
     <div>

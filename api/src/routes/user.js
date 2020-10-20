@@ -19,7 +19,6 @@ router.post(
   userController.updatePassword.bind(userController)
 );
 router.post("/updateTags", userController.updateTags.bind(userController));
-router.post("/password", userController.setPassword.bind(userController));
 router.post("/like/:username", userController.like.bind(userController));
 router.post("/unlike/:username", userController.unlike.bind(userController));
 router.post("/report/:username", userController.report.bind(userController));

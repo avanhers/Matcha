@@ -65,8 +65,6 @@ export default function InfoVisibleForm() {
   };
 
   const handleSubmit = () => {
-    console.log();
-
     const send = { infos: data };
     apiCall(PERSONNAL_INFO_ROUTE, send, null, null, null, "POST", true);
   };

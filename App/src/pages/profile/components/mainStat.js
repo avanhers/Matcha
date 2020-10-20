@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Demo from "./viewChart.js";
 
 import { apiCallGet } from "../../../api/api_request.js";
 // import PopularityScore from "../../../common/components/popularityScore.js";
@@ -15,10 +14,6 @@ import {
 import Paper from "@material-ui/core/Paper";
 
 function MainStat() {
-  const successCall = (response, param) => {
-    console.log(response);
-  };
-
   return (
     <Container>
       <Container maxWidth="lg">
