@@ -5,14 +5,10 @@ const queryCreator = require("../../framework/queryCreator");
 
 class SearcherManager {
   async findMatches(user, parameters) {
-    const subRequest = this.getMatchingTagsSubRequest(parameters.tags);
-
-    queryCreator
-      .selectUserInfos()
-      .addSelect("s.tags")
-      .from("users", "u")
-      .innerJoin(subRequest, "s")
-      .on("u.id", "s.userId");
+    queryCreator.selectUserInfos().addSelect("s.tags").from("users", "u");
+    this.addLikesJoin(user);
+    this.addDistanceJoin(user);
+    this.addTagsJoin(parameters);
     this.filterBySexualOrientation(
       user.getGender(),
       user.getSexualOrientation()
@@ -22,6 +18,28 @@ class SearcherManager {
     this.setSort(parameters);
     this.setPagination(parameters);
     return queryCreator.sendQuery();
+  }
+
+  addTagsJoin(parameters) {
+    const subRequest = this.getMatchingTagsSubRequest(parameters.tags);
+
+    queryCreator.innerJoin(subRequest, "s").on("u.id", "s.userId");
+  }
+
+  //Calcul de la distance avec la formule de haversine
+  addDistanceJoin(user) {
+    const subRequest = `(SELECT a, id, c, 6371 * c as distance, longitude, latitude
+      FROM (SELECT a, id, 2 * ATAN(SQRT(a) / SQRT(1 - a)) as c , longitude, latitude
+            FROM (SELECT(POW(SIN((${user.getLatitude()} - latitude) / 2),2) + COS(latitude) * COS(${user.getLatitude()}) * POW(SIN((${user.getLongitude()} - longitude) / 2),2)) as a, longitude, latitude, id
+FROM users) t1) t2) `;
+    queryCreator.innerJoin(subRequest, "t").on("u.id", "t.id");
+  }
+
+  addLikesJoin(user) {
+    queryCreator
+      .leftJoin("likes", "l")
+      .on("l.likedId", user.getId())
+      .and("l.likeId", "u.id");
   }
 
   setOtherFilters(params) {
