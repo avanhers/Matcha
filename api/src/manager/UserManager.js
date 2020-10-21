@@ -186,7 +186,7 @@ const UserManager = function () {
 
   this.substractPopularityScore = async function (user, type) {
     const ratio = SCORE[type];
-    const newScore = -user.getPopularityScore() / ratio + 100;
+    const newScore = (user.getPopularityScore() - 100 * ratio) / (1 - ratio);
     const sql = "UPDATE users SET popularityScore = ? WHERE id = ?";
     const values = [newScore, user.getId()];
 
@@ -285,7 +285,6 @@ const UserManager = function () {
       .where("l.likeId", user.getId())
       .sendQuery();
 
-    console.log(rows);
     user.setMatches(rows);
     return user;
   };
