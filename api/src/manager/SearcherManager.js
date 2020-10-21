@@ -39,7 +39,7 @@ FROM users) t1) t2) `;
     queryCreator
       .leftJoin("likes", "l")
       .on("l.likedId", user.getId())
-      .and("l.likeId", "u.id");
+      .addAndLogic("l.likeId = u.id");
   }
 
   setOtherFilters(params) {

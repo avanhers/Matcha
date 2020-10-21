@@ -13,7 +13,7 @@ class QueryCreator {
   selectUserInfos() {
     this.values = [];
     this.query = `
-    SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar, t.distance, l.likedId 
+    SELECT u.username, u.age, u.sexualOrientation, u.gender, u.popularityScore, u.latitude, u.longitude, u.avatar, ROUND(t.distance, 2) as distance, l.likedId 
     `;
     return this;
   }
