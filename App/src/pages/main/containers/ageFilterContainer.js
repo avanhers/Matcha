@@ -4,7 +4,8 @@ import AgeFilter from "../components/ageFilter.js";
 
 const mapStateToProps = (state) => {
   return {
-    ageRange: state.filter.age,
+    ageMin: state.filter.ageMin,
+    ageMax: state.filter.ageMax,
   };
 };
 

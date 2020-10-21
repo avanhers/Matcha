@@ -4,7 +4,7 @@ import TagFilters from "../components/tagFilters.js";
 
 const mapStateToProps = (state) => {
   return {
-    tags: state.tags,
+    tags: state.filter.tagsObject,
   };
 };
 

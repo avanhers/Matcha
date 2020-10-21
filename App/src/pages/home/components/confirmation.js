@@ -2,13 +2,9 @@ import React from "react";
 import { useParams, Redirect } from "react-router-dom";
 import {
   CONFIRMATION_ROUTE,
-  PASSWORD_RESET_ROUTE,
+  HASH_RESET_EXIST_ROUTE,
 } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
-import {
-  SNACK_BAR_SUCCESS,
-  SNACK_BAR_FAILURE,
-} from "../../../state/actionConst.js";
 
 /*
  **Component
@@ -19,24 +15,24 @@ export default function Confirmation({
   location,
 }) {
   const { token } = useParams();
-  const [response, setResponse] = React.useState(false);
+  const [redirectPath, setRedirectPath] = React.useState("");
   React.useEffect(() => {
     const route = location.pathname.split("/")[1];
-    if (route && response === false) {
+    if (route && !redirectPath) {
       if (route === "confirmation") {
         apiCall(
           CONFIRMATION_ROUTE + "/" + token,
           null,
-          handleAPIResponse,
+          handleAPIResponseConfirmation,
           null,
           toggleBackdropLoader,
           "GET"
         );
       } else if (route === "reset") {
         apiCall(
-          PASSWORD_RESET_ROUTE + "/" + token,
+          HASH_RESET_EXIST_ROUTE + "/" + token,
           null,
-          handleAPIResponse,
+          handleAPIResponseReset,
           null,
           toggleBackdropLoader,
           "GET"
@@ -44,27 +40,40 @@ export default function Confirmation({
       }
     }
   });
-  const handleAPIResponse = (response) => {
+  const handleAPIResponseConfirmation = (response) => {
     let body = response.data;
     const status = body.status;
-    console.log("status", status);
+    setRedirectPath("/");
     if (status === 204) {
-      setResponse(true);
       showSnackBar(
         "Votre compte est desormais actif, connectes toi sale con !",
         "success"
       );
     } else {
-      console.log("ici", status);
-      setResponse(true);
       showSnackBar("WTF!!!! TON HASH EST PAS VALIDE", "error");
     }
   };
 
-  if (response) {
+  const handleAPIResponseReset = (response) => {
+    let body = response.data;
+    const status = body.status;
+    console.log(status);
+    if (status === 200) {
+      const redirectPathWithToken = {
+        pathname: "/reset-password",
+        state: { userId: body.id },
+      };
+      setRedirectPath(redirectPathWithToken);
+    } else {
+      setRedirectPath("/");
+      showSnackBar("WTF!!!! TON HASH EST PAS VALIDE", "error");
+    }
+  };
+
+  if (redirectPath) {
     return (
       <div>
-        <Redirect to="/" />
+        <Redirect to={redirectPath} />
       </div>
     );
   } else {

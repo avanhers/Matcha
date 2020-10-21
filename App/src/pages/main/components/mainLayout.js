@@ -3,19 +3,12 @@ import React from "react";
 import MatchWindowContainer from "./../containers/matchWindowContainer.js";
 import HeadBarContainer from "./../containers/headBarContainer.js";
 import FilterDrawerContainer from "./../containers/filterDrawerContainer.js";
+import MatchRequestContainer from "../../../common/containers/matchRequestContainer.js";
 
-import BackdropLoaderContainer from "../../../common/containers/backdropLoaderContainer.js";
-
-function MainLayout({ requestMatch, setMatches }) {
-  const [drawerOpened, setDrawerOpened] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   requestMatch();
-  //   requestMatches({ page: 1 }, setMatches);
-  // });
-
+function MainLayout() {
   return (
     <div>
+      <MatchRequestContainer />
       <HeadBarContainer />
       <FilterDrawerContainer />
       <MatchWindowContainer />

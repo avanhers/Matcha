@@ -14,7 +14,6 @@ Manager.prototype = {
   },
 
   findAllOffsetLimit: function (limit, offset) {
-    console.log(limit, offset);
     const sql = `SELECT * FROM ${this.type} LIMIT ${limit} OFFSET ${offset}`;
     return db.query(sql);
   },
