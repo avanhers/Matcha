@@ -43,10 +43,10 @@ FROM users) t1) t2) `;
   }
 
   setOtherFilters(params) {
-    const { ageMin, ageMax, popMin, popMax } = params;
+    const { ageMin, ageMax, popMin, popMax, distMax } = params;
 
     queryCreator.addAndLogic(
-      `(age BETWEEN  ${ageMin} AND ${ageMax} ) AND (popularityScore BETWEEN ${popMin} AND ${popMax} )`
+      `(age BETWEEN  ${ageMin} AND ${ageMax} ) AND (popularityScore BETWEEN ${popMin} AND ${popMax} ) AND distance < ${distMax}`
     );
   }
 
