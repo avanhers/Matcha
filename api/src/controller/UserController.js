@@ -1,7 +1,5 @@
 "use strict";
 const UserManager = require("../manager/UserManager");
-const User = require("../entities/User");
-const Usermanager = require("../manager/UserManager");
 const fs = require("fs");
 const TAGS = require("../../config/tags").TAGS;
 
