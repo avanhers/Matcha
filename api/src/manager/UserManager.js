@@ -231,8 +231,8 @@ const UserManager = function () {
       .select("u.username")
       .from("users", "u")
       .innerJoin("likes", "l")
-      .on("u.id", "l.likeId")
-      .where("l.likedId", user.getId())
+      .on("u.id", "l.likedId")
+      .where("l.likeId", user.getId())
       .sendQuery();
 
     user.setLikes(rows);
@@ -273,18 +273,19 @@ const UserManager = function () {
   };
 
   this.addMatchesToUser = async function (user) {
+    const subrequest = `(SELECT likeId FROM likes WHERE likedId = ${user.getId()}) `;
     const rows = await queryCreator
-      .select("u2.username")
-      .addSelect("u2.avatar")
-      .from("users", "u")
-      .innerJoin("likes", "l")
-      .on("l.likeId", "u.id")
-      .innerJoin("users", "u2")
-      .on("l.likedId", "u2.id")
-      .where("u.id", user.getId())
-      .orderBy("l.id", "DESC")
+      .select("l.likedId")
+      .addSelect("u.username")
+      .from("likes", "l")
+      .innerJoin(subrequest, "l2")
+      .on("l.likedId", "l2.likeId")
+      .innerJoin("users", "u")
+      .on("u.id", "l.likedId")
+      .where("l.likeId", user.getId())
       .sendQuery();
 
+    console.log(rows);
     user.setMatches(rows);
     return user;
   };

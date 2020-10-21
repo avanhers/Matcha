@@ -49,10 +49,10 @@ content-type: application/json
     "username": "ok"
 }
 ###
-POST  http://localhost/api/user/like/toto HTTP/1.1
+POST  http://localhost/api/user/like/Tyra48 HTTP/1.1
 content-type: application/json
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg3MjIzLCJleHAiOjE2MDI2NzM2MjN9.BeG9CZ-flE-7baR4-RHXRNONS2dDe-EyjiPStcEFi88
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
 ###
 POST  http://localhost/api/user/report/toto HTTP/1.1
 content-type: application/json
@@ -80,6 +80,10 @@ content-type: application/json
 }
 ###
 
+GET http://localhost/api/user/email HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
+###
 GET http://localhost/api/user/location HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
@@ -104,7 +108,7 @@ GET http://localhost/api/user/infos HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwMTk3Nzk3OCwiZXhwIjoxNjAxOTc4MDM4fQ.7NaH-hpQM8s3LFWjiq3CDUikwK60g5X_Gpel7YZKP1o
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNTg4Nzc4LCJleHAiOjE2MDI2NzUxNzh9.Oiv2RZz3yQijJRqfQ-FnUOyShpqxbFdsWgXe8T5f2UY
 ###
-GET http://localhost/api/matches?perPage=15&ageMax=24&tags[0]=1&tags[1]=&tags[2]=1&tags[3]=&ageMin=5&orderBy=DESC HTTP/1.1
+GET http://localhost/api/matches?perPage=15&ageMax=24&tags[0]=1&tags[1]=&tags[2]=1&tags[3]=&ageMin=5&sortBy=distance&orderBy=ASC HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw
 ###
@@ -136,6 +140,7 @@ INNER JOIN (SELECT a, id, c, 6371 * c as distance, longitude, latitude
             FROM (SELECT a, id, 2 * ATAN(SQRT(a) / SQRT(1 - a)) as c , longitude, latitude
                   FROM (SELECT(POW(SIN((-26.3319 - latitude) / 2),2) + COS(latitude) * 		COS(-26.3319) * POW(SIN((-160.9677 - longitude) / 2),2)) as a, longitude, latitude, id
      FROM users) t1) t2) as t ON u.id = t.id
+##jointure pou les tags
 INNER JOIN (SELECT userId, GROUP_CONCAT(tagId) as tags 
             FROM user_tag 
             WHERE tagId IN (1,3, 2, 6) GROUP BY userId) as s 
