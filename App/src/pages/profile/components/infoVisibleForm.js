@@ -12,7 +12,6 @@ import {
   GET_PERSONNAL_INFO,
 } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
-import { toggleGlobalLoader } from "../../../state/globalLoader/globalLoaderAction.js";
 
 const useConstructor = (callBack = () => {}) => {
   const hasBeenCalled = useRef(false);
@@ -115,8 +114,10 @@ export default function InfoVisibleForm() {
         <Grid item xs={12}>
           <TextField
             multiline={true}
+            rows={3}
             style={{ width: "90%" }}
             id="description"
+            value={data.description}
             name="description"
             label="Description"
             onChange={handleChange}
