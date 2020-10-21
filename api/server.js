@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/user");
 const matchRoute = require("./src/routes/matches");
+const chatRoute = require("./src/routes/chat");
 const auth = require("./src/midleware/auth");
 const cors = require("./src/midleware/cors");
 const io = require("./socket");
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/auth", authRoute);
 app.use("/user", auth.addUser, userRoute);
 app.use("/matches", auth.addUser, matchRoute);
+app.use("/chat", auth.addUser, chatRoute);
 
 const server = app.listen(PORT, HOST);
 io.startIo(server);

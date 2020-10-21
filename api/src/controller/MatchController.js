@@ -49,6 +49,7 @@ const matchController = {
       ageMax: 200,
       popMin: 0,
       popMax: 100,
+      distMax: 600000,
       tags: getSearchingTags(user.getTags()),
     };
     const queryParams = req.query;
