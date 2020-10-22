@@ -20,60 +20,34 @@ const useStyles = makeStyles((theme) => ({
   myPaper: {
     backgroundColor: "#F9F7F7",
   },
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    position: "relative",
+    overflow: "auto",
+    maxHeight: 1000,
+  },
+  listSection: {
+    backgroundColor: "inherit",
+  },
+  ul: {
+    backgroundColor: "inherit",
+    padding: 0,
+  },
 }));
-
-function renderProfilPicture(url) {
-  return (
-    <Avatar
-      alt="Avatar"
-      src={url}
-      sizes="large"
-      style={{ height: "auto", width: "75%", textAlign: "-webkit-center" }}
-    />
-  );
-}
-const initialAvatar = {
-  path: profilPlaceholder,
-  id: -1,
-};
 
 /*
  ********************** Component *****************************
  */
 
-function MainProfile() {
+function MainChat() {
   const classes = useStyles();
   const [avatar, setAvatar] = React.useState(initialAvatar);
 
   useEffect(() => {
     apiCall(GET_AVATAR_ROUTE, null, successGetAvatar, null, null, "GET", true);
   }, []);
-
-  const successGetAvatar = (response) => {
-    console.log(response);
-    if (response.data.avatar.id > 0)
-      setAvatar({
-        path: "http://localhost/api".concat(response.data.avatar.path.slice(7)),
-        id: response.data.avatar.id,
-      });
-  };
-
-  const changeAvatar = (image) => {
-    apiCallPost(
-      CHANGE_AVATAR_ROUTE.concat("/").concat(image.bddId),
-      image.bddId,
-      successChangeAvatar,
-      image,
-      null,
-      null
-    );
-
-    console.log(avatar);
-  };
-
-  const successChangeAvatar = (response, image) => {
-    setAvatar({ path: image.img, id: image.bddId });
-  };
 
   return (
     <Container>

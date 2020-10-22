@@ -8,8 +8,9 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import FilterIcon from "@material-ui/icons/Filter";
-import { UPLOAD_IMAGE_ROUTE, GET_IMAGES } from "../../../api/routes.js";
+import { UPLOAD_IMAGE_ROUTE, GET_IMAGES, DELETE_IMAGE_ROUTE } from "../../../api/routes.js";
 import { apiCall, apiCallPost } from "../../../api/api_request.js";
+import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 /*
  ********************** CSS STYLE *****************************
  */
@@ -38,31 +39,31 @@ const useStyles = makeStyles((theme) => ({
 
 const initialState = [
   {
-    img: "http://localhost/api/images/placeholder.png",
+    img: profilPlaceholder,
     id: 1,
     bddId: -1,
     placeholder: true,
   },
   {
-    img: "http://localhost/api/images/placeholder.png",
+    img: profilPlaceholder,
     id: 2,
     bddId: -2,
     placeholder: true,
   },
   {
-    img: "http://localhost/api/images/placeholder.png",
+    img: profilPlaceholder,
     id: 3,
     bddId: -3,
     placeholder: true,
   },
   {
-    img: "http://localhost/api/images/placeholder.png",
+    img: profilPlaceholder,
     id: 4,
     bddId: -4,
     placeholder: true,
   },
   {
-    img: "http://localhost/api/images/placeholder.png",
+    img: profilPlaceholder,
     id: 5,
     bddId: -5,
     placeholder: true,
@@ -85,7 +86,6 @@ const findIndexNewImage = (images) => {
   return 0;
 };
 
-const addNewImage = () => {};
 /*
  ********************** Component *****************************
  */
@@ -112,6 +112,24 @@ export default function ListImages({ changeAvatar, avatar }) {
     }
     setImages(newState);
   };
+
+  const deleteImage = (image) => {
+    apiCallPost(DELETE_IMAGE_ROUTE.concat("/").concat(image.bddId).concat("/delete"), null, successDelete, image, null, null);
+
+  }
+  const successDelete = (response, image) => {
+    const newState = [...images];
+    console.log("in delete", response)
+    if (response.data.status != 400) {
+      newState[image.id - 1] = {
+        img: profilPlaceholder,
+        id: image.id,
+        bddId: -2,
+        placeholder: true,
+      }
+      setImages(newState)
+    }
+  }
 
   /*Function call when uploading a new photo: happen */
   const handleUpload = (event, image = 0) => {
@@ -193,7 +211,7 @@ export default function ListImages({ changeAvatar, avatar }) {
                 <FilterIcon />
               </label>
 
-              <DeleteIcon />
+              <DeleteIcon onClick={() => deleteImage(image)} />
             </div>
           }
         />

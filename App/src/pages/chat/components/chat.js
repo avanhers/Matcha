@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import HeadBar from "./headBar.js";
 import { makeStyles } from "@material-ui/core/styles";
-import SideBar from "./sideBar";
-import MainProfile from "./mainProfil.js";
-import MainStat from "./mainStat.js";
-import MainSecretInfo from "./mainSecretInfo.js";
+import SideBar from "./sideBar.js";
+import ChatBox from "./chatBox.js";
+import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
+import { apiCall, apiCallGet } from "../../../api/api_request.js";
+import { GET_MESSAGE_USERS, GET_AVATAR_ROUTE } from "../../../api/routes.js";
 const drawerWidth = 240;
 
 /*
@@ -56,24 +57,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const myMatch = [
+  {
+    username: "toto",
+    avatar: profilPlaceholder,
+    isLogin: false,
+  },
+];
 /*
  ********************** Component *****************************
  */
 
-function Profil() {
+function Chat() {
   const classes = useStyles();
-
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mainComponent, setMainComponent] = React.useState(<MainProfile />);
+  const [mainComponent, setMainComponent] = React.useState("");
+  const [users, setUsers] = React.useState(myMatch);
+  const [myAvatar, setMyAvatar] = React.useState("");
+  useEffect(() => {
+    apiCallGet(GET_MESSAGE_USERS, sucessCall, null, null, null);
+    apiCall(GET_AVATAR_ROUTE, null, successGetAvatar, null, null, "GET", true);
+  }, []);
+
+  const successGetAvatar = (response) => {
+    console.log(response);
+    if (response.data.avatar.id > 0) setMyAvatar(response.data.avatar.path);
+  };
+
+  const sucessCall = (response) => {
+    setUsers(response.data.users);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleClickSideBar = (key) => {
-    if (key === "profil") setMainComponent(<MainProfile />);
-    else if (key === "stats") setMainComponent(<MainStat />);
-    else if (key === "private") setMainComponent(<MainSecretInfo />);
+  const handleClickUser = (user) => {
+    setMainComponent(<ChatBox user={user} myAvatar={myAvatar} />);
+    console.log("clickSideBar", user);
   };
 
   return (
@@ -82,9 +103,10 @@ function Profil() {
       <HeadBar handleDrawerToggle={handleDrawerToggle} />
       <nav className={classes.drawer} aria-label="mailbox folders">
         <SideBar
+          users={users}
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
-          handleClick={handleClickSideBar}
+          handleClickUser={handleClickUser}
         />
       </nav>
       <main className={classes.content}>
@@ -95,12 +117,4 @@ function Profil() {
   );
 }
 
-Profil.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
-
-export default Profil;
+export default Chat;
