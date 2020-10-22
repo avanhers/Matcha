@@ -6,7 +6,9 @@ import ChatText from "./chatText.js";
 import Paper from "@material-ui/core/Paper";
 import { GET_MESSAGE } from "../../../api/routes.js";
 import { apiCallGet } from "../../../api/api_request.js";
+import io from "socket.io-client";
 
+let socket;
 const useStyles = makeStyles((theme) => ({
   box: {
     backGrounColor: "#F9F7F7",
@@ -34,8 +36,14 @@ const testMessage = [
 
 function ChatBox({ user, myAvatar }) {
   const [listMess, setListMess] = React.useState(testMessage);
+
   const classes = useStyles();
+
   useEffect(() => {
+    const socket = io("http://localhost/api/test", {
+      query: { token: JSON.parse(localStorage.getItem("x-refresh-token")) },
+    });
+    //console.log(socket);
     apiCallGet(GET_MESSAGE + "/" + user.username, sucessCall, null, null, null);
   }, [user]);
 
