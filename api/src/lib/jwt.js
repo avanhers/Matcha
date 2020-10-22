@@ -62,6 +62,35 @@ const tokenManager = {
       userId: user.getId(),
     };
   },
+
+  getUser: async function (refreshToken) {
+    let id = false;
+    try {
+      const { userId } = jwt.decode(refreshToken);
+      id = userId;
+    } catch (err) {
+      return null;
+    }
+
+    if (!id) {
+      return nul;
+    }
+
+    const user = await manager.findOneById(id);
+
+    if (!(user && user.getIsLogin())) {
+      return null;
+    }
+
+    //inactivate token if change password
+    const refreshSecret = process.env.REFRESH_SECRET + user.getPassword();
+    try {
+      jwt.verify(refreshToken, refreshSecret);
+      return user.getUsername();
+    } catch (err) {
+      return null;
+    }
+  },
 };
 
 module.exports = tokenManager;
