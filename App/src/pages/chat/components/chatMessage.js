@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
   messageContainerRight: {
     textAlign: "-webkit-right",
-    textAlign: "-webkit-left",
     borderColor: "#ccc",
     backgroundColor: "#ddd",
     borderRadius: "5px",
@@ -37,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
   imgleft: {
     float: "left",
-    maxWidth: "30px",
+    maxWidth: "50px",
     width: "100%",
     marginRight: "20px",
     borderRadius: "50%",
   },
   imgright: {
     float: "right",
-    maxWidth: "30px",
+    maxWidth: "50px",
     width: "100%",
     borderRadius: "50%",
     marginLeft: "20px",
@@ -52,26 +51,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 //message:{user,text}
+const formatImage = (item) => {
+  if (item.substr(0, 5) != "https") {
+    return "http://localhost/api".concat(item.slice(7));
+  } else return item;
+};
 
-function ChatMessage({ message }) {
+function ChatMessage({ message, avatar }) {
   const classes = useStyles();
 
-  //   const chooseClasseParent = () => {
-  //     return message.user === 0
-  //       ? classes.messageContainerLeft
-  //       : classes.messageContainerRight;
-  //   };
-
-  //   const chooseClasseChild = () => {
-  //     return message.user === 0 ? classes.messageLeft : classes.messageRight;
-  //   };
   const renderSend = () => {
+    const img = formatImage(avatar);
+
     return (
       <div className={classes.messageContainerRight}>
-        {/* <div className={classes.messageRight}> */}
-        <img className={classes.imgright} src={message.image} alt="avatar" />
-        <p>{message.text}</p>
-        <span class={classes.timeLeft}>{message.time}</span>
+        <img className={classes.imgright} src={img} alt="avatar" />
+
+        <p>{message.message}</p>
+        <span className={classes.timeLeft}>{message.sendAt.substr(11, 8)}</span>
         {/* </div> */}
 
         <div style={{ content: "", clear: "both", display: "table" }}></div>
@@ -82,17 +79,22 @@ function ChatMessage({ message }) {
   const renderReceive = () => {
     return (
       <div className={classes.messageContainerLeft}>
-        {/* <div className={classes.messageLeft}> */}
-        <img className={classes.imgleft} src={message.image} alt="avatar" />
-        <p>{message.text}</p>
-        <span class={classes.timeRight}>{message.time}</span>
+        <img
+          className={classes.imgleft}
+          src={formatImage(avatar)}
+          alt="avatar"
+        />
+        <p>{message.message}</p>
+        <span className={classes.timeRight}>
+          {message.sendAt.substr(11, 8)}
+        </span>
 
         <div style={{ content: "", clear: "both", display: "table" }}></div>
       </div>
     );
   };
 
-  return message.user === 0 ? renderReceive() : renderSend();
+  return message.send === null ? renderReceive() : renderSend();
 }
 
 export default ChatMessage;

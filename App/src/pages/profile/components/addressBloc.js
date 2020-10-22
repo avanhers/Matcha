@@ -2,6 +2,8 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
+import CheckIcon from "@material-ui/icons/Check";
+import IconButton from "@material-ui/core/IconButton";
 function AddressBloc({ handleSubmit }) {
   const [address, setAddress] = React.useState("");
 
@@ -10,19 +12,26 @@ function AddressBloc({ handleSubmit }) {
     setAddress(value);
   };
   return (
-    <div>
-      <TextField
-        style={{ width: "70%" }}
-        id="addresse"
-        name="addresse"
-        label="addresse"
-        value={address}
-        onChange={handleChange}
-      />
-      <Button variant="contained" onClick={(e) => handleSubmit(address)}>
-        Valider
-      </Button>
-    </div>
+    <form>
+      <div>
+        <TextField
+          style={{ width: "70%", paddingBottom: "5px" }}
+          id="addresse"
+          name="addresse"
+          label="addresse"
+          value={address}
+          onChange={handleChange}
+        />
+        <IconButton
+          color="primary"
+          aria-label="upload picture"
+          component="span"
+          onClick={(e) => handleSubmit(address)}
+        >
+          <CheckIcon />
+        </IconButton>
+      </div>
+    </form>
   );
 }
 export default AddressBloc;

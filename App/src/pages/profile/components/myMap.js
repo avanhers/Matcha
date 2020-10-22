@@ -5,8 +5,8 @@ import "leaflet/dist/leaflet.css";
 
 const useStyles = makeStyles((theme) => ({
   myMap: {
-    width: "300px",
-    height: "300px",
+    width: "250px",
+    height: "250px",
   },
 }));
 

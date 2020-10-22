@@ -111,7 +111,7 @@ function AddressMap() {
 
   return (
     <div>
-      <Paper style={{ backgroundColor: "#F9F7F7" }}>
+      <Paper style={{ backgroundColor: "#F9F7F7", width: "250px" }}>
         <AddressBloc handleSubmit={handleSubmit} />
         <MyMap data={dataMap} />
       </Paper>

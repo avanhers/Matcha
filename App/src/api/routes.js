@@ -28,5 +28,11 @@ export const UPDATE_EMAIL_ROUTE = BASE_API_ROUTE + "/user/updateEmail";
 export const GET_LIKES_ROUTE = BASE_API_ROUTE + "/user/likes";
 export const GET_MATCHES_ROUTE = BASE_API_ROUTE + "/user/matches";
 export const GET_VIEWS_ROUTE = BASE_API_ROUTE + "/user/views";
+
 export const LOCATION_ROUTE = BASE_API_ROUTE + "/user/location";
 export const UPDATE_PASSWORD_ROUTE = BASE_API_ROUTE + "/user/updatePassword";
+
+/*CHAT ROUTE*/
+
+export const GET_MESSAGE = BASE_API_ROUTE + "/chat/messages";
+export const GET_MESSAGE_USERS = BASE_API_ROUTE + "/chat/users";

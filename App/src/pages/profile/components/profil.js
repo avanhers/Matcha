@@ -71,7 +71,7 @@ function Profil() {
   };
 
   const handleClickSideBar = (key) => {
-    if (key === "profil") setMainComponent(<Profil />);
+    if (key === "profil") setMainComponent(<MainProfile />);
     else if (key === "stats") setMainComponent(<MainStat />);
     else if (key === "private") setMainComponent(<MainSecretInfo />);
   };

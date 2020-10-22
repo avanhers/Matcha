@@ -47,7 +47,10 @@ function SideBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          <ListUser />
+          <ListUser
+            handleClickUser={props.handleClickUser}
+            users={props.users}
+          />
         </Drawer>
       </Hidden>
       {/*  Part show when big size        */}
@@ -59,7 +62,10 @@ function SideBar(props) {
           variant="permanent"
           open
         >
-          <ListUser />
+          <ListUser
+            handleClickUser={props.handleClickUser}
+            users={props.users}
+          />
         </Drawer>
       </Hidden>
     </div>
