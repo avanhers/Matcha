@@ -28,7 +28,7 @@ router.post(
   userController.deleteImage.bind(userController)
 );
 
-// router.put("/notifications", userController.readNotifications);
+router.put("/notifications", userController.readNotifications);
 
 router.get("/notifications", userController.getNotifications);
 router.get("/views", userController.getViews.bind(userController));

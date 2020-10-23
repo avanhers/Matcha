@@ -48,7 +48,22 @@ const userController = {
     const user = await manager.findOneById(req.userId);
 
     if (user) {
-      return await notificationManager.getNotification(user.getUsername());
+      const notifs = await notificationManager.getNotification(
+        user.getUsername()
+      );
+
+      return res.status(200).json({ status: 400, notifs: notifs });
+    }
+    return res.status(200).json({ status: 400, msg: "invalid user" });
+  },
+
+  readNotifications: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      await notificationManager.readNotifications(user.getUsername());
+
+      return res.status(201);
     }
     return res.status(200).json({ status: 400, msg: "invalid user" });
   },
