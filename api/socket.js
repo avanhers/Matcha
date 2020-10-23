@@ -47,7 +47,7 @@ const socketConnection = (socket) => {
     );
   });
 
-  socket.on("notification", (data) => {
+  socket.on("notification", async (data) => {
     const { target: username, type } = data;
     const msg = {
       type: type,
@@ -58,13 +58,14 @@ const socketConnection = (socket) => {
     await notificationManager.addNotification(socket.username, type, username);
   });
 
-  socket.on("message", (data) => {
+  socket.on("message", async (data) => {
     const { target: username, msg } = data;
     const fromId = await manager.findUserByUsername(socket.username).getId();
     const toId = await manager.findUserByUsername(username).getId();
     const pckt = {
       from: socket.username,
-      msg: msg
+      msg: msg,
+      at: new Date(),
     };
 
     socketEmitTo(socket, username, "message", pckt);
