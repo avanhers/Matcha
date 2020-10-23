@@ -38,8 +38,8 @@ FROM users) t1) t2) `;
   addLikesJoin(user) {
     queryCreator
       .leftJoin("likes", "l")
-      .on("l.likedId", user.getId())
-      .addAndLogic("l.likeId = u.id");
+      .on("l.likeId", user.getId())
+      .addAndLogic("l.likedId = u.id");
   }
 
   setOtherFilters(params) {

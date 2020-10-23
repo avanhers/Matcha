@@ -1,5 +1,6 @@
 "use strict";
 const UserManager = require("../manager/UserManager");
+const notificationManager = require("../manager/NotificationManager");
 const fs = require("fs");
 const TAGS = require("../../config/tags").TAGS;
 
@@ -41,6 +42,15 @@ const userController = {
       });
     }
     return res.status(200).json({ status: 400, msg: "invalid fields" });
+  },
+
+  getNotifications: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      return await notificationManager.getNotification(user.getUsername());
+    }
+    return res.status(200).json({ status: 400, msg: "invalid user" });
   },
 
   setAvatar: async function (req, res, next) {
