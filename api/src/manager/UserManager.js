@@ -275,8 +275,9 @@ const UserManager = function () {
   this.addMatchesToUser = async function (user) {
     const subrequest = `(SELECT likeId FROM likes WHERE likedId = ${user.getId()}) `;
     const rows = await queryCreator
-      .select("l.likedId")
-      .addSelect("u.username")
+      .select("u.username")
+      .addSelect("u.avatar")
+      .addSelect("u.isLogin")
       .from("likes", "l")
       .innerJoin(subrequest, "l2")
       .on("l.likedId", "l2.likeId")
@@ -374,6 +375,24 @@ const UserManager = function () {
       return result.hashValidation ? VALIDATION : FORGET;
     }
     return null;
+  };
+
+  /* ----------------------------------- CHAT ------------------------------- */
+
+  this.getConversationWith = function (fromId, toId) {
+    const subRequest = `(SELECT * FROM messages WHERE fromId = ${fromId}) `;
+
+    return queryCreator
+      .select("m.message")
+      .addSelect("m.sendAt")
+      .addSelect("m2.id", "send")
+      .from("messages", "m")
+      .leftJoin(subRequest, "m2")
+      .on("m.id", "m2.id")
+      .addWhereLogic(
+        `(m.fromId = ${fromId} AND m.toId = ${toId}) OR (m.fromId = ${toId} AND m.toId = ${fromId})`
+      )
+      .sendQuery();
   };
 
   /* ----------------------------------- REPORT AND BLOCK ------------------------------- */

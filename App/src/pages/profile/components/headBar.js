@@ -78,11 +78,13 @@ function HeadBar({ status, handleDrawerToggle }) {
           </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color="inherit">
-              <Badge badgeContent={7} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+            <Link to="/chat" style={{ color: "#FFF" }}>
+              <IconButton color="inherit">
+                <Badge badgeContent={7} color="secondary">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             {render_notification()}
             {/* <NotificationPopover
               anchorEl={anchorEl}

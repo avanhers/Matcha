@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SideBar from "./sideBar";
 import MainProfile from "./mainProfil.js";
 import MainStat from "./mainStat.js";
+import MainSecretInfo from "./mainSecretInfo.js";
 const drawerWidth = 240;
 
 /*
@@ -72,6 +73,7 @@ function Profil() {
   const handleClickSideBar = (key) => {
     if (key === "profil") setMainComponent(<MainProfile />);
     else if (key === "stats") setMainComponent(<MainStat />);
+    else if (key === "private") setMainComponent(<MainSecretInfo />);
   };
 
   return (

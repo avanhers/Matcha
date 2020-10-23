@@ -26,6 +26,7 @@ function TagsList() {
   const [tags, setTags] = React.useState(initialTags);
 
   const sucessCall = (response) => {
+    console.log("response", response);
     const arr = response.data.tags;
     const newTags = [...initialTags];
     for (var i = 0; i < 8; i++) {
@@ -55,6 +56,7 @@ function TagsList() {
     const data = { tags: getTagsArray(tags) };
     apiCall(UPDATE_TAGS, data, null, null, null, "POST", true);
   };
+
   return (
     <Container>
       <Grid container spacing={3}>

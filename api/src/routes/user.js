@@ -28,6 +28,9 @@ router.post(
   userController.deleteImage.bind(userController)
 );
 
+router.put("/notifications", userController.readNotifications);
+
+router.get("/notifications", userController.getNotifications);
 router.get("/views", userController.getViews.bind(userController));
 router.get("/likes", userController.getLikes.bind(userController));
 router.get("/matches", userController.getMatches.bind(userController));

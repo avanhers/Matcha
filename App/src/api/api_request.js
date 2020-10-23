@@ -189,6 +189,35 @@ export const apiCallPost = (
   axios
     .post(route, param, config)
     .then((response) => {
+      if (response.headers["x-token"])
+        saveState("x-token", response.headers["x-token"]);
+      if (response.headers["x-refresh-token"])
+        saveState("x-refresh-token", response.headers["x-refresh-token"]);
+      successCallback(response, successParam);
+    })
+    .catch((error) => {
+      if (errorCallback) errorCallback(error, errorParam);
+    });
+};
+
+export const apiCallGet = (
+  route,
+  successCallback,
+  successParam,
+  errorCallback,
+  errorParam,
+  sendToken = true
+) => {
+  let config = null;
+  if (sendToken) config = setTokenInHeader();
+
+  axios
+    .get(route, config)
+    .then((response) => {
+      if (response.headers["x-token"])
+        saveState("x-token", response.headers["x-token"]);
+      if (response.headers["x-refresh-token"])
+        saveState("x-refresh-token", response.headers["x-refresh-token"]);
       successCallback(response, successParam);
     })
     .catch((error) => {
