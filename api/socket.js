@@ -1,6 +1,8 @@
 let io = require("socket.io");
 const tokenManager = require("./src/lib/jwt");
 const notificationManager = require("./src/manager/NotificationManager");
+const UserManager = require("./src/manager/UserManager");
+const manager = new UserManager();
 
 const users = {};
 
@@ -53,7 +55,20 @@ const socketConnection = (socket) => {
     };
 
     socketEmitTo(socket, username, "notification", msg);
-    notificationManager.addNotification(socket.username, type, username);
+    await notificationManager.addNotification(socket.username, type, username);
+  });
+
+  socket.on("message", (data) => {
+    const { target: username, msg } = data;
+    const fromId = await manager.findUserByUsername(socket.username).getId();
+    const toId = await manager.findUserByUsername(username).getId();
+    const pckt = {
+      from: socket.username,
+      msg: msg
+    };
+
+    socketEmitTo(socket, username, "message", pckt);
+    await notificationManager.addMessage(fromId, toId, msg);
   });
 };
 
