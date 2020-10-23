@@ -17,6 +17,14 @@ class NotificationManager {
 
     return db.query(sql, username);
   }
+
+  readNotifications(username) {
+    const sql = `UPDATE notifications
+      SET viewed = 1
+      WHERE receiver = ?`;
+
+    return db.query(sql, username);
+  }
 }
 
 const notificationManager = new NotificationManager();

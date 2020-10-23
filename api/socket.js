@@ -46,7 +46,7 @@ const socketConnection = (socket) => {
   });
 
   socket.on("notification", (data) => {
-    const { username, type } = data;
+    const { target: username, type } = data;
     const msg = {
       type: type,
       from: username,
