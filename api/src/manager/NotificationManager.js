@@ -25,6 +25,13 @@ class NotificationManager {
 
     return db.query(sql, username);
   }
+
+  addMessage(fromId, toId, msg) {
+    const sql = "INSERT into messages (fromId, toId, message) VALUES (?, ?, ?)";
+    const values = [fromId, toId, msg];
+
+    return db.query(sql, values);
+  }
 }
 
 const notificationManager = new NotificationManager();
