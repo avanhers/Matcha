@@ -1,5 +1,17 @@
+/**
+ * docker routes
+ */
+
 export const BASE_API_ROUTE = "http://localhost/api";
+export const BASE_SOCKET_URL = "http://localhost/test";
+export const SOCKET_PATH = "/api/socket.io";
+
+/**
+ * Léo routes (no docker)
+ */
 // export const BASE_API_ROUTE = "http://localhost:8088";
+// export const BASE_SOCKET_URL = "http://localhost:8088/test";
+// export const SOCKET_PATH = "/socket.io";
 
 export const INSCRIPTION_ROUTE = BASE_API_ROUTE + "/auth/inscription";
 export const CONFIRMATION_ROUTE = BASE_API_ROUTE + "/auth/confirmation";
@@ -9,6 +21,7 @@ export const HASH_RESET_EXIST_ROUTE = BASE_API_ROUTE + "/auth/hashExist";
 export const PASSWORD_CHANGE_ROUTE = BASE_API_ROUTE + "/auth/resetPassword";
 export const MATCH_PROFIL_ROUTE = BASE_API_ROUTE + "/matches";
 export const CAN_LOG_ROUTE = BASE_API_ROUTE + "/auth/canLog";
+export const LOG_OUT_ROUTE = BASE_API_ROUTE + "/auth/logout";
 
 /*USER ROUTE*/
 
