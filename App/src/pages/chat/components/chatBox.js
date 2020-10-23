@@ -33,6 +33,21 @@ const testMessage = [
     sendAt: "11:02",
   },
 ];
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+function myFunction() {
+  var d = new Date();
+  console.log("date", d);
+  var x = document.getElementById("demo");
+  var h = addZero(d.getHours());
+  var m = addZero(d.getMinutes());
+  var s = addZero(d.getSeconds());
+  return h + ":" + m + ":" + s;
+}
 
 function ChatBox({ user, myAvatar }) {
   const [listMess, setListMess] = React.useState(testMessage);
@@ -40,7 +55,8 @@ function ChatBox({ user, myAvatar }) {
   const classes = useStyles();
 
   useEffect(() => {
-    const socket = io("http://localhost/api/test", {
+    const socket = io("http://localhost", {
+      path: "/api/salut",
       query: { token: JSON.parse(localStorage.getItem("x-refresh-token")) },
     });
     //console.log(socket);
@@ -49,6 +65,17 @@ function ChatBox({ user, myAvatar }) {
 
   const sucessCall = (response) => {
     setListMess(response.data.messages);
+  };
+
+  const handleSubmit = (data) => {
+    const newMess = [...listMess];
+    console.log(data);
+    newMess.push({
+      send: 1,
+      message: data,
+      sendAt: "aaaaaaaaaaa" + myFunction(),
+    });
+    setListMess(newMess);
   };
 
   const renderListMessage = () => {
@@ -73,12 +100,13 @@ function ChatBox({ user, myAvatar }) {
       );
     } else return <div>Envoie un message pour demarrer la converstion</div>;
   };
+
   return (
     <div>
       {renderListMessage()}
 
       <Paper className={classes.myPaper}>
-        <ChatText />
+        <ChatText handleSubmit={handleSubmit} />
       </Paper>
     </div>
   );

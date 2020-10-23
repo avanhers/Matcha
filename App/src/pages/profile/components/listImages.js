@@ -8,7 +8,11 @@ import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import FilterIcon from "@material-ui/icons/Filter";
-import { UPLOAD_IMAGE_ROUTE, GET_IMAGES, DELETE_IMAGE_ROUTE } from "../../../api/routes.js";
+import {
+  UPLOAD_IMAGE_ROUTE,
+  GET_IMAGES,
+  DELETE_IMAGE_ROUTE,
+} from "../../../api/routes.js";
 import { apiCall, apiCallPost } from "../../../api/api_request.js";
 import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 /*
@@ -71,7 +75,9 @@ const initialState = [
 ];
 
 const formattingResponseImage = (image) => {
-  return "http://localhost/api".concat(image.slice(7));
+  if (image.substr(0, 5) != "https") {
+    return "http://localhost/api".concat(image.slice(7));
+  } else return image;
 };
 const imageExist = (images, bddId) => {
   return images.find((image) => image.bddId == bddId);
@@ -114,22 +120,28 @@ export default function ListImages({ changeAvatar, avatar }) {
   };
 
   const deleteImage = (image) => {
-    apiCallPost(DELETE_IMAGE_ROUTE.concat("/").concat(image.bddId).concat("/delete"), null, successDelete, image, null, null);
-
-  }
+    apiCallPost(
+      DELETE_IMAGE_ROUTE.concat("/").concat(image.bddId).concat("/delete"),
+      null,
+      successDelete,
+      image,
+      null,
+      null
+    );
+  };
   const successDelete = (response, image) => {
     const newState = [...images];
-    console.log("in delete", response)
+    console.log("in delete", response);
     if (response.data.status != 400) {
       newState[image.id - 1] = {
         img: profilPlaceholder,
         id: image.id,
         bddId: -2,
         placeholder: true,
-      }
-      setImages(newState)
+      };
+      setImages(newState);
     }
-  }
+  };
 
   /*Function call when uploading a new photo: happen */
   const handleUpload = (event, image = 0) => {
