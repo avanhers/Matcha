@@ -40,6 +40,11 @@ const initialAvatar = {
 /*
  ********************** Component *****************************
  */
+const formattingImage = (image) => {
+  if (image.substr(0, 5) != "https") {
+    return "http://localhost/api".concat(image.slice(7));
+  } else return image;
+};
 
 function MainProfile() {
   const classes = useStyles();
@@ -53,7 +58,7 @@ function MainProfile() {
     console.log(response);
     if (response.data.avatar.id > 0)
       setAvatar({
-        path: "http://localhost/api".concat(response.data.avatar.path.slice(7)),
+        path: formattingImage(response.data.avatar.path),
         id: response.data.avatar.id,
       });
   };

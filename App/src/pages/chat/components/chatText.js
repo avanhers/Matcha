@@ -27,15 +27,12 @@ const useStyles = makeStyles((theme) => ({
   focused: {},
 }));
 
-function ChatText() {
+function ChatText({ handleSubmit }) {
   const [data, setData] = React.useState("");
   const classes = useStyles();
 
   const handleChange = (e) => {
-    setData(e.value);
-  };
-  const handleSubmit = () => {
-    console.log("submit");
+    setData(e.target.value);
   };
 
   const renderTextField = (name, label) => {
@@ -64,7 +61,7 @@ function ChatText() {
           variant="contained"
           className={classes.button}
           endIcon={<SendIcon />}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit(data)}
         >
           envoyer
         </Button>
