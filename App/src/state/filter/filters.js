@@ -5,7 +5,9 @@ const defaultFilter = {
   popMin: 0,
   popMax: 100,
   sortBy: "LENGTH(tags)",
+  orderBy: "DESC",
   tags: [],
+  distMax: 20000,
   tagsObject: {
     tag1: "",
     tag2: "",
@@ -48,6 +50,10 @@ const filter = (state = defaultFilter, action) => {
       return { ...state, page: 1, tags: tags, tagsObject: tagsObject };
     case "SET_SORT_BY":
       return { ...state, page: 1, sortBy: action.payload };
+    case "SET_ORDER_BY":
+      return { ...state, page: 1, orderBy: action.payload };
+    case "SET_DISTANCE_MAX":
+      return { ...state, page: 1, distMax: action.payload };
     default:
       return state;
   }

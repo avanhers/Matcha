@@ -4,6 +4,7 @@ import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ListNotification from "../../../common/components/listNotification";
+import ChatBox from "./chatBox.js";
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotificationPopover({ anchorEl, handleClose }) {
+export default function NotificationPopover({ anchorEl, handleClose, notifs }) {
   const classes = useStyles();
 
   const open = Boolean(anchorEl);
@@ -33,7 +34,7 @@ export default function NotificationPopover({ anchorEl, handleClose }) {
         }}
       >
         {/* <ListNotification /> */}
-        {/* <ChatBox /> */}
+        <ChatBox notifs={notifs} />
       </Popover>
     </div>
   );

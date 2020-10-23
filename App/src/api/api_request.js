@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { setRedirectPath } from "../state/redirectPath/redirectPathAction";
-
-// "http://localhost:8088/match/matchesPage"
+import { setSocket } from "../state/socket/socketAction.js";
+import socketIOClient from "socket.io-client";
+import { BASE_SOCKET_URL, SOCKET_PATH } from "../api/routes";
 
 const saveState = (name, state) => {
   try {
@@ -15,6 +16,7 @@ const saveState = (name, state) => {
 
 export const useApiCall = (apiCallConfig) => {
   const dispatch = useDispatch();
+  const reduxState = useStore().getState();
 
   const apiCallfunction = (
     params,
@@ -77,6 +79,16 @@ export const useApiCall = (apiCallConfig) => {
           if (response.headers["x-refresh-token"])
             saveState("x-refresh-token", response.headers["x-refresh-token"]);
           if (loaderEventCallback) loaderEventCallback(false);
+          if (reduxState.socket) console.log(reduxState.socket.id);
+          if (!reduxState.socket || !reduxState.socket.id) {
+            const socket = socketIOClient(BASE_SOCKET_URL, {
+              query: {
+                path: SOCKET_PATH,
+                token: JSON.parse(localStorage.getItem("x-refresh-token")),
+              },
+            });
+            dispatch(setSocket(socket));
+          }
         })
         .catch((error) => {
           console.log("error response : ", error);
@@ -89,17 +101,11 @@ export const useApiCall = (apiCallConfig) => {
             dispatch(setRedirectPath("/login"));
           }
         });
-    }, 1000);
+    }, 10);
   };
 
   return apiCallfunction;
 };
-
-// const useApiCall = () => {
-//   const dispatch = useDispatch();
-
-//   return apiCall;
-// };
 
 export const apiCall = (
   route,

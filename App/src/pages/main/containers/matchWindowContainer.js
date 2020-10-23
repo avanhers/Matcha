@@ -6,20 +6,12 @@ const mapStateToProps = (state) => {
   return {
     matches: state.matches,
     drawerStatus: state.drawerStatus,
+    socket: state.socket,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // requestMatch: () => {
-    //   dispatch(matchRequest());
-    // },
-    // setMatches: (matches, page) => {
-    //   dispatch(matchResponse(matches, page));
-    // },
-    // toggleBackdropLoader: (state) => {
-    //   dispatch(toggleGlobalLoader(state));
-    // },
     setPage: () => {
       dispatch(setPageNb());
     },

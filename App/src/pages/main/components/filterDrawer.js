@@ -10,6 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import PersonnalFilter from "./personnalFilter.js";
 import CheckBoxFilter from "./checkBoxFilter.js";
 import PopularityFilterContainer from "../containers/popularityFilterContainer.js";
+import DistanceFilterContainer from "../containers/distanceFilterContainer.js";
 import SortByContainer from "../containers/sortByContainer.js";
 export const drawerWidth = 240;
 
@@ -67,6 +68,7 @@ function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
         <Divider />
         <AgeFilterContainer />
         <PopularityFilterContainer />
+        <DistanceFilterContainer />
         <CheckBoxFilter
           filterStatus={filterStatus}
           toggleFilter={toggleFilter}
