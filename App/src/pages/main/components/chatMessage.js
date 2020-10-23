@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #dedede",
     backgroundColor: "#f1f1f1",
     borderRadius: "5px",
-    padding: "10px",
-    margin: "10px 0",
+    // padding: "10px",
+    // margin: "10px 0",
   },
   messageContainerRight: {
     textAlign: "-webkit-right",
@@ -53,46 +53,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 //message:{user,text}
 
-function ChatMessage({ message }) {
+const notifMessageMap = {
+  like: " vous a liké !",
+  match: " vous a matché !",
+  vew: " a vu votre profil !",
+};
+
+function ChatMessage({ notif }) {
   const classes = useStyles();
 
-  //   const chooseClasseParent = () => {
-  //     return message.user === 0
-  //       ? classes.messageContainerLeft
-  //       : classes.messageContainerRight;
-  //   };
-
-  //   const chooseClasseChild = () => {
-  //     return message.user === 0 ? classes.messageLeft : classes.messageRight;
-  //   };
   const renderSend = () => {
     return (
       <div className={classes.messageContainerRight}>
-        {/* <div className={classes.messageRight}> */}
-        <img className={classes.imgright} src={message.image} alt="avatar" />
-        <p>{message.text}</p>
-        <span class={classes.timeLeft}>{message.time}</span>
-        {/* </div> */}
+        <p>{notif.from + notifMessageMap[notif.type]}</p>
+        <span className={classes.timeLeft}></span>
 
         <div style={{ content: "", clear: "both", display: "table" }}></div>
       </div>
     );
   };
 
-  const renderReceive = () => {
-    return (
-      <div className={classes.messageContainerLeft}>
-        {/* <div className={classes.messageLeft}> */}
-        <img className={classes.imgleft} src={message.image} alt="avatar" />
-        <p>{message.text}</p>
-        <span class={classes.timeRight}>{message.time}</span>
-
-        <div style={{ content: "", clear: "both", display: "table" }}></div>
-      </div>
-    );
-  };
-
-  return message.user === 0 ? renderReceive() : renderSend();
+  return renderSend();
 }
 
 export default ChatMessage;

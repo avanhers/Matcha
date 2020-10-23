@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotificationPopover({ anchorEl, handleClose }) {
+export default function NotificationPopover({ anchorEl, handleClose, notifs }) {
   const classes = useStyles();
 
   const open = Boolean(anchorEl);
@@ -34,7 +34,7 @@ export default function NotificationPopover({ anchorEl, handleClose }) {
         }}
       >
         {/* <ListNotification /> */}
-        <ChatBox />
+        <ChatBox notifs={notifs} />
       </Popover>
     </div>
   );

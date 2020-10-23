@@ -13,7 +13,9 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
-import ChatPopover from "./chatPopover.js";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import { useApiCall } from "../../../api/api_request.js";
+import { LOG_OUT_ROUTE } from "../../../api/routes.js";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -46,23 +48,63 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 }));
+
+const apiCallConfig = {
+  route: LOG_OUT_ROUTE,
+  method: "GET",
+};
+
 //TODO : Using Redux to open component
-function HeadBar({ status, openDrawer }) {
+function HeadBar({ status, openDrawer, socket, setRedirect }) {
   const classes = useStyles();
   const theme = useTheme();
+  const [nbNotif, setNbNotif] = React.useState(0);
+  const [listNotif, setListNotif] = React.useState([]);
+  const apiCall = useApiCall(apiCallConfig);
+
+  const addToNotifs = (data) => {
+    const newNotif = [...listNotif];
+    newNotif.push(data);
+    setListNotif(newNotif);
+    setNbNotif(newNotif.length);
+  };
+
+  React.useEffect(() => {
+    if (socket) {
+      socket.on("notif", (data) => {
+        console.log("data de notif: ", data);
+        addToNotifs(data);
+      });
+    }
+    return () => console.log("headbar demount");
+  }, [socket, listNotif]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClickOnNotif = (event) => {
-    setAnchorEl(event.currentTarget);
+    console.log(listNotif);
+    if (listNotif.length !== 0) {
+      setAnchorEl(event.currentTarget);
+    }
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const successLogoutCallback = (response) => {
+    localStorage.removeItem("x-token");
+    localStorage.removeItem("x-refresh-token");
+    setRedirect("/login");
+    socket.disconnect();
+  };
+
+  const handleLogOutClick = () => {
+    apiCall(null, successLogoutCallback);
+  };
+
   const render_notification = () => {
     return (
       <IconButton onClick={handleClickOnNotif} color="inherit">
-        <Badge badgeContent={49} color="secondary">
+        <Badge badgeContent={nbNotif} color="secondary">
           <NotificationsIcon />
         </Badge>
       </IconButton>
@@ -98,16 +140,22 @@ function HeadBar({ status, openDrawer }) {
               </Badge>
             </IconButton>
             {render_notification()}
+
             <NotificationPopover
               anchorEl={anchorEl}
               handleClose={handleClose}
+              notifs={listNotif}
             ></NotificationPopover>
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
               </IconButton>
             </Link>
-            <ChatPopover />
+            <IconButton color="inherit" onClick={handleLogOutClick}>
+              <Badge color="secondary">
+                <MeetingRoomIcon />
+              </Badge>
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>
