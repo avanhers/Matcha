@@ -11,7 +11,7 @@ function MainLayout() {
       <MatchRequestContainer />
       <HeadBarContainer />
       <FilterDrawerContainer />
-      {/* <MatchWindowContainer /> */}
+      <MatchWindowContainer />
     </div>
   );
 }
