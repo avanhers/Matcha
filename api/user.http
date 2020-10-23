@@ -38,8 +38,6 @@ content-type: application/json
 POST  http://localhost/api/user/setAvatar/10 HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc0NTMwLCJleHAiOjE2MDI3NzQ1OTB9.Lme6jRlyiLZr8BJqE0jtbJifghZ6kmJCGawytJXmbBQ
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAyNzc0NTMwLCJleHAiOjE2MDI4NjA5MzB9.ysBRU0Z8rtxGisgvsZpTIw3aRTVfx3PxF3RKANFzD7s
-
-
 ###
 POST  http://localhost/api/auth/forgetPassword HTTP/1.1
 content-type: application/json
@@ -80,6 +78,10 @@ content-type: application/json
 }
 ###
 
+GET http://localhost/api/user/notifications HTTP/1.1
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM0NDIyMjl9.0wzsfzNdV2nI9kA8QjalP_a-S9-xiTveZkIzOm8ZFWI
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM1Mjg1Njl9.1_-93BylVKLDt2fI0dqnjaX8XEZjniXhf_-xj2dmRWk
+###
 GET http://localhost/api/user/email HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMxODI3NDJ9.g95oC0ccP16ADu_z9J-iTSqzeBHgLYaIRkOrBqs5rtM
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMTgyNjgyLCJleHAiOjE2MDMyNjkwODJ9.GO95p57Xv8312nC2yBxsCnxd-svkRG1Fe5_V-YKn1yw

@@ -40,9 +40,11 @@ function ChatBox({ user, myAvatar }) {
   const classes = useStyles();
 
   useEffect(() => {
-    const socket = io("http://localhost/api/test", {
+    const socket = io("http://localhost/test", {
+      path: "/api/socket.io",
       query: { token: JSON.parse(localStorage.getItem("x-refresh-token")) },
     });
+    socket.on("coucou", (data) => console.log(data));
     //console.log(socket);
     apiCallGet(GET_MESSAGE + "/" + user.username, sucessCall, null, null, null);
   }, [user]);

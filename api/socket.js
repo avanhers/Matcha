@@ -1,51 +1,68 @@
 let io = require("socket.io");
 const tokenManager = require("./src/lib/jwt");
+const notificationManager = require("./src/manager/NotificationManager");
 
-const sockets = {};
+const users = {};
 
-const socketAuth = (socket, next) => {
+function socketEmitTo(sender, username, type, data) {
+  const sockets = users[username];
+
+  if (sockets) {
+    sockets.forEach((socketId) => {
+      sender.to(socketId).emit(type, data);
+    });
+  }
+}
+
+const socketAuth = async (socket, next) => {
   const token = socket.handshake.query.token;
-  const username = tokenManager.getUser(token);
+  const username = await tokenManager.getUser(token);
 
   if (username) {
-    sockets[username] = socket.id;
-    console.log(`SOCKETIO: ${username} connected`);
+    if (!users[username]) {
+      users[username] = [];
+    }
+    users[username].push(socket.id);
+    console.log(
+      `SOCKETIO_AUTH: ${username} connected\nNumber of connetions: ${users[username].length}`
+    );
+    socket.username = username;
     return next();
   }
   return next(new Error("Noting Defined"));
 };
 
 const socketConnection = (socket) => {
-  const username = Object.keys(sockets).find(
-    (key) => sockets[key] === socket.id
-  );
-  socket.emit("message", { message: "Hey!" });
+  console.log(`SOCKETIO_CON: ${socket.username} connected\n`);
 
   socket.on("disconnect", () => {
-    console.log(`SOCKETIO: ${username} disconnected`);
-    //delete socket
+    const sockets = users[socket.username];
+
+    console.log(
+      `SOCKETIO: ${socket.username} disconnected on socket ${
+        socket.id
+      }, socket opened ${users[socket.username]}`
+    );
   });
 
   socket.on("notification", (data) => {
-    const { target, type } = data;
-    const socket_target = sockets[target];
+    const { username, type } = data;
+    const msg = {
+      type: type,
+      from: username,
+    };
 
-    if (socket_target) {
-      console.log(`${target} joinable at ${socket_target}`);
-      if (type === "like") {
-        io.to(socket_target).emit("notification", {
-          type: "like",
-          from: username,
-        });
-      }
-    }
-    //ecriture en bdd
+    socketEmitTo(socket, username, "notification", msg);
+    notificationManager.addNotification(socket.username, type, username);
   });
 };
 
 exports.startIo = function startIo(server) {
   io = io.listen(server);
 
+  io.on("connection", (socket) => {
+    console.log("socket connected: ", socket.id);
+  });
   const test = io.of("/test");
   test.use(socketAuth);
   test.on("connection", socketConnection);
