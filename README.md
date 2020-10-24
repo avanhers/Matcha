@@ -13,6 +13,9 @@ Restriction :
 - secured app.
 - Only relational or graph oriented dataBase
 
+App tools:
+Docker, nginx, reverse proxy
+
 Our Front-end tools:
 Full React.js, material.ui, redux, axios, homeMade validation hook, socket.io-client
 
