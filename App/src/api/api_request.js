@@ -82,8 +82,8 @@ export const useApiCall = (apiCallConfig) => {
           if (reduxState.socket) console.log(reduxState.socket.id);
           if (!reduxState.socket || !reduxState.socket.id) {
             const socket = socketIOClient(BASE_SOCKET_URL, {
+              path: SOCKET_PATH,
               query: {
-                path: SOCKET_PATH,
                 token: JSON.parse(localStorage.getItem("x-refresh-token")),
               },
             });

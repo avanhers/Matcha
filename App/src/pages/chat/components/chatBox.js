@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { useStore } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatMessage from "./chatMessage.js";
 import List from "@material-ui/core/List";
 import ChatText from "./chatText.js";
 import Paper from "@material-ui/core/Paper";
-import { GET_MESSAGE } from "../../../api/routes.js";
+import { GET_MESSAGE, BASE_SOCKET_URL } from "../../../api/routes.js";
 import { apiCallGet } from "../../../api/api_request.js";
 import io from "socket.io-client";
 
-let socket;
 const useStyles = makeStyles((theme) => ({
   box: {
     backGrounColor: "#F9F7F7",
@@ -33,35 +33,54 @@ const testMessage = [
     sendAt: "11:02",
   },
 ];
-function addZero(i) {
-  if (i < 10) {
-    i = "0" + i;
-  }
-  return i;
-}
-function myFunction() {
-  var d = new Date();
-  console.log("date", d);
-  var x = document.getElementById("demo");
-  var h = addZero(d.getHours());
-  var m = addZero(d.getMinutes());
-  var s = addZero(d.getSeconds());
-  return h + ":" + m + ":" + s;
-}
+
+const messageHandler = (message, mess) => {
+  const newMess = [...mess];
+  newMess.push({
+    send: null,
+    message: message.msg,
+    sendAt: new Date(),
+  });
+  return newMess;
+};
 
 function ChatBox({ user, myAvatar }) {
   const [listMess, setListMess] = React.useState(testMessage);
-
+  const socket = useStore().getState().socket;
   const classes = useStyles();
 
+  const [connected, setConnected] = React.useState(false);
+
+  const ref = useRef(listMess);
+  const refUser = useRef(user.username);
+
+  const handler = (message) => {
+    if (refUser.current === message.from)
+      setListMess(messageHandler(message, ref.current));
+  };
+
+  // UseEffect call one time for socket connection
   useEffect(() => {
-    const socket = io("http://localhost/test", {
-      path: "/api/socket.io",
-      query: { token: JSON.parse(localStorage.getItem("x-refresh-token")) },
-    });
-    socket.on("coucou", (data) => console.log(data));
-    //console.log(socket);
+    if (socket) {
+      socket.on("message", handler);
+      setConnected(true);
+      console.log("listening on message");
+    }
+    return () => {
+      socket.off("message", handler);
+      setConnected(false);
+      console.log("NOT listening essage anymore");
+    };
+  }, []);
+
+  // UseEffect call everytime to change reference value
+  useEffect(() => {
+    ref.current = listMess;
+  });
+
+  useEffect(() => {
     apiCallGet(GET_MESSAGE + "/" + user.username, sucessCall, null, null, null);
+    refUser.current = user.username;
   }, [user]);
 
   const sucessCall = (response) => {
@@ -70,11 +89,14 @@ function ChatBox({ user, myAvatar }) {
 
   const handleSubmit = (data) => {
     const newMess = [...listMess];
-    console.log(data);
     newMess.push({
       send: 1,
       message: data,
-      sendAt: "aaaaaaaaaaa" + myFunction(),
+      sendAt: new Date(),
+    });
+    socket.emit("message", {
+      username: user.username,
+      msg: data,
     });
     setListMess(newMess);
   };

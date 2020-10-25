@@ -43,20 +43,24 @@ export default function ListUser({ users, handleClickUser }) {
           badgeContent=" "
           variant="dot"
         >
-          <Badge
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            color="secondary"
-            badgeContent="2"
-          >
-            <Avatar alt="Avatar" src={user.avatar} sizes="large" />
-          </Badge>
+          {user.nbMess ? (
+            <Badge
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              color="secondary"
+              badgeContent="2"
+            />
+          ) : (
+            ""
+          )}
+          <Avatar alt="Avatar" src={user.avatar} sizes="large" />
         </Badge>
       );
     else return <Avatar alt="Avatar" src={user.avatar} sizes="large" />;
   };
+
   return (
     <List className={classes.root} subheader={<li />}>
       <Typography>Conversation</Typography>
@@ -78,3 +82,7 @@ export default function ListUser({ users, handleClickUser }) {
     </List>
   );
 }
+
+// function UserAvatar({badgeOnline,badgeMessage}) {
+//   if()
+// }
