@@ -24,6 +24,7 @@ class MatchController {
         receiver.getId()
       );
 
+      await manager.updateViewedMessage(user.getId(), receiver.getId());
       return res.json({ status: 200, messages: messages });
     }
     return res.json({ status: 400, msg: "bad request" });
