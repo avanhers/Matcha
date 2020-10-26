@@ -65,7 +65,9 @@ export const useApiCall = (apiCallConfig) => {
     const getOrPost =
       apiCallConfig.method === "GET"
         ? () => axios.get(route, config)
-        : () => axios.post(route, params, config);
+        : apiCallConfig.method === "POST"
+        ? () => axios.post(route, params, config)
+        : () => axios.put(route, params, config);
     if (loaderEventCallback) loaderEventCallback(true);
 
     const timer = setTimeout(() => {
@@ -82,8 +84,8 @@ export const useApiCall = (apiCallConfig) => {
           if (reduxState.socket) console.log(reduxState.socket.id);
           if (!reduxState.socket || !reduxState.socket.id) {
             const socket = socketIOClient(BASE_SOCKET_URL, {
+              path: SOCKET_PATH,
               query: {
-                path: SOCKET_PATH,
                 token: JSON.parse(localStorage.getItem("x-refresh-token")),
               },
             });

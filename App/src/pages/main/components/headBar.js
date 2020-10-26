@@ -15,7 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { useApiCall } from "../../../api/api_request.js";
-import { LOG_OUT_ROUTE } from "../../../api/routes.js";
+import { GET_NOTIFICATIONS, LOG_OUT_ROUTE } from "../../../api/routes.js";
+import Notification from "./notification.js";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const apiCallConfig = {
+const apiCallLogOutConfig = {
   route: LOG_OUT_ROUTE,
   method: "GET",
 };
@@ -60,7 +61,7 @@ function HeadBar({ status, openDrawer, socket, setRedirect }) {
   const theme = useTheme();
   const [nbNotif, setNbNotif] = React.useState(0);
   const [listNotif, setListNotif] = React.useState([]);
-  const apiCall = useApiCall(apiCallConfig);
+  const apiCall = useApiCall(apiCallLogOutConfig);
 
   const addToNotifs = (data) => {
     const newNotif = [...listNotif];
@@ -69,15 +70,9 @@ function HeadBar({ status, openDrawer, socket, setRedirect }) {
     setNbNotif(newNotif.length);
   };
 
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("notif", (data) => {
-        console.log("data de notif: ", data);
-        addToNotifs(data);
-      });
-    }
-    return () => console.log("headbar demount");
-  }, [socket, listNotif]);
+  const successNotif = (response) => {
+    console.log("success notif");
+  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClickOnNotif = (event) => {
@@ -139,13 +134,14 @@ function HeadBar({ status, openDrawer, socket, setRedirect }) {
                 <MailIcon />
               </Badge>
             </IconButton>
-            {render_notification()}
+            {/* {render_notification()}
 
             <NotificationPopover
               anchorEl={anchorEl}
               handleClose={handleClose}
               notifs={listNotif}
-            ></NotificationPopover>
+            ></NotificationPopover> */}
+            <Notification socket={socket} />
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />

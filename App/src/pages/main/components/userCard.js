@@ -139,13 +139,13 @@ export default function CustomCard({ user, socket }) {
 
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {user.age} ans
+            {user.username}
           </Typography>
           <Typography gutterBottom variant="h4" component="h2">
-            {Math.floor(user.distance)} Km
+            {user.age} ans
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {user.username}
+          <Typography variant="body1" color="textSecondary" component="p">
+            {Math.floor(user.distance)} Km
           </Typography>
         </CardContent>
       </CardActionArea>
