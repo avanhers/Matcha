@@ -383,6 +383,13 @@ const UserManager = function () {
 
   /* ----------------------------------- CHAT ------------------------------- */
 
+  this.updateViewedMessage = function (userId, otherId) {
+    const sql = `UPDATE messages SET unviewed = 0 WHERE fromId = ? AND toId = ?`;
+    const values = [otherId, userId];
+
+    return db.query(sql, values);
+  };
+
   this.getConversationWith = function (fromId, toId) {
     const subRequest = `(SELECT * FROM messages WHERE fromId = ${fromId}) `;
 
