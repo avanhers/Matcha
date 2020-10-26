@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const formatImage = (item) => {
+  if (item.substr(0, 5) != "https") {
+    return "http://localhost/api".concat(item.slice(7));
+  } else return item;
+};
+
 export default function ListUser({ users, handleClickUser }) {
   const classes = useStyles();
 
@@ -53,12 +59,12 @@ export default function ListUser({ users, handleClickUser }) {
               badgeContent="2"
             />
           ) : (
-            ""
-          )}
-          <Avatar alt="Avatar" src={user.avatar} sizes="large" />
+              ""
+            )}
+          <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />
         </Badge>
       );
-    else return <Avatar alt="Avatar" src={user.avatar} sizes="large" />;
+    else return <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />;
   };
 
   return (

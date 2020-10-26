@@ -57,6 +57,7 @@ function ChatBox({ user, myAvatar }) {
   const handler = (message) => {
     if (refUser.current === message.from)
       setListMess(messageHandler(message, ref.current));
+
   };
 
   // UseEffect call one time for socket connection
@@ -66,7 +67,7 @@ function ChatBox({ user, myAvatar }) {
       setConnected(true);
       console.log("listening on message");
     }
-    return () => {
+    if (socket) return () => {
       socket.off("message", handler);
       setConnected(false);
       console.log("NOT listening essage anymore");
