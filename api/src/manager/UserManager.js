@@ -278,12 +278,17 @@ const UserManager = function () {
       .select("u.username")
       .addSelect("u.avatar")
       .addSelect("u.isLogin")
+      .addSelect("COUNT(m.viewed)", "unreadMessages")
       .from("likes", "l")
       .innerJoin(subrequest, "l2")
       .on("l.likedId", "l2.likeId")
+      .innerJoin("messages", "m")
+      .on("m.fromId", "l.likedId")
       .innerJoin("users", "u")
       .on("u.id", "l.likedId")
       .where("l.likeId", user.getId())
+      .addAndLogic("m.viewed = 0")
+      .groupBy("l.id")
       .sendQuery();
 
     user.setMatches(rows);
