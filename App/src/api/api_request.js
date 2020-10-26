@@ -65,7 +65,9 @@ export const useApiCall = (apiCallConfig) => {
     const getOrPost =
       apiCallConfig.method === "GET"
         ? () => axios.get(route, config)
-        : () => axios.post(route, params, config);
+        : apiCallConfig.method === "POST"
+        ? () => axios.post(route, params, config)
+        : () => axios.put(route, params, config);
     if (loaderEventCallback) loaderEventCallback(true);
 
     const timer = setTimeout(() => {

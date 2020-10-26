@@ -5,10 +5,15 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ListNotification from "../../../common/components/listNotification";
 import ChatBox from "./chatBox.js";
+import ChatMessage from "./chatMessage.js";
 
 const useStyles = makeStyles((theme) => ({
   typography: {
     padding: theme.spacing(2),
+  },
+  box: {
+    width: 300,
+    border: "1px solid black",
   },
 }));
 
@@ -33,8 +38,11 @@ export default function NotificationPopover({ anchorEl, handleClose, notifs }) {
           horizontal: "center",
         }}
       >
-        {/* <ListNotification /> */}
-        <ChatBox notifs={notifs} />
+        <div className={classes.box}>
+          {notifs.map((i, index) => {
+            return <ChatMessage notif={i} key={index} />;
+          })}
+        </div>
       </Popover>
     </div>
   );
