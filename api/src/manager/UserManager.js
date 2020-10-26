@@ -284,6 +284,7 @@ const UserManager = function () {
       .on("l.likedId", "l2.likeId")
       .leftJoin("messages", "m")
       .on("m.fromId", "l.likedId")
+      .addAndLogic(`m.toId = l.likeId`)
       .innerJoin("users", "u")
       .on("u.id", "l.likedId")
       .where("l.likeId", user.getId())
