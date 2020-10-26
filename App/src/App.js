@@ -8,7 +8,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import ProfilLayoutContainer from "./pages/profile/containers/profilLayoutContainer.js";
 import ConfirmationContainer from "./pages/home/containers/confirmationContainer.js";
 import BackdropLoaderContainer from "./common/containers/backdropLoaderContainer.js";
 import SnackBarContainer from "./common/containers/snackBarContainer.js";
@@ -16,12 +15,20 @@ import PasswordChangeContainer from "./pages/home/containers/passwordChangeConta
 import PrivateRouteContainer from "./common/containers/privateRouteContainer";
 import PageNotFound from "./pages/home/components/pageNotFound";
 import Profil from "./pages/profile/components/profil.js";
+import { useStore } from "react-redux";
 import Chat from "./pages/chat/components/chat.js";
 
 function App() {
+  React.useState(() => {
+    return () => {
+      const socket = useStore.getState.socket;
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+  });
   return (
     <div className="App">
-      {/* <MainLayout /> */}
       <Router>
         <Switch>
           <PrivateRouteContainer
@@ -32,6 +39,11 @@ function App() {
           <PrivateRouteContainer
             exact
             path="/"
+            component={MainLayoutContainer}
+          />
+          <PrivateRouteContainer
+            exact
+            path="/user/:username"
             component={MainLayoutContainer}
           />
           <PrivateRouteContainer exact path="/profil" component={Profil} />

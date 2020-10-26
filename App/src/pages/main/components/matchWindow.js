@@ -34,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MatchWindow({ drawerStatus, matches, setPage }) {
+export default function MatchWindow({
+  drawerStatus,
+  matches,
+  setPage,
+  socket,
+}) {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
   const ref = React.useRef(null);
@@ -71,7 +76,7 @@ export default function MatchWindow({ drawerStatus, matches, setPage }) {
           <Grid container justify="flex-start" spacing={spacing}>
             {matches.matches.map((match, index) => (
               <Grid key={index} item>
-                <CustomCard user={match} />
+                <CustomCard user={match} socket={socket} />
               </Grid>
             ))}
           </Grid>

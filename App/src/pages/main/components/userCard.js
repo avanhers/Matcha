@@ -17,6 +17,8 @@ import { CSSTransition } from "react-transition-group";
 import { useApiCall } from "../../../api/api_request.js";
 import { LIKE_USER, UNLIKE_USER } from "../../../api/routes.js";
 import ProfilModal from "./profilModal.js";
+import socketIOClient from "socket.io-client";
+import { useStore } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -68,12 +70,15 @@ const apiUnlikeUserConfig = {
   method: "POST",
 };
 
-export default function CustomCard({ user }) {
+export default function CustomCard({ user, socket }) {
   const classes = useStyles();
   const [profilModalOpened, setProfilModalOpened] = React.useState(false);
   const [likeDisabledLoader, setLikeDisabledLoader] = React.useState(false);
+  const [likeChecked, setLikeChecked] = React.useState(!!user.likedId);
   const likeUser = useApiCall(apiLikeUserConfig);
   const unlikeUser = useApiCall(apiUnlikeUserConfig);
+  // const socket = useStore().getState().socket;
+
   const handleProfilClick = () => {
     setProfilModalOpened(true);
   };
@@ -83,6 +88,18 @@ export default function CustomCard({ user }) {
   };
 
   const successLike = (response) => {
+    console.log(socket);
+    if (response.data.status) {
+      const status = response.data.status;
+      if (status === 201) {
+        if (socket)
+          socket.emit("notification", { type: "like", target: user.username });
+      } else if (status === 202) {
+        if (socket)
+          socket.emit("notification", { type: "match", target: user.username });
+      }
+    }
+
     console.log("like success");
   };
 
@@ -106,6 +123,7 @@ export default function CustomCard({ user }) {
         setLikeDisabledLoader
       );
     }
+    setLikeChecked(!likeChecked);
   };
 
   return (
@@ -123,6 +141,9 @@ export default function CustomCard({ user }) {
           <Typography gutterBottom variant="h5" component="h2">
             {user.age} ans
           </Typography>
+          <Typography gutterBottom variant="h4" component="h2">
+            {Math.floor(user.distance)} Km
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {user.username}
           </Typography>
@@ -139,6 +160,7 @@ export default function CustomCard({ user }) {
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}
               name="checkedH"
+              checked={likeChecked}
               onClick={handleLikeClick}
               disabled={likeDisabledLoader}
             />
