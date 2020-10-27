@@ -1,12 +1,15 @@
 import React from "react";
 import MainOtherProfile from "./mainOtherProfile.js";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+import { useApiCall } from "../../../api/api_request.js";
 import HeadBar from "../../profile/components/headBar.js";
 import { makeStyles } from "@material-ui/core/styles";
+
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
-
+  root: {
+    display: "flex",
+  },
   content: {
     flexGrow: 1,
   },
@@ -14,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 function OtherProfile({ match }) {
   const classes = useStyles();
-
   const [mainComponent, setMainComponent] = React.useState(
     <MainOtherProfile match={match} />
   );

@@ -8,7 +8,7 @@ import BlockIcon from "@material-ui/icons/Block";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import WarningIcon from "@material-ui/icons/Warning";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
-function ActionBloc() {
+function ActionBloc(user, clickLike, clickBlock, clickReport) {
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -18,7 +18,8 @@ function ActionBloc() {
               <Checkbox
                 icon={<FavoriteBorder />}
                 checkedIcon={<Favorite />}
-                name="checked"
+                checked={user.isLiked}
+                onClick={clickLike}
               />
             }
             label="Like"
@@ -30,7 +31,8 @@ function ActionBloc() {
               <Checkbox
                 icon={<RadioButtonUncheckedIcon />}
                 checkedIcon={<BlockIcon />}
-                name="checked"
+                cheked={user.isBlocked}
+                onClick={clickBlock}
               />
             }
             label="Bloque"
@@ -42,7 +44,8 @@ function ActionBloc() {
               <Checkbox
                 icon={<WarningIcon />}
                 checkedIcon={<ReportProblemIcon />}
-                name="checked"
+                cheked={user.isReported}
+                onClick={clickReport}
               />
             }
             label="signaler "

@@ -11,7 +11,7 @@ const initialState = {
   age: 12,
 };
 
-function Info() {
+function Info({ user }) {
   const data = initialState;
 
   function renderField(name, value) {
@@ -35,22 +35,22 @@ function Info() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          {renderField("username", "tata")}
+          {renderField("username", user.username)}
         </Grid>
         <Grid item xs={12}>
-          {renderField("Prenom", "tata")}
+          {renderField("Prenom", user.firstname)}
         </Grid>
         <Grid item xs={12}>
-          {renderField("Nom", "tata")}
+          {renderField("Nom", user.name)}
         </Grid>
         <Grid item xs={12}>
-          {renderField("age", "16")}
+          {renderField("age", user.age)}
         </Grid>
         <Grid item xs={12}>
-          {renderField("orientation", "bi")}
+          {renderField("orientation", user.sexualOrientation)}
         </Grid>
         <Grid item xs={12}>
-          {renderField("sexe", "16")}
+          {renderField("sexe", user.gender)}
         </Grid>
       </Grid>
     </React.Fragment>

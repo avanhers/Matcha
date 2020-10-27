@@ -2,9 +2,9 @@
  * docker routes
  */
 
- export const BASE_API_ROUTE = "http://localhost/api";
- export const BASE_SOCKET_URL = "http://localhost/test";
- export const SOCKET_PATH = "/api/socket.io";
+export const BASE_API_ROUTE = "http://localhost/api";
+export const BASE_SOCKET_URL = "http://localhost/test";
+export const SOCKET_PATH = "/api/socket.io";
 
 /**
  * Léo routes (no docker)
@@ -45,6 +45,8 @@ export const GET_NOTIFICATIONS = BASE_API_ROUTE + "/user/notifications";
 
 export const LOCATION_ROUTE = BASE_API_ROUTE + "/user/location";
 export const UPDATE_PASSWORD_ROUTE = BASE_API_ROUTE + "/user/updatePassword";
+
+export const GET_PROFILE = BASE_API_ROUTE + "/user/profile/";
 
 /*CHAT ROUTE*/
 
