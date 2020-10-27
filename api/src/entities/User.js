@@ -57,7 +57,25 @@ class User {
     }
     this.reduceImages(plainObject);
     this.reduceLikes(plainObject);
+    this.avanhersTags(plainObject);
     return plainObject;
+  }
+
+  avanhersTags(user) {
+    const tags = [];
+    let i = 1;
+    const prefix = "tag";
+
+    user.tags.forEach((elem) => {
+      const label = prefix + i;
+
+      tags.push({
+        label: label,
+        value: elem,
+      });
+      i++;
+    });
+    user.tags = tags;
   }
 
   reduceLikes(user) {

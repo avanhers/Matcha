@@ -137,6 +137,7 @@ const userController = {
     if (user && userWatched) {
       await manager.addLikesToUser(userWatched);
       await manager.addImagesToUser(userWatched);
+      await manager.addTagsToUser(userWatched);
       await this.setReports(user, userWatched);
       await this.setBlocks(user, userWatched);
       await manager.createView(user, userWatched);
