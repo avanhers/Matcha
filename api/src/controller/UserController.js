@@ -157,6 +157,17 @@ const userController = {
     res.json({ status: 400, msg: "bad user" });
   },
 
+  getBlocks: async function (req, res) {
+    const user = await manager.findOneById(req.userId);
+
+    if (user) {
+      const blocks = await manager.getBlocks(user);
+
+      return res.json({ status: 200, data: blocks });
+    }
+    res.json({ status: 400, msg: "bad user" });
+  },
+
   getLikes: async function (req, res) {
     const user = await manager.findOneById(req.userId);
 

@@ -443,6 +443,15 @@ const UserManager = function () {
     return db.query(sql, values);
   };
 
+  this.getBlocks = async function (user) {
+    const ret = {};
+    const sql =
+      "SELECT username, avatar FROM blocks INNER JOIN users ON blockedId = users.id WHERE blockerId = ?";
+    const blocks = await db.query(sql, user.getId());
+
+    return blocks;
+  };
+
   /* ----------------------------------- VIEW ------------------------------- */
 
   this.getViews = async function (user) {
