@@ -7,18 +7,20 @@ function PrivateRoute({
   setRedirectPath,
   ...params
 }) {
-  React.useEffect(() => {
-    return () => setRedirectPath("");
-  }, []);
+
+  const redirectAndReset = () => {
+      setRedirectPath("");
+      return (
+        <Redirect to={redirectPath} />
+      );
+  }
   return (
     <Route
       {...params}
       render={(props) => {
         return !redirectPath || params.path === redirectPath ? (
           <Component {...props} />
-        ) : (
-          <Redirect to={redirectPath} />
-        );
+        ) : redirectAndReset();
       }}
     />
   );
