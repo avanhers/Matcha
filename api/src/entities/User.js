@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 class User {
   PRIVATE = ["password", "id", "PRIVATE", "PROFILE"];
-  PROFILE = ["password", "id", "PROFILE", "email", "PRIVATE"];
+  PROFILE = ["password", "id", "PROFILE", "email", "PRIVATE", "INFOS"];
   INFOS = [
     "name",
     "firstname",
@@ -55,7 +55,32 @@ class User {
         plainObject[key] = this[key];
       }
     }
+    this.reduceImages(plainObject);
+    this.reduceLikes(plainObject);
     return plainObject;
+  }
+
+  reduceLikes(user) {
+    const likes = false;
+
+    user.likes.forEach((like) => {
+      if (like.username === this.getUsername()) {
+        likes = true;
+      }
+    });
+    user.isLiked = likes;
+    delete user.likes;
+  }
+
+  reduceImages(user) {
+    const images = [];
+
+    user.images.forEach((image) => {
+      if (image.image !== user.avatar) {
+        images.push(image.image);
+      }
+    });
+    user.images = images;
   }
 
   getInfos() {

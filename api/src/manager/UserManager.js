@@ -321,6 +321,19 @@ const UserManager = function () {
     return user;
   };
 
+  this.addBocksToUser = async function (user) {
+    const rows = await queryCreator
+      .select("u.username", "blocked")
+      .from("blocks", "b")
+      .innerJoin("users", "u")
+      .on("r.blockedId", "u.id")
+      .where("r.blockerId", user.getId())
+      .sendQuery();
+
+    user.setReports(rows);
+    return user;
+  };
+
   /* ----------------------------------- HASH ------------------------------- */
 
   this.getUserIdByHashForget = async function (hashForget) {
@@ -421,6 +434,22 @@ const UserManager = function () {
       .insert("blocks", ["blockerId", "blockedId"])
       .value([blocker.getId(), blocked.getId()])
       .sendQuery();
+  };
+
+  this.deleteBlock = async function (blocker, blocked) {
+    const sql = `DELETE FROM blocks WHERE blockerId = ? AND blockedId = ?`;
+    const values = [blocker.getId(), blocked.getId()];
+
+    return db.query(sql, values);
+  };
+
+  this.getBlocks = async function (user) {
+    const ret = {};
+    const sql =
+      "SELECT username, avatar FROM blocks INNER JOIN users ON blockedId = users.id WHERE blockerId = ?";
+    const blocks = await db.query(sql, user.getId());
+
+    return blocks;
   };
 
   /* ----------------------------------- VIEW ------------------------------- */
