@@ -9,15 +9,24 @@ class SearcherManager {
     this.addLikesJoin(user);
     this.addDistanceJoin(user);
     this.addTagsJoin(parameters);
+    this.addBlocks(user);
     this.filterBySexualOrientation(
       user.getGender(),
       user.getSexualOrientation()
     );
     this.setOtherFilters(parameters);
     queryCreator.addAndLogic(`u.id <> ${user.getId()}`);
+    queryCreator.addAndLogic(`b.id IS NULL`);
     this.setSort(parameters);
     this.setPagination(parameters);
     return queryCreator.sendQuery();
+  }
+
+  addBlocks(user) {
+    queryCreator
+      .leftJoin("blocks", "b")
+      .on("b.blockerId", user.getId())
+      .addAndLogic("b.blockedId = u.id");
   }
 
   addTagsJoin(parameters) {

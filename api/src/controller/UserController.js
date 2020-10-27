@@ -121,7 +121,8 @@ const userController = {
     if (user && userBlocked) {
       await manager.addBlocksToUser(user);
       if (user.alreadyBlock(userBlocked)) {
-        return res.json({ status: 400, msg: "user already blocked" });
+        await manager.deleteBlock(user, userBlocked);
+        return res.json({ status: 400, msg: "user unbocked" });
       }
       await manager.createBlock(user, userBlocked);
       return res.json({ status: 200, msg: "block created" });
@@ -133,9 +134,11 @@ const userController = {
     const user = await manager.findOneById(req.userId);
     const userWatched = await manager.findUserByUsername(req.params.username);
 
-    await manager.addLikesToUser(userWatched);
-    await this.setReports(user, userWatched);
     if (user && userWatched) {
+      await manager.addLikesToUser(userWatched);
+      await manager.addImagesToUser(userWatched);
+      await this.setReports(user, userWatched);
+      await this.setBlocks(user, userWatched);
       await manager.createView(user, userWatched);
       await manager.addPopularityScore(userWatched, VIEW);
       return res.json({ status: 200, user: userWatched.toProfile() });
@@ -398,6 +401,11 @@ const userController = {
   setReports: async function (user, watched) {
     await manager.addReportsToUser(user);
     watched.isReported = user.alreadyReport(watched);
+  },
+
+  setBlocks: async function (user, watched) {
+    await manager.addBlocksToUser(user);
+    watched.isBlocked = user.alreadyBlock(watched);
   },
 
   removeOldPictures: function (oldPath) {
