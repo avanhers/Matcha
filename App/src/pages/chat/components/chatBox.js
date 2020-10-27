@@ -7,7 +7,6 @@ import ChatText from "./chatText.js";
 import Paper from "@material-ui/core/Paper";
 import { GET_MESSAGE, BASE_SOCKET_URL } from "../../../api/routes.js";
 import { apiCallGet } from "../../../api/api_request.js";
-import io from "socket.io-client";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -53,11 +52,10 @@ function ChatBox({ user, myAvatar }) {
 
   const ref = useRef(listMess);
   const refUser = useRef(user.username);
-
+  const listRef = useRef(null);
   const handler = (message) => {
     if (refUser.current === message.from)
       setListMess(messageHandler(message, ref.current));
-
   };
 
   // UseEffect call one time for socket connection
@@ -65,18 +63,17 @@ function ChatBox({ user, myAvatar }) {
     if (socket) {
       socket.on("message", handler);
       setConnected(true);
-      console.log("listening on message");
     }
-    if (socket) return () => {
+    return () => {
       socket.off("message", handler);
       setConnected(false);
-      console.log("NOT listening essage anymore");
     };
   }, []);
 
   // UseEffect call everytime to change reference value
   useEffect(() => {
     ref.current = listMess;
+    if (listRef.current) listRef.current.scrollIntoView();
   });
 
   useEffect(() => {
@@ -119,6 +116,7 @@ function ChatBox({ user, myAvatar }) {
                 );
               })}
             </ul>
+            <div ref={listRef}></div>
           </List>
         </div>
       );

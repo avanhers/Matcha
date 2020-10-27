@@ -73,9 +73,9 @@ function getHour(date) {
 
 function ChatMessage({ message, avatar }) {
   const classes = useStyles();
-  const renderSend = () => {
-    const img = formatImage(avatar);
+  const img = formatImage(avatar);
 
+  const renderSend = () => {
     return (
       <div className={classes.messageContainerRight}>
         <img className={classes.imgright} src={img} alt="avatar" />
@@ -92,11 +92,7 @@ function ChatMessage({ message, avatar }) {
   const renderReceive = () => {
     return (
       <div className={classes.messageContainerLeft}>
-        <img
-          className={classes.imgleft}
-          src={formatImage(avatar)}
-          alt="avatar"
-        />
+        <img className={classes.imgleft} src={img} alt="avatar" />
         <p>{message.message}</p>
         <span className={classes.timeRight}>{getHour(message.sendAt)}</span>
 

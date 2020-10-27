@@ -57,12 +57,7 @@ function HeadBar({ status, handleDrawerToggle }) {
 
   return (
     <div>
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: status,
-        })}
-      >
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -86,10 +81,7 @@ function HeadBar({ status, handleDrawerToggle }) {
               </IconButton>
             </Link>
             {render_notification()}
-            {/* <NotificationPopover
-              anchorEl={anchorEl}
-              handleClose={handleClose}
-            ></NotificationPopover> */}
+
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />

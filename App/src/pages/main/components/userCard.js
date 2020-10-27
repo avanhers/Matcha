@@ -13,12 +13,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import PopularityScore from "../../../common/components/popularityScore.js";
-import { CSSTransition } from "react-transition-group";
 import { useApiCall } from "../../../api/api_request.js";
 import { LIKE_USER, UNLIKE_USER } from "../../../api/routes.js";
 import ProfilModal from "./profilModal.js";
-import socketIOClient from "socket.io-client";
-import { useStore } from "react-redux";
 
 const useStyles = makeStyles({
   root: {

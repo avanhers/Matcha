@@ -32,39 +32,72 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const formatImage = (item) => {
-  if (item.substr(0, 5) != "https") {
+  if (item && item.substr(0, 5) != "https") {
     return "http://localhost/api".concat(item.slice(7));
   } else return item;
+};
+
+const renderOnlineMessage = (user, classes) => {
+  return (
+    <Badge
+      classes={{ badge: classes.badge }}
+      color="primary"
+      badgeContent=" "
+      variant="dot"
+    >
+      <Badge
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        color="secondary"
+        badgeContent={user.unreadMessages}
+      />
+      <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />
+    </Badge>
+  );
+};
+const renderOnlineNoMessage = (user, classes) => {
+  return (
+    <Badge
+      classes={{ badge: classes.badge }}
+      color="primary"
+      badgeContent=" "
+      variant="dot"
+    >
+      <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />
+    </Badge>
+  );
+};
+
+const renderOfflineNoMessage = (user) => {
+  return <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />;
+};
+
+const renderOfflineMessage = (user) => {
+  return (
+    <Badge
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+      color="secondary"
+      badgeContent={user.unreadMessages}
+    >
+      <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />
+    </Badge>
+  );
 };
 
 export default function ListUser({ users, handleClickUser }) {
   const classes = useStyles();
 
   const renderAvatar = (user) => {
-    if (user.isLogin)
-      return (
-        <Badge
-          classes={{ badge: classes.badge }}
-          color="primary"
-          badgeContent=" "
-          variant="dot"
-        >
-          {user.nbMess ? (
-            <Badge
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              color="secondary"
-              badgeContent="2"
-            />
-          ) : (
-              ""
-            )}
-          <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />
-        </Badge>
-      );
-    else return <Avatar alt="Avatar" src={formatImage(user.avatar)} sizes="large" />;
+    if (user.isLogin && user.unreadMessages) {
+      return renderOnlineMessage(user, classes);
+    } else if (user.isLogin) return renderOnlineNoMessage(user, classes);
+    else if (user.unreadMessages) return renderOfflineMessage(user);
+    else return renderOfflineNoMessage(user);
   };
 
   return (

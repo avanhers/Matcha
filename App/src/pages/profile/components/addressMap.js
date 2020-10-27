@@ -25,15 +25,17 @@ const configureUrl = (address) => {
 
 const getCoordinateFromAddress = (address, successCallback) => {
   const request_url = configureUrl(address);
+  //Validator 2 caracter minimum juste chiffre et lettre
   axios
     .get(request_url)
     .then((response) => {
       successCallback(response);
     })
     .catch((error) => {
-      console.log("ici catch");
+      console.log("addresse non valide");
     });
 };
+
 const getIp = (successCallback) => {
   apiCallGet(
     "https://ipapi.co/json/",

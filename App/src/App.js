@@ -15,8 +15,9 @@ import PasswordChangeContainer from "./pages/home/containers/passwordChangeConta
 import PrivateRouteContainer from "./common/containers/privateRouteContainer";
 import PageNotFound from "./pages/home/components/pageNotFound";
 import Profil from "./pages/profile/components/profil.js";
+import OtherProfile from "./pages/otherProfile/components/otherProfile.js";
 import { useStore } from "react-redux";
-import Chat from "./pages/chat/components/chat.js";
+import ChatContainer from "./pages/chat/containers/chatContainer.js";
 
 function App() {
   React.useState(() => {
@@ -57,8 +58,13 @@ function App() {
             path="/reset-password"
             component={PasswordChangeContainer}
           />
-          <Route exact path="/chat" component={Chat} />
+          <Route exact path="/chat" component={ChatContainer} />
           <Route exact path="/404" component={PageNotFound} />
+          <Route
+            exaxt
+            path="/otherProfile/:username"
+            component={OtherProfile}
+          />
           <Redirect to="/404" />
         </Switch>
       </Router>

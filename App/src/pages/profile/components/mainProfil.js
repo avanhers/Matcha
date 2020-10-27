@@ -55,12 +55,10 @@ function MainProfile() {
   }, []);
 
   const successGetAvatar = (response) => {
-    console.log(response);
-    if (response.data.avatar.id > 0)
-      setAvatar({
-        path: formattingImage(response.data.avatar.path),
-        id: response.data.avatar.id,
-      });
+    setAvatar({
+      path: formattingImage(response.data.avatar.path),
+      id: response.data.avatar.id,
+    });
   };
 
   const changeAvatar = (image) => {
