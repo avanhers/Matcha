@@ -34,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const useComponentWillMount = (func) => {
-  React.useMemo(func, [])
-}
-
 export default function MatchWindow({
   drawerStatus,
   matches,
