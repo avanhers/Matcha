@@ -19,6 +19,7 @@ export const HIDE_SNACK_BAR = "HIDE_SNACK_BAR";
 export const SHOW_SNACK_BAR = "SHOW_SNACK_BAR";
 export const USER_COMPLETE = "USER_COMPLETE";
 export const REDIRECT_PATH = "REDIRECT_PATH";
+export const SET_SIZE_STATE = "SET_SIZE_STATE";
 
 export const SET_SOCKET = "SET_SOCKET";
 

@@ -9,6 +9,8 @@ import snackBar from "./snackBar/snackBar.js";
 import filterStatus from "./filter/filterStatus.js";
 import redirectPath from "./redirectPath/redirectPath.js";
 import socket from "./socket/socket.js";
+import sizeState from "./windowSize/windowSize.js";
+
 export default combineReducers({
   filter,
   user,
@@ -19,4 +21,5 @@ export default combineReducers({
   snackBar,
   redirectPath,
   socket,
+  sizeState
 });
