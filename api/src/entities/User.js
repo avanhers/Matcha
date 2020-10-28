@@ -56,7 +56,6 @@ class User {
       }
     }
     this.reduceImages(plainObject);
-    this.reduceLikes(plainObject);
     this.avanhersTags(plainObject);
     return plainObject;
   }
@@ -76,18 +75,6 @@ class User {
       i++;
     });
     user.tags = tags;
-  }
-
-  reduceLikes(user) {
-    const likes = false;
-
-    user.likes.forEach((like) => {
-      if (like.username === this.getUsername()) {
-        likes = true;
-      }
-    });
-    user.isLiked = likes;
-    delete user.likes;
   }
 
   reduceImages(user) {

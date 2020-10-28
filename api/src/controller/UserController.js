@@ -135,7 +135,12 @@ const userController = {
     const userWatched = await manager.findUserByUsername(req.params.username);
 
     if (user && userWatched) {
-      await manager.addLikesToUser(userWatched);
+      await manager.addLikesToUser(user);
+      if (user.alreadyLike(userWatched)) {
+        userWatched.isLiked = true;
+      } else {
+        userWatched.isLiked = false;
+      }
       await manager.addImagesToUser(userWatched);
       await manager.addTagsToUser(userWatched);
       await this.setReports(user, userWatched);
