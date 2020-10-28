@@ -43,7 +43,7 @@ export default function MatchWindow({
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
   const ref = React.useRef(null);
-  const listMatches = React.useRef(null);
+  const [listMatcheState, setListMatchState] = React.useState(null)
 
   const handleNextPageLoad = () => {
     setPage();
@@ -57,13 +57,15 @@ export default function MatchWindow({
     if (matches.pageNb === 1) {
       scrollToRef(ref);
     }
-    // on génère le rendu de la liste des matches uniquement quand matches change pour éviter de tout recalculer à chaque fois que le component rerender
+       // on génère le rendu de la liste des matches uniquement quand matches change pour éviter de tout recalculer à chaque fois que le component rerender
     // Améliore la rapidité de l'ouverture du drawer
-    listMatches.current = matches.matches.map((match, index) => (
-      <Grid key={index} item>
-        <CustomCard user={match} socket={socket} />
-      </Grid>
-    ));
+    setListMatchState(
+      matches.matches.map((match, index) => (
+           <Grid key={index} item>
+             <CustomCard user={match} socket={socket} />
+           </Grid>
+         ))
+    )
   }, [matches]);
 
   const renderMatches = () => {
@@ -82,7 +84,7 @@ export default function MatchWindow({
           }
         >
           <Grid container justify="flex-start" spacing={spacing}>
-            {listMatches.current}
+            {listMatcheState}
           </Grid>
         </InfiniteScroll>
       </Grid>
