@@ -23,6 +23,7 @@ function Notification({ socket }) {
   const [nbNotif, setNbNotif] = React.useState(0);
   const [hasLoadedNotifs, setHasLoadedNotifs] = React.useState(false);
   const [listNotif, setListNotif] = React.useState([]);
+  const [PreviouslistNotif, setPreviousListNotif] = React.useState([]);
   const apiCallNotif = useApiCall(apiCallNotifConfig);
   const apiCallReadNotif = useApiCall(apiCallPutNotifConfig);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,11 +62,14 @@ function Notification({ socket }) {
 
   const successRead = () => {
     setNbNotif(0);
+    setPreviousListNotif([...listNotif]);
+    setListNotif([]);
   };
 
   const handleClickOnNotif = (event) => {
     if (listNotif.length !== 0) {
       setAnchorEl(event.currentTarget);
+
       apiCallReadNotif({}, successRead);
     }
   };
@@ -81,7 +85,7 @@ function Notification({ socket }) {
       <NotificationPopover
         anchorEl={anchorEl}
         handleClose={handleClose}
-        notifs={listNotif}
+        notifs={PreviouslistNotif}
       ></NotificationPopover>
     </div>
   );
