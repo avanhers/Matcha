@@ -6,7 +6,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
-
+import Hidden from "@material-ui/core/Hidden";
 import PersonnalFilter from "./personnalFilter.js";
 import CheckBoxFilter from "./checkBoxFilter.js";
 import PopularityFilterContainer from "../containers/popularityFilterContainer.js";
@@ -32,11 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
+function FilterDrawer(props) {
+  const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-
-  console.log(status);
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   const renderFilter = (ownFilter) => {
     if (ownFilter) {
@@ -49,34 +50,55 @@ function FilterDrawer({ status, closeDrawer, filterStatus, toggleFilter }) {
     return null;
   };
 
-  return (
-    <div>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={status}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={closeDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
+  const renderDrawerContent = () => {
+    return (
+      <div>
+        <div className={classes.drawerHeader}></div>
         <Divider />
         <AgeFilterContainer />
         <PopularityFilterContainer />
         <DistanceFilterContainer />
         <CheckBoxFilter
-          filterStatus={filterStatus}
-          toggleFilter={toggleFilter}
+          filterStatus={props.filterStatus}
+          toggleFilter={props.toggleFilter}
         />
-        {renderFilter(filterStatus)}
+        {renderFilter(props.filterStatus)}
         <Divider />
         <SortByContainer />
-      </Drawer>
+      </div>
+    );
+  };
+  return (
+    <div>
+      <Hidden smUp implementation="css">
+        <Drawer
+          container={container}
+          variant="temporary"
+          anchor={theme.direction === "rtl" ? "right" : "left"}
+          open={props.mobileOpen}
+          onClose={props.handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {renderDrawerContent()}
+        </Drawer>
+      </Hidden>
+      {/*  Part show when big size        */}
+      <Hidden xsDown implementation="css">
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant="permanent"
+          open
+        >
+          {renderDrawerContent()}
+        </Drawer>
+      </Hidden>
     </div>
   );
 }

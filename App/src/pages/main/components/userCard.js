@@ -7,18 +7,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
+import { Link } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import Favorite from "@material-ui/icons/Favorite";
 import PopularityScore from "../../../common/components/popularityScore.js";
-import { CSSTransition } from "react-transition-group";
 import { useApiCall } from "../../../api/api_request.js";
 import { LIKE_USER, UNLIKE_USER } from "../../../api/routes.js";
 import ProfilModal from "./profilModal.js";
-import socketIOClient from "socket.io-client";
-import { useStore } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -79,10 +76,6 @@ export default function CustomCard({ user, socket }) {
   const unlikeUser = useApiCall(apiUnlikeUserConfig);
   // const socket = useStore().getState().socket;
 
-  const handleProfilClick = () => {
-    setProfilModalOpened(true);
-  };
-
   const handleProfilModalClose = () => {
     setProfilModalOpened(false);
   };
@@ -128,31 +121,31 @@ export default function CustomCard({ user, socket }) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleProfilClick}>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="200"
-          image={user.avatar}
-          title="Contemplative Reptile"
-        />
+      <CardMedia
+        component="img"
+        alt="Contemplative Reptile"
+        height="200"
+        image={user.avatar}
+        title="Contemplative Reptile"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          {user.username}
+        </Typography>
+        <Typography gutterBottom variant="h4" component="h2">
+          {user.age} ans
+        </Typography>
+        <Typography variant="body1" color="textSecondary" component="p">
+          {Math.floor(user.distance)} Km
+        </Typography>
+      </CardContent>
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {user.username}
-          </Typography>
-          <Typography gutterBottom variant="h4" component="h2">
-            {user.age} ans
-          </Typography>
-          <Typography variant="body1" color="textSecondary" component="p">
-            {Math.floor(user.distance)} Km
-          </Typography>
-        </CardContent>
-      </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          See profile
-        </Button>
+        <Link to={"/otherProfile/" + user.username}>
+          <Button size="small" color="primary">
+            Voir profile
+          </Button>
+        </Link>
         <PopularityScore score={user.popularityScore} />
         <FormControlLabel
           control={

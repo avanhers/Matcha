@@ -57,18 +57,31 @@ const formatImage = (item) => {
   } else return item;
 };
 
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+function getHour(date) {
+  var d = new Date(date);
+  var h = addZero(d.getHours());
+  var m = addZero(d.getMinutes());
+  var s = addZero(d.getSeconds());
+  return h + ":" + m + ":" + s;
+}
+
 function ChatMessage({ message, avatar }) {
   const classes = useStyles();
+  const img = formatImage(avatar);
 
   const renderSend = () => {
-    const img = formatImage(avatar);
-
     return (
       <div className={classes.messageContainerRight}>
         <img className={classes.imgright} src={img} alt="avatar" />
 
         <p>{message.message}</p>
-        <span className={classes.timeLeft}>{message.sendAt.substr(11, 8)}</span>
+        <span className={classes.timeLeft}>{getHour(message.sendAt)}</span>
         {/* </div> */}
 
         <div style={{ content: "", clear: "both", display: "table" }}></div>
@@ -79,15 +92,9 @@ function ChatMessage({ message, avatar }) {
   const renderReceive = () => {
     return (
       <div className={classes.messageContainerLeft}>
-        <img
-          className={classes.imgleft}
-          src={formatImage(avatar)}
-          alt="avatar"
-        />
+        <img className={classes.imgleft} src={img} alt="avatar" />
         <p>{message.message}</p>
-        <span className={classes.timeRight}>
-          {message.sendAt.substr(11, 8)}
-        </span>
+        <span className={classes.timeRight}>{getHour(message.sendAt)}</span>
 
         <div style={{ content: "", clear: "both", display: "table" }}></div>
       </div>

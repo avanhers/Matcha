@@ -1,25 +1,28 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 
-// import NotificationPopover from "./notificationPopover.js";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import clsx from "clsx";
+
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+
 import Badge from "@material-ui/core/Badge";
 import Typography from "@material-ui/core/Typography";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import { Link } from "react-router-dom";
-//import ChatPopover from "./chatPopover.js";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import { useApiCall } from "../../api/api_request.js";
+import { LOG_OUT_ROUTE } from "../../api/routes.js";
+import Notification from "./notification.js";
+import MenuIcon from "@material-ui/icons/Menu";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-  appBar: {
+  menuButton: {
+    marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      display: "none",
     },
   },
   grow: {
@@ -33,26 +36,34 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
   },
   hide: {
     display: "none",
   },
 }));
-//TODO : Using Redux to open component
-function HeadBar({ status, handleDrawerToggle }) {
-  const classes = useStyles();
 
-  const render_notification = () => {
-    return (
-      <IconButton color="inherit">
-        <Badge badgeContent={49} color="secondary">
-          <NotificationsIcon />
-        </Badge>
-      </IconButton>
-    );
+const apiCallLogOutConfig = {
+  route: LOG_OUT_ROUTE,
+  method: "GET",
+};
+
+//TODO : Using Redux to open component
+function HeadBar({ handleDrawerToggle, socket, setRedirect }) {
+  const classes = useStyles();
+  const theme = useTheme();
+  const [nbNotif, setNbNotif] = React.useState(0);
+  const [listNotif, setListNotif] = React.useState([]);
+  const apiCall = useApiCall(apiCallLogOutConfig);
+
+  const successLogoutCallback = (response) => {
+    localStorage.removeItem("x-token");
+    localStorage.removeItem("x-refresh-token");
+    setRedirect("/login");
+    socket.disconnect();
+  };
+
+  const handleLogOutClick = () => {
+    apiCall(null, successLogoutCallback);
   };
 
   return (
@@ -62,16 +73,16 @@ function HeadBar({ status, handleDrawerToggle }) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            edge="start"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
+
+          <div className={classes.grow} />
           <Typography variant="h6" noWrap>
             Matcha
           </Typography>
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Link to="/chat" style={{ color: "#FFF" }}>
               <IconButton color="inherit">
@@ -80,14 +91,17 @@ function HeadBar({ status, handleDrawerToggle }) {
                 </Badge>
               </IconButton>
             </Link>
-            {render_notification()}
-
+            <Notification socket={socket} />
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
               </IconButton>
             </Link>
-            {/* <ChatPopover /> */}
+            <IconButton color="inherit" onClick={handleLogOutClick}>
+              <Badge color="secondary">
+                <MeetingRoomIcon />
+              </Badge>
+            </IconButton>
           </div>
         </Toolbar>
       </AppBar>

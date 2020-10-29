@@ -15,7 +15,7 @@ function MatchRequest({
   setRedirectPath,
 }) {
   const apiCall = useApiCall(apiCallConfig);
-  const [componentMounted, setComponentMounted] = React.useState(false);
+
   const handleAPISuccess = (response) => {
     let status = false;
     if (response.data) {

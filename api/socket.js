@@ -59,17 +59,16 @@ const socketConnection = (socket) => {
   });
 
   socket.on("message", async (data) => {
-    const { target: username, msg } = data;
-    const fromId = await manager.findUserByUsername(socket.username).getId();
-    const toId = await manager.findUserByUsername(username).getId();
+    const { username, msg } = data;
+    const from = await manager.findUserByUsername(socket.username);
+    const to = await manager.findUserByUsername(username);
     const pckt = {
       from: socket.username,
       msg: msg,
-      at: new Date(),
     };
-
+    console.log(pckt.msg);
     socketEmitTo(socket, username, "message", pckt);
-    await notificationManager.addMessage(fromId, toId, msg);
+    await notificationManager.addMessage(from.getId(), to.getId(), msg);
   });
 };
 
