@@ -52,7 +52,7 @@ const userController = {
         user.getUsername()
       );
 
-      return res.status(200).json({ status: 400, notifs: notifs });
+      return res.status(200).json({ status: 200, notifs: notifs });
     }
     return res.status(200).json({ status: 400, msg: "invalid user" });
   },
@@ -63,7 +63,7 @@ const userController = {
     if (user) {
       await notificationManager.readNotifications(user.getUsername());
 
-      return res.status(201);
+      return res.sendStatus(201);
     }
     return res.status(200).json({ status: 400, msg: "invalid user" });
   },
