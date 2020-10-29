@@ -11,8 +11,9 @@ class NotificationManager {
   }
 
   getNotification(username) {
-    const sql = `SELECT emitter, type, notifiedAt FROM notifications 
+    const sql = `SELECT emitter, type, notifiedAt, viewed FROM notifications 
       WHERE receiver = ?
+      AND viewed = 0
       ORDER BY viewed ASC`;
 
     return db.query(sql, username);
