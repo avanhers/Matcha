@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import HeadBar from "./headBar.js";
+import HeadBarContainer from "../../../common/containers/headBarContainer.js";
 import { makeStyles } from "@material-ui/core/styles";
 import SideBar from "./sideBar.js";
 import ChatBox from "./chatBox.js";
@@ -137,7 +137,7 @@ function Chat({ socket }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <HeadBar handleDrawerToggle={handleDrawerToggle} />
+      <HeadBarContainer handleDrawerToggle={handleDrawerToggle} />
       <nav className={classes.drawer} aria-label="mailbox folders">
         <SideBar
           users={users}

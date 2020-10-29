@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ListNotification from "../../../common/components/listNotification";
+import ListNotification from "./listNotification";
 import ChatBox from "./chatBox.js";
 import ChatMessage from "./chatMessage.js";
 
