@@ -6,8 +6,9 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 import { apiCallGet } from "../../../api/api_request.js";
-
+import { BASE_API_ROUTE } from "../../../api/routes.js";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -83,6 +84,16 @@ function SingleLineGridList({ route }) {
     setResult(newData);
   };
 
+  const renderActionIcon = (tile) => {
+    const route = "/otherProfile/" + tile.username;
+    return (
+      <Link to={route} style={{ color: "#FFF" }}>
+        <IconButton aria-label={`star ${tile.username}`}>
+          <VisibilityIcon className={classes.title} />
+        </IconButton>
+      </Link>
+    );
+  };
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
@@ -95,11 +106,7 @@ function SingleLineGridList({ route }) {
                 root: classes.titleBar,
                 title: classes.title,
               }}
-              actionIcon={
-                <IconButton aria-label={`star ${tile.username}`}>
-                  <VisibilityIcon className={classes.title} />
-                </IconButton>
-              }
+              actionIcon={renderActionIcon(tile)}
             />
           </GridListTile>
         ))}

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import MainOtherProfile from "./mainOtherProfile.js";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { useApiCall } from "../../../api/api_request.js";
+
 import HeadBar from "../../profile/components/headBar.js";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -15,11 +14,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function OtherProfile({ match }) {
+function OtherProfile({ match, socket }) {
   const classes = useStyles();
   const [mainComponent, setMainComponent] = React.useState(
-    <MainOtherProfile match={match} />
+    <MainOtherProfile match={match} socket={socket} />
   );
+  const refSocket = useRef(false);
+
+  useEffect(() => {
+    if (socket && !refSocket.current) {
+      refSocket.current = true;
+      socket.emit("notification", {
+        type: "view",
+        target: match.params.username,
+      });
+    }
+  }, [socket]);
 
   return (
     <div className={classes.root}>

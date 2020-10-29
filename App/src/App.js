@@ -15,7 +15,7 @@ import PasswordChangeContainer from "./pages/home/containers/passwordChangeConta
 import PrivateRouteContainer from "./common/containers/privateRouteContainer";
 import PageNotFound from "./pages/home/components/pageNotFound";
 import Profil from "./pages/profile/components/profil.js";
-import OtherProfile from "./pages/otherProfile/components/otherProfile.js";
+import OtherProfileContainer from "./pages/otherProfile/container/otherProfileContainer.js";
 import { useStore } from "react-redux";
 import ChatContainer from "./pages/chat/containers/chatContainer.js";
 
@@ -63,7 +63,7 @@ function App() {
           <Route
             exaxt
             path="/otherProfile/:username"
-            component={OtherProfile}
+            component={OtherProfileContainer}
           />
           <Redirect to="/404" />
         </Switch>

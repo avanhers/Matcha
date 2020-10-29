@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
 import Avatar from "@material-ui/core/Avatar";
 import { Typography } from "@material-ui/core";
 import ActionBloc from "./actionBloc.js";
@@ -12,7 +11,14 @@ import Info from "./info.js";
 import Chip from "@material-ui/core/Chip";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import { GET_PROFILE } from "../../../api/routes.js";
+import {} from "../../../api/routes.js";
+import {
+  GET_PROFILE,
+  LIKE_USER,
+  UNLIKE_USER,
+  BLOCK_USER,
+  SIGNAL_USER,
+} from "../../../api/routes.js";
 import { useApiCall } from "../../../api/api_request.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,25 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const images = [
-  {
-    img: profilPlaceholder,
-    id: 1,
-    bddId: -1,
-    placeholder: true,
-  },
-];
-
-const tags = [
-  { label: "tag1", value: false },
-  { label: "tag2", value: false },
-  { label: "tag3", value: true },
-  { label: "tag4", value: false },
-  { label: "tag5", value: true },
-  { label: "tag6", value: false },
-  { label: "tag7", value: false },
-  { label: "tag8", value: false },
-];
 const defaultUser = {
   age: 18,
   avatar: "",
@@ -47,7 +34,7 @@ const defaultUser = {
   description: "ok",
   firstname: "jules",
   gender: "male",
-  images: [profilPlaceholder],
+  images: [""],
   isBlocked: false,
   isLiked: false,
   isLogin: 1,
@@ -57,8 +44,19 @@ const defaultUser = {
   name: "jules",
   popularityScore: 83.1,
   sexualOrientation: "bi",
-  username: "jules",
+  username: "error",
+  tags: [
+    { label: "tag1", value: false },
+    { label: "tag2", value: false },
+    { label: "tag3", value: false },
+    { label: "tag4", value: false },
+    { label: "tag5", value: false },
+    { label: "tag6", value: false },
+    { label: "tag7", value: false },
+    { label: "tag8", value: false },
+  ],
 };
+
 const formatImage = (item) => {
   if (item && item.substr(0, 5) != "https") {
     return "http://localhost/api".concat(item.slice(7));
@@ -66,7 +64,6 @@ const formatImage = (item) => {
 };
 
 function renderProfilPicture(url) {
-  console.log(formatImage(url));
   return (
     <Avatar
       alt="Avatar"
@@ -77,23 +74,94 @@ function renderProfilPicture(url) {
   );
 }
 
-function MainOtherProfile({ match }) {
+const apiLikeUserConfig = {
+  route: LIKE_USER,
+  method: "POST",
+};
+
+const apiUnlikeUserConfig = {
+  route: UNLIKE_USER,
+  method: "POST",
+};
+
+function MainOtherProfile({ match, socket }) {
   const classes = useStyles();
   const [user, setUser] = React.useState(defaultUser);
+  const [likeDisabledLoader, setLikeDisabledLoader] = React.useState(false);
+  const likeUser = useApiCall(apiLikeUserConfig);
+  const unlikeUser = useApiCall(apiUnlikeUserConfig);
 
   const username = match.params.username;
+
   const configGetProfile = { route: GET_PROFILE + username, method: "GET" };
+
+  const blockUserConfig = { route: BLOCK_USER + username, method: "POST" };
+  const reportUserConfig = { route: SIGNAL_USER + username, method: "POST" };
   const apiCallProfile = useApiCall(configGetProfile);
-  const coord = { lat: user.latitude, lng: user.longitude, zoom: 11 };
+  const apiBlockProfil = useApiCall(blockUserConfig);
+  const apiReportProfil = useApiCall(reportUserConfig);
+  const coord = { lat: user.latitude, lng: user.longitude, zoom: 16 };
 
   useEffect(() => {
-    apiCallProfile(null, successCall);
+    apiCallProfile(null, successCallGetProfile);
   }, []);
 
-  console.log(user);
-  const successCall = (response) => {
+  const successCallGetProfile = (response) => {
+    console.log(response);
     setUser(response.data.user);
-    console.log(response.data.user);
+  };
+
+  const handleLikeClick = (event) => {
+    if (event.target.checked) {
+      console.log("like");
+      likeUser(
+        { urlParams: user.username },
+        successLike,
+        null,
+        setLikeDisabledLoader
+      );
+    } else {
+      console.log("Unlike");
+      unlikeUser(
+        { urlParams: user.username },
+        successUnlike,
+        null,
+        setLikeDisabledLoader
+      );
+    }
+    setUser({ ...user, isLiked: !user.isLiked });
+  };
+
+  const successLike = (response) => {
+    if (response.data.status) {
+      const status = response.data.status;
+      if (status === 201) {
+        if (socket)
+          socket.emit("notification", { type: "like", target: user.username });
+      } else if (status === 202) {
+        if (socket)
+          socket.emit("notification", { type: "match", target: user.username });
+      }
+    }
+
+    console.log("like success");
+  };
+  const successUnlike = (response) => {
+    console.log("unlike success");
+  };
+
+  const handleClickBlock = () => {
+    apiBlockProfil(user.username);
+    setUser({ ...user, isBlocked: !user.isBlocked });
+  };
+
+  const handleClickReport = () => {
+    apiReportProfil(user.username, successReport);
+  };
+  const successReport = (response) => {
+    if (response.data.status == 200) {
+      setUser({ ...user, isReported: !user.isReported });
+    }
   };
 
   const renderImage = (image) => {
@@ -113,7 +181,12 @@ function MainOtherProfile({ match }) {
             {renderProfilPicture(user.avatar)}
           </Grid>
           <Grid item xs={4} md={2}>
-            <ActionBloc user={user} />
+            <ActionBloc
+              user={user}
+              clickLike={handleLikeClick}
+              clickBlock={handleClickBlock}
+              clickReport={handleClickReport}
+            />
           </Grid>
           <Grid item xs={12} md={5}>
             <MyMap
@@ -130,7 +203,7 @@ function MainOtherProfile({ match }) {
             <Paper className={classes.myPaper}>
               <Container>
                 <Grid container spacing={3}>
-                  {tags.map((tag, i) => (
+                  {user.tags.map((tag, i) => (
                     <Grid key={tag.label} item xs={6}>
                       <Chip
                         label={tag.label}
@@ -157,7 +230,7 @@ function MainOtherProfile({ match }) {
           </Grid>
           <Grid item xs={12}>
             <GridList cols={2}>
-              {user.images.map((image, index) => renderImage(image))}
+              {user.images.map((image) => renderImage(image))}
             </GridList>
           </Grid>
         </Grid>

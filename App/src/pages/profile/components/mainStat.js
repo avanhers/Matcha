@@ -28,7 +28,7 @@ function MainStat() {
                 textAlign: "left",
               }}
             >
-              Views
+              Ils ont vus ton profil
             </Typography>
           </Paper>
           <SingleLineGridList route={GET_VIEWS_ROUTE} />
@@ -42,7 +42,7 @@ function MainStat() {
                 textAlign: "left",
               }}
             >
-              Like
+              Ils ont aimés ton profil
             </Typography>
           </Paper>
           <SingleLineGridList route={GET_LIKES_ROUTE} />
@@ -56,7 +56,7 @@ function MainStat() {
                 textAlign: "left",
               }}
             >
-              Match
+              Tes Match!!
             </Typography>
           </Paper>
           <SingleLineGridList route={GET_MATCHES_ROUTE} />

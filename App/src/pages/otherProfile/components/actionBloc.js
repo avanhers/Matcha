@@ -8,7 +8,38 @@ import BlockIcon from "@material-ui/icons/Block";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import WarningIcon from "@material-ui/icons/Warning";
 import ReportProblemIcon from "@material-ui/icons/ReportProblem";
-function ActionBloc(user, clickLike, clickBlock, clickReport) {
+function ActionBloc({ user, clickLike, clickBlock, clickReport }) {
+  const renderSignal = () => {
+    if (user.isReported) {
+      return (
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<ReportProblemIcon />}
+              checkedIcon={<ReportProblemIcon />}
+              checked={true}
+              disableRipple
+            />
+          }
+          label="signaler"
+        />
+      );
+    } else {
+      return (
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<WarningIcon />}
+              checkedIcon={<ReportProblemIcon />}
+              checked={user.isReported}
+              onClick={clickReport}
+            />
+          }
+          label="signaler "
+        />
+      );
+    }
+  };
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -31,7 +62,7 @@ function ActionBloc(user, clickLike, clickBlock, clickReport) {
               <Checkbox
                 icon={<RadioButtonUncheckedIcon />}
                 checkedIcon={<BlockIcon />}
-                cheked={user.isBlocked}
+                checked={user.isBlocked}
                 onClick={clickBlock}
               />
             }
@@ -39,17 +70,7 @@ function ActionBloc(user, clickLike, clickBlock, clickReport) {
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                icon={<WarningIcon />}
-                checkedIcon={<ReportProblemIcon />}
-                cheked={user.isReported}
-                onClick={clickReport}
-              />
-            }
-            label="signaler "
-          />
+          {renderSignal()}
         </Grid>
       </Grid>
     </React.Fragment>

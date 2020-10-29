@@ -47,7 +47,8 @@ export const LOCATION_ROUTE = BASE_API_ROUTE + "/user/location";
 export const UPDATE_PASSWORD_ROUTE = BASE_API_ROUTE + "/user/updatePassword";
 
 export const GET_PROFILE = BASE_API_ROUTE + "/user/profile/";
-
+export const BLOCK_USER = BASE_API_ROUTE + "/user/block/";
+export const SIGNAL_USER = BASE_API_ROUTE + "/user/report/";
 /*CHAT ROUTE*/
 
 export const GET_MESSAGE = BASE_API_ROUTE + "/chat/messages";
