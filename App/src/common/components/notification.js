@@ -24,6 +24,7 @@ function Notification({ socket }) {
   const [hasLoadedNotifs, setHasLoadedNotifs] = React.useState(false);
   const [listNotif, setListNotif] = React.useState([]);
   const apiCallNotif = useApiCall(apiCallNotifConfig);
+  const apiCallReadNotif = useApiCall(apiCallPutNotifConfig);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const addToNotifs = (data) => {
@@ -41,6 +42,10 @@ function Notification({ socket }) {
       apiCallNotif(null, successNotif);
       setHasLoadedNotifs(true);
     }
+    return () => console.log("headbar demount");
+  }, [socket]);
+
+  React.useEffect(() => {
     if (socket) {
       socket.on("notification", (data) => {
         console.log("data de notif: ", data);
@@ -48,16 +53,20 @@ function Notification({ socket }) {
       });
     }
     return () => console.log("headbar demount");
-  }, [socket, listNotif]);
+  }, [listNotif]);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const successRead = () => {
+    setNbNotif(0);
+  };
+
   const handleClickOnNotif = (event) => {
     if (listNotif.length !== 0) {
       setAnchorEl(event.currentTarget);
-      setNbNotif(0);
+      apiCallReadNotif({}, successRead);
     }
   };
 
