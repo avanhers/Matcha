@@ -17,6 +17,7 @@ import { useApiCall } from "../../api/api_request.js";
 import { LOG_OUT_ROUTE } from "../../api/routes.js";
 import Notification from "./notification.js";
 import MenuIcon from "@material-ui/icons/Menu";
+import WcIcon from '@material-ui/icons/Wc';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -95,6 +96,11 @@ function HeadBar({ handleDrawerToggle, socket, setRedirect }) {
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
+              </IconButton>
+            </Link>
+            <Link to="/" style={{ color: "#FFF" }}>
+              <IconButton color="inherit" >
+                <WcIcon />
               </IconButton>
             </Link>
             <IconButton color="inherit" onClick={handleLogOutClick}>

@@ -13,7 +13,7 @@ import {
 } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
 
-const useConstructor = (callBack = () => {}) => {
+const useConstructor = (callBack = () => { }) => {
   const hasBeenCalled = useRef(false);
   if (hasBeenCalled.current) return;
   callBack();
@@ -30,7 +30,7 @@ const initialState = {
   gender: "",
   sexualOrientation: "",
   description: "",
-  age: 12,
+  age: "",
 };
 
 /*

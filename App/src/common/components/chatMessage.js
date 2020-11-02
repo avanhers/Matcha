@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const notifMessageMap = {
   like: " vous a liké !",
   match: " vous a matché !",
-  vew: " a vu votre profil !",
+  view: " a vu votre profil !",
 };
 
 function ChatMessage({ notif }) {

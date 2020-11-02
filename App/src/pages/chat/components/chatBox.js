@@ -52,7 +52,7 @@ function ChatBox({ user, myAvatar }) {
 
   const ref = useRef(listMess);
   const refUser = useRef(user.username);
-  const listRef = useRef(null);
+  const listRef = useRef(null); // for scroll
   const handler = (message) => {
     if (refUser.current === message.from)
       setListMess(messageHandler(message, ref.current));
