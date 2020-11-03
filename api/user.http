@@ -47,10 +47,15 @@ content-type: application/json
     "username": "ok"
 }
 ###
-POST  http://localhost/api/user/like/Tyra48 HTTP/1.1
+POST  http://localhost/api/user/unlike/Jaleel_Murphy HTTP/1.1
 content-type: application/json
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMjAxNTgwLCJleHAiOjE2MDMyMDE2NDB9.gGufFyczU8e2WdTYaMlmh7jepq8AfGWfB5vSQjLjIkc
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzMjAxNTIwLCJleHAiOjE2MDMyODc5MjB9.p4XvpHNfgZT1yLIuj0zV_wBDbpipl6dnBIHsyVz0pq8
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjA0NDM1ODIwLCJleHAiOjE2MDQ0MzU4ODB9.xj5DCOFUUZoyp9NLZuL7MHzqfUSclina9mg0dg_WWRM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjA0NDM1ODIwLCJleHAiOjE2MDQ1MjIyMjB9.z0kPR2fFekFOxdojCEb_o-mEhs43kGpDNXtMSMks3fM
+###
+POST  http://localhost/api/user/like/Jaleel_Murphy HTTP/1.1
+content-type: application/json
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjA0NDM1ODIwLCJleHAiOjE2MDQ0MzU4ODB9.xj5DCOFUUZoyp9NLZuL7MHzqfUSclina9mg0dg_WWRM
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjA0NDM1ODIwLCJleHAiOjE2MDQ1MjIyMjB9.z0kPR2fFekFOxdojCEb_o-mEhs43kGpDNXtMSMks3fM
 ###
 POST  http://localhost/api/user/report/toto HTTP/1.1
 content-type: application/json
@@ -79,8 +84,8 @@ content-type: application/json
 ###
 
 PUT http://localhost/api/user/notifications HTTP/1.1
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM0NDIyMjl9.0wzsfzNdV2nI9kA8QjalP_a-S9-xiTveZkIzOm8ZFWI
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM1Mjg1Njl9.1_-93BylVKLDt2fI0dqnjaX8XEZjniXhf_-xj2dmRWk
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzOTg4Nzk5LCJleHAiOjE2MDM5ODg4NTl9.hjN75NOMmGnN6OM00qflXriLrcY8NvJN380--MJnLCI
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzOTg4Nzk5LCJleHAiOjE2MDQwNzUxOTl9.WBTvYfvi6CxZAKY99TxdwWAGoXrIkG7b8kIpxt9hqGU
 ###
 
 GET http://localhost/api/chat/users HTTP/1.1
@@ -92,8 +97,8 @@ x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNz
 x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNzA3NzYzLCJleHAiOjE2MDM3OTQxNjN9.hOsYmzk9eTGR_GRorBi5KbwlvlDPgdmMhx9KmKBc-a0
 ###
 GET http://localhost/api/user/notifications HTTP/1.1
-x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM0NDIyMjl9.0wzsfzNdV2nI9kA8QjalP_a-S9-xiTveZkIzOm8ZFWI
-x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM1Mjg1Njl9.1_-93BylVKLDt2fI0dqnjaX8XEZjniXhf_-xj2dmRWk
+x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzOTg1ODE0LCJleHAiOjE2MDM5ODU4NzR9.otBCY7uDQDDBI_vpHzGe-8QORdYNfpDZF-zblh7BzQw
+x-refresh-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzOTg1ODE0LCJleHAiOjE2MDQwNzIyMTR9.3a6qv1HiycfSK6raRXJBJixkY72z7LMcO00zbSGJCLg
 ###
 GET http://localhost/api/user/email HTTP/1.1
 x-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIwMSwiaWF0IjoxNjAzNDQyMTY5LCJleHAiOjE2MDM0NDIyMjl9.0wzsfzNdV2nI9kA8QjalP_a-S9-xiTveZkIzOm8ZFWI

@@ -225,8 +225,12 @@ const userController = {
       if (!user.alreadyLike(userUnliked)) {
         return res.json({ status: 200, msg: "like unexist" });
       }
+      await manager.addMatchesToUser(user);
       await manager.deleteLike(user, userUnliked);
       await manager.substractPopularityScore(userUnliked, LIKE);
+      if (user.hasMatchWith(userUnliked)) {
+        return res.json({ status: 202, msg: "this is an unmatch" });
+      }
       return res.json({ status: 201, msg: "like deleted" });
     }
     res.json({ status: 400, msg: "bad users" });
