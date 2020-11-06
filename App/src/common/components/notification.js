@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 // import { makeStyles, useTheme } from "@material-ui/core";
 
 import NotificationPopover from "./notificationPopover.js";
@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useApiCall } from "../../api/api_request.js";
-import { GET_NOTIFICATIONS, LOG_OUT_ROUTE } from "../../api/routes.js";
+import { GET_NOTIFICATIONS } from "../../api/routes.js";
 
 const apiCallNotifConfig = {
   route: GET_NOTIFICATIONS,
@@ -21,58 +21,65 @@ const apiCallPutNotifConfig = {
 //TODO : Using Redux to open component
 function Notification({ socket }) {
   const [nbNotif, setNbNotif] = React.useState(0);
-  const [hasLoadedNotifs, setHasLoadedNotifs] = React.useState(false);
-  const [listNotif, setListNotif] = React.useState([]);
-  const [PreviouslistNotif, setPreviousListNotif] = React.useState([]);
+  const [listNotif, setListNotif] = React.useState([])
   const apiCallNotif = useApiCall(apiCallNotifConfig);
   const apiCallReadNotif = useApiCall(apiCallPutNotifConfig);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMounted = useRef(false);
+  const refNbNotif = useRef(nbNotif);
 
-  const addToNotifs = (data) => {
-    const newNotif = [...listNotif, ...data];
-    setListNotif(newNotif);
-    setNbNotif(newNotif.length);
-  };
-
-  const successNotif = (response) => {
-    console.log("notifs: ", response.data.notifs);
-    addToNotifs(response.data.notifs);
-  };
-  React.useEffect(() => {
-    if (!hasLoadedNotifs && socket) {
-      apiCallNotif(null, successNotif);
-      setHasLoadedNotifs(true);
+  //useEffect call once to enable listening on notification
+  useEffect(() => {
+    isMounted.current = true;
+    if (socket && isMounted.current) {
+      socket.on("notification", notifHandler);
     }
-    return () => console.log("headbar demount");
+    return () => {
+      if (socket) {
+        isMounted.current = false
+        socket.off("notification", notifHandler)
+      }
+    }
   }, [socket]);
 
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("notification", (data) => {
-        console.log("data de notif: ", data);
-        addToNotifs([data]);
-      });
-    }
-    return () => console.log("headbar demount");
-  }, [listNotif]);
+  //UseEffect call once to obtain NbNotif 
+  useEffect(() => {
+    apiCallNotif(null, successNotif);
+  }, []);
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  // UseEffect call everytime to change reference value
+  useEffect(() => {
+    refNbNotif.current = nbNotif;
+  });
+
+  const notifHandler = (data) => {
+    setNbNotif(refNbNotif.current + 1);
+  }
+
+  const successNotif = (response) => {
+    setNbNotif(response.data.notifs.length);
+    //
+  }
+
+  const handleClickOnNotif = (event) => {
+    if (nbNotif !== 0) {
+      setAnchorEl(event.currentTarget);
+      setNbNotif(0);
+      apiCallNotif(null, successObtainNotif);
+      apiCallReadNotif({}, null);
+    }
   };
 
-  const successRead = () => {
-    setNbNotif(0);
-    setPreviousListNotif([...listNotif]);
+  const successObtainNotif = (response) => {
+    setListNotif(response.data.notifs)
+
+  }
+  const handleClose = () => {
+    setAnchorEl(null);
     setListNotif([]);
   };
 
-  const handleClickOnNotif = (event) => {
-    if (listNotif.length !== 0) {
-      setAnchorEl(event.currentTarget);
 
-      apiCallReadNotif({}, successRead);
-    }
-  };
 
   return (
     <div>
@@ -85,7 +92,7 @@ function Notification({ socket }) {
       <NotificationPopover
         anchorEl={anchorEl}
         handleClose={handleClose}
-        notifs={PreviouslistNotif}
+        notifs={listNotif}
       ></NotificationPopover>
     </div>
   );

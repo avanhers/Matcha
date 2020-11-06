@@ -2,7 +2,6 @@ import {
   MATCH_REQUEST,
   MATCH_RESPONSE,
   MATCH_RESPONSE_RESET,
-  SET_PAGE_NB,
 } from "../actionConst.js";
 
 export const matchRequest = () => ({

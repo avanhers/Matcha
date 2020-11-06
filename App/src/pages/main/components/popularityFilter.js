@@ -11,9 +11,6 @@ const useStyles = makeStyles({
   },
 });
 
-function valuetext(value) {
-  return `${value}°C`;
-}
 
 export default function PopularityFilter({ onPopularityChange }) {
   const classes = useStyles();
@@ -30,7 +27,7 @@ export default function PopularityFilter({ onPopularityChange }) {
     onPopularityChange(text);
     // return "good";
   };
-  const test = useDebounceRequest(testFunction, popularity);
+  useDebounceRequest(testFunction, popularity);
 
   return (
     <div className={classes.root}>

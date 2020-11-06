@@ -44,9 +44,9 @@ function TagsList() {
     const ne = tags.map((elem, ind) =>
       index === ind
         ? {
-            ...elem,
-            value: !elem.value,
-          }
+          ...elem,
+          value: !elem.value,
+        }
         : elem
     );
     setTags(ne);
@@ -65,7 +65,7 @@ function TagsList() {
             <Chip
               label={tag.label}
               clickable={true}
-              color={tag.value == true ? "primary" : "default"}
+              color={tag.value === true ? "primary" : "default"}
               onClick={() => handleClick(i)}
             />
           </Grid>

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
+
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
@@ -75,15 +75,15 @@ const initialState = [
 ];
 
 const formattingResponseImage = (image) => {
-  if (image.substr(0, 5) != "https") {
+  if (image.substr(0, 5) !== "https") {
     return "http://localhost/api".concat(image.slice(7));
   } else return image;
 };
 const imageExist = (images, bddId) => {
-  return images.find((image) => image.bddId == bddId);
+  return images.find((image) => image.bddId === bddId);
 };
 const isAvatar = (avatarId, bddId) => {
-  return avatarId == bddId;
+  return avatarId === bddId;
 };
 const findIndexNewImage = (images) => {
   for (let i = 0; i < images.length; i++) {
@@ -132,7 +132,7 @@ export default function ListImages({ changeAvatar, avatar }) {
   const successDelete = (response, image) => {
     const newState = [...images];
     console.log("in delete", response);
-    if (response.data.status != 400) {
+    if (response.data.status !== 400) {
       newState[image.id - 1] = {
         img: profilPlaceholder,
         id: image.id,
@@ -171,7 +171,7 @@ export default function ListImages({ changeAvatar, avatar }) {
     if (imageExist(images, bddId)) {
       if (isAvatar(avatar.id, bddId)) changeAvatar({ ...image, img: newPath });
       images.forEach((image, index) => {
-        if (image.bddId == bddId)
+        if (image.bddId === bddId)
           newState[index] = { ...image, img: newPath, placeholder: false };
       });
     } else {
@@ -208,7 +208,7 @@ export default function ListImages({ changeAvatar, avatar }) {
           actionIcon={
             <div>
               <GradeRoundedIcon
-                color={image.bddId == avatar.id ? "primary" : "disabled"}
+                color={image.bddId === avatar.id ? "primary" : "disabled"}
                 onClick={(i) => changeAvatar(image)}
               />
 

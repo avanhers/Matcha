@@ -145,7 +145,6 @@ export default function PasswordResetForm({
         {renderTextField("email", "Email", "email")}
         <Button
           className={classes.submit}
-          variant="outlined"
           variant="contained"
           fullWidth
           color="primary"

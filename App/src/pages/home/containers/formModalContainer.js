@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import {
-  setUser,
   authRequest,
   authResponse,
 } from "../../../state/user/userAction.js";

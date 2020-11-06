@@ -100,7 +100,6 @@ export default function InscriptionForm({
   changeModalTypeOpened,
 }) {
   const classes = useStyles();
-  const [err, setErr] = React.useState(null);
   const [isfetching, setIsFetching] = React.useState(false);
 
   const { getFieldProps, errors, onSubmitVal, showError } = useValidation(
@@ -126,8 +125,6 @@ export default function InscriptionForm({
       setSnackBar("Cet identifiant est déjà utilisé", "error");
     } else if (status === 403) {
       setSnackBar("Cette adresse email semble invalide", "error");
-    } else {
-      setErr(null);
     }
   };
 

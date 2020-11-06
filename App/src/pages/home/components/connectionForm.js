@@ -161,7 +161,6 @@ export default function ConnectionForm({
         />
         <Button
           className={classes.submit}
-          variant="outlined"
           variant="contained"
           fullWidth
           color="primary"

@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -15,47 +14,12 @@ import Favorite from "@material-ui/icons/Favorite";
 import PopularityScore from "../../../common/components/popularityScore.js";
 import { useApiCall } from "../../../api/api_request.js";
 import { LIKE_USER, UNLIKE_USER } from "../../../api/routes.js";
-import ProfilModal from "./profilModal.js";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
   },
 });
-
-const user = {
-  lastName: "Avangers",
-  firstName: "Jean Michel",
-  email: "sasuke99@gmail.com",
-  age: 45,
-  tags: [
-    {
-      name: "sex",
-      enabled: true,
-    },
-    {
-      name: "rock",
-      enabled: true,
-    },
-    {
-      name: "sleep",
-      enabled: true,
-    },
-    {
-      name: "eat",
-      enabled: true,
-    },
-    {
-      name: "dance",
-      enabled: true,
-    },
-  ],
-  image: [
-    "https://blog.1001pharmacies.com/wp-content/uploads/2012/05/patates-photo-e1338474856573.jpg",
-  ],
-  description: "J'aime les saucisses.",
-  password: "pasteque",
-};
 
 const apiLikeUserConfig = {
   route: LIKE_USER,
@@ -69,16 +33,12 @@ const apiUnlikeUserConfig = {
 
 export default function CustomCard({ user, socket }) {
   const classes = useStyles();
-  const [profilModalOpened, setProfilModalOpened] = React.useState(false);
   const [likeDisabledLoader, setLikeDisabledLoader] = React.useState(false);
   const [likeChecked, setLikeChecked] = React.useState(!!user.likedId);
   const likeUser = useApiCall(apiLikeUserConfig);
   const unlikeUser = useApiCall(apiUnlikeUserConfig);
   // const socket = useStore().getState().socket;
 
-  const handleProfilModalClose = () => {
-    setProfilModalOpened(false);
-  };
 
   const successLike = (response) => {
     console.log(socket);
@@ -97,7 +57,16 @@ export default function CustomCard({ user, socket }) {
   };
 
   const successUnlike = (response) => {
-    console.log("unlike success");
+    console.log(response)
+    if (response.data.status) {
+      const status = response.data.status;
+      if (status === 201) {
+        if (socket) {
+          socket.emit("notification", { type: "unmatch", target: user.username });
+          console.log("emit unmatch")
+        }
+      }
+    }
   };
 
   const handleLikeClick = (event) => {
@@ -161,11 +130,7 @@ export default function CustomCard({ user, socket }) {
           label="Like"
         />
       </CardActions>
-      <ProfilModal
-        open={profilModalOpened}
-        handleClose={handleProfilModalClose}
-        user={user}
-      />
+
     </Card>
   );
 }

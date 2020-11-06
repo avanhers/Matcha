@@ -1,18 +1,10 @@
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import { Typography } from "@material-ui/core";
-const initialState = {
-  username: "",
-  name: "",
-  firstname: "",
-  gender: "",
-  sexualOrientation: "",
-  description: "",
-  age: 12,
-};
+
 
 function Info({ user }) {
-  const data = initialState;
+
 
   function renderField(name, value) {
     return (

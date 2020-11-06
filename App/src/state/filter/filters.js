@@ -20,7 +20,6 @@ const defaultFilter = {
   },
 };
 
-const defaultAgeSTate = [18, 75];
 
 const filter = (state = defaultFilter, action) => {
   switch (action.type) {

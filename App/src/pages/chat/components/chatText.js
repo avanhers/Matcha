@@ -1,8 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Icon from "@material-ui/core/Icon";
-import Paper from "@material-ui/core/Paper";
 import SendIcon from "@material-ui/icons/Send";
 import { fade, makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({

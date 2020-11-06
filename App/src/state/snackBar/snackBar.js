@@ -1,9 +1,6 @@
 const {
   HIDE_SNACK_BAR,
   SHOW_SNACK_BAR,
-  SNACK_BAR_SUCCESS,
-  SNACK_BAR_FAILURE,
-  NO_SNACK_BAR,
 } = require("../actionConst");
 
 const initialSnackBar = {
@@ -16,7 +13,6 @@ const initialSnackBar = {
   },
 };
 
-const initialState = NO_SNACK_BAR;
 const snackBar = (state = initialSnackBar, action) => {
   switch (action.type) {
     case HIDE_SNACK_BAR:

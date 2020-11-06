@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const formatImage = (item) => {
-  if (item && item.substr(0, 5) != "https") {
+  if (item && item.substr(0, 5) !== "https") {
     return "http://localhost/api".concat(item.slice(7));
   } else return item;
 };

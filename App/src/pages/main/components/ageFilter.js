@@ -11,9 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-function valuetext(value) {
-  return `${value}°C`;
-}
+
 
 export default function AgeFilter({ ageMin, ageMax, onAgeChange }) {
   const classes = useStyles();
@@ -26,7 +24,7 @@ export default function AgeFilter({ ageMin, ageMax, onAgeChange }) {
   const testFunction = (text) => {
     onAgeChange(text);
   };
-  const test = useDebounceRequest(testFunction, age);
+  useDebounceRequest(testFunction, age);
 
   return (
     <div className={classes.root}>

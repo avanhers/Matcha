@@ -9,7 +9,7 @@ import useValidation from "../../../common/validator/validatorHook.js";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import SportsKabaddiOutlinedIcon from "@material-ui/icons/SportsKabaddiOutlined";
-import { useParams, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 /*
  ******************** CSS STYLE ********************
  */
@@ -144,7 +144,6 @@ export default function PasswordChangeForm({ setSnackBar, location }) {
         )}
         <Button
           className={classes.submit}
-          variant="outlined"
           variant="contained"
           fullWidth
           color="primary"

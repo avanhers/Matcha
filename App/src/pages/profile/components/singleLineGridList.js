@@ -5,8 +5,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import profilPlaceholder from "../../../assets/images/profilPlaceholder.jpg";
-import { apiCallGet } from "../../../api/api_request.js";
-import { BASE_API_ROUTE } from "../../../api/routes.js";
+import { apiCallGet } from "../../../api/api_request.js"
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -78,8 +77,9 @@ function SingleLineGridList({ route }) {
     console.log(response.data.data);
     const newData = response.data.data;
     newData.map((item) => {
-      if (item.avatar.substr(0, 5) != "https")
+      if (item.avatar.substr(0, 5) !== "https")
         item.avatar = "http:localhost/api".concat(item.avatar.slice(7));
+      return 0
     });
     setResult(newData);
   };

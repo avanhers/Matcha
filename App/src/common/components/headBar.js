@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,7 +17,8 @@ import { useApiCall } from "../../api/api_request.js";
 import { LOG_OUT_ROUTE } from "../../api/routes.js";
 import Notification from "./notification.js";
 import MenuIcon from "@material-ui/icons/Menu";
-const drawerWidth = 240;
+import WcIcon from '@material-ui/icons/Wc';
+
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -34,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+  // menuButton: {
+  //   marginRight: theme.spacing(2),
+  // },
   hide: {
     display: "none",
   },
@@ -50,9 +51,6 @@ const apiCallLogOutConfig = {
 //TODO : Using Redux to open component
 function HeadBar({ handleDrawerToggle, socket, setRedirect }) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [nbNotif, setNbNotif] = React.useState(0);
-  const [listNotif, setListNotif] = React.useState([]);
   const apiCall = useApiCall(apiCallLogOutConfig);
 
   const successLogoutCallback = (response) => {
@@ -95,6 +93,11 @@ function HeadBar({ handleDrawerToggle, socket, setRedirect }) {
             <Link to="/profil" style={{ color: "#FFF" }}>
               <IconButton edge="end" color="inherit">
                 <AccountCircle />
+              </IconButton>
+            </Link>
+            <Link to="/" style={{ color: "#FFF" }}>
+              <IconButton color="inherit" >
+                <WcIcon />
               </IconButton>
             </Link>
             <IconButton color="inherit" onClick={handleLogOutClick}>

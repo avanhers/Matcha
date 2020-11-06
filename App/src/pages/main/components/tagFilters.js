@@ -29,6 +29,7 @@ export default function TagFilters({ tags, onTagClick }) {
     const newDefaultTags = {};
     response.data.tags.map((elem, index) => {
       newDefaultTags["tag" + (index + 1)] = elem ? "1" : "";
+      return 0;
     });
     setDefaultTags(newDefaultTags);
   };
@@ -45,6 +46,7 @@ export default function TagFilters({ tags, onTagClick }) {
           console.log("default key", defaultKey);
           onTagClick(defaultKey);
         }
+        return 0;
       });
     } else {
       onTagClick(key);
@@ -64,31 +66,31 @@ export default function TagFilters({ tags, onTagClick }) {
       <Grid container justify="flex-start" spacing={1}>
         {!emptyTags()
           ? Object.keys(tags).map((key, index) => (
-              <Grid key={index} item>
-                <Button
-                  key={index}
-                  color="secondary"
-                  variant={tags[key] === "1" ? "contained" : "outlined"}
-                  onClick={() => handleTagClick(key, "new")}
-                  disabled={preventClickLoader}
-                >
-                  {key}
-                </Button>
-              </Grid>
-            ))
+            <Grid key={index} item>
+              <Button
+                key={index}
+                color="secondary"
+                variant={tags[key] === "1" ? "contained" : "outlined"}
+                onClick={() => handleTagClick(key, "new")}
+                disabled={preventClickLoader}
+              >
+                {key}
+              </Button>
+            </Grid>
+          ))
           : Object.keys(defaultTags).map((key, index) => (
-              <Grid key={index + 8} item>
-                <Button
-                  key={index}
-                  color="secondary"
-                  variant={defaultTags[key] === "1" ? "contained" : "outlined"}
-                  onClick={() => handleTagClick(key, "default")}
-                  disabled={preventClickLoader}
-                >
-                  {key}
-                </Button>
-              </Grid>
-            ))}
+            <Grid key={index + 8} item>
+              <Button
+                key={index}
+                color="secondary"
+                variant={defaultTags[key] === "1" ? "contained" : "outlined"}
+                onClick={() => handleTagClick(key, "default")}
+                disabled={preventClickLoader}
+              >
+                {key}
+              </Button>
+            </Grid>
+          ))}
       </Grid>
     </Grid>
   );

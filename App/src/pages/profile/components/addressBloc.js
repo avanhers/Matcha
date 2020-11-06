@@ -1,7 +1,5 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField"
 import CheckIcon from "@material-ui/icons/Check";
 import IconButton from "@material-ui/core/IconButton";
 function AddressBloc({ handleSubmit }) {
