@@ -53,7 +53,7 @@ function MainLayout() {
   const classes = useStyles();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [mainComponent, setMainComponent] = React.useState(
+  const [mainComponent] = React.useState(
     <MatchWindowContainer />
   );
 
@@ -70,21 +70,13 @@ function MainLayout() {
         <FilterDrawerContainer
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
-          //handleClick={handleClickSideBar}
+        //handleClick={handleClickSideBar}
         />
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {mainComponent}
       </main>
-    </div>
-  );
-  return (
-    <div>
-      <MatchRequestContainer />
-      <HeadBarContainer />
-      <FilterDrawerContainer />
-      <MatchWindowContainer />
     </div>
   );
 }

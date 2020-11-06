@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,7 +11,7 @@ import Info from "./info.js";
 import Chip from "@material-ui/core/Chip";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import {} from "../../../api/routes.js";
+import { } from "../../../api/routes.js";
 import {
   GET_PROFILE,
   LIKE_USER,
@@ -58,7 +58,7 @@ const defaultUser = {
 };
 
 const formatImage = (item) => {
-  if (item && item.substr(0, 5) != "https") {
+  if (item && item.substr(0, 5) !== "https") {
     return "http://localhost/api".concat(item.slice(7));
   } else return item;
 };
@@ -87,7 +87,6 @@ const apiUnlikeUserConfig = {
 function MainOtherProfile({ match, socket }) {
   const classes = useStyles();
   const [user, setUser] = React.useState(defaultUser);
-  const [likeDisabledLoader, setLikeDisabledLoader] = React.useState(false);
   const likeUser = useApiCall(apiLikeUserConfig);
   const unlikeUser = useApiCall(apiUnlikeUserConfig);
 
@@ -100,7 +99,6 @@ function MainOtherProfile({ match, socket }) {
   const apiCallProfile = useApiCall(configGetProfile);
   const apiBlockProfil = useApiCall(blockUserConfig);
   const apiReportProfil = useApiCall(reportUserConfig);
-  const coord = { lat: user.latitude, lng: user.longitude, zoom: 16 };
 
   useEffect(() => {
     apiCallProfile(null, successCallGetProfile);
@@ -118,7 +116,6 @@ function MainOtherProfile({ match, socket }) {
         { urlParams: user.username },
         successLike,
         null,
-        setLikeDisabledLoader
       );
     } else {
       console.log("Unlike");
@@ -126,7 +123,6 @@ function MainOtherProfile({ match, socket }) {
         { urlParams: user.username },
         successUnlike,
         null,
-        setLikeDisabledLoader
       );
     }
     setUser({ ...user, isLiked: !user.isLiked });
@@ -159,7 +155,7 @@ function MainOtherProfile({ match, socket }) {
     apiReportProfil(user.username, successReport);
   };
   const successReport = (response) => {
-    if (response.data.status == 200) {
+    if (response.data.status === 200) {
       setUser({ ...user, isReported: !user.isReported });
     }
   };
@@ -208,7 +204,7 @@ function MainOtherProfile({ match, socket }) {
                       <Chip
                         label={tag.label}
                         clickable={false}
-                        color={tag.value == true ? "primary" : "default"}
+                        color={tag.value === true ? "primary" : "default"}
                       />
                     </Grid>
                   ))}

@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import BackdropLoader from "../components/backdropLoader.js";
 import SnackBar from "../components/snackBar.js";
 import { hideSnackBar } from "../../state/snackBar/snackBarAction.js";
 

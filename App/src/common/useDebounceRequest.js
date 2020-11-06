@@ -1,7 +1,6 @@
 import AwesomeDebouncePromise from "awesome-debounce-promise";
 import useConstant from "use-constant";
 import { useAsync } from "react-async-hook";
-import { useSelector } from "react-redux";
 import React from "react";
 
 // A modifier pour que ca marche pas que pour ageRange

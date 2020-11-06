@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { useApiCall } from "../../api/api_request.js";
-import { GET_NOTIFICATIONS, LOG_OUT_ROUTE } from "../../api/routes.js";
+import { GET_NOTIFICATIONS } from "../../api/routes.js";
 
 const apiCallNotifConfig = {
   route: GET_NOTIFICATIONS,
@@ -22,7 +22,6 @@ const apiCallPutNotifConfig = {
 function Notification({ socket }) {
   const [nbNotif, setNbNotif] = React.useState(0);
   const [listNotif, setListNotif] = React.useState([])
-  const [PreviouslistNotif, setPreviousListNotif] = React.useState([]);
   const apiCallNotif = useApiCall(apiCallNotifConfig);
   const apiCallReadNotif = useApiCall(apiCallPutNotifConfig);
   const [anchorEl, setAnchorEl] = React.useState(null);

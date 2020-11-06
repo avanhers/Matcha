@@ -22,7 +22,7 @@ export default function DistanceFilter({ onDistanceChange }) {
   const testFunction = (text) => {
     onDistanceChange(text);
   };
-  const test = useDebounceRequest(testFunction, distance);
+  useDebounceRequest(testFunction, distance);
 
   const distanceText = (value) => {
     return `${value}`;

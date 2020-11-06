@@ -66,11 +66,11 @@ export const useApiCall = (apiCallConfig) => {
       apiCallConfig.method === "GET"
         ? () => axios.get(route, config)
         : apiCallConfig.method === "POST"
-        ? () => axios.post(route, params, config)
-        : () => axios.put(route, params, config);
+          ? () => axios.post(route, params, config)
+          : () => axios.put(route, params, config);
     if (loaderEventCallback) loaderEventCallback(true);
 
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       getOrPost()
         .then((response) => {
           console.log("in post");
@@ -130,7 +130,7 @@ export const apiCall = (
     config.params = params;
   }
   if (loaderEventCallback) loaderEventCallback(true);
-  const timer = setTimeout(() => {
+  setTimeout(() => {
     if (type === "POST") {
       axios
         .post(route, params, config)

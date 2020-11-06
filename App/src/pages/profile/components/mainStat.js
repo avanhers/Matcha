@@ -1,8 +1,6 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-
-import { apiCallGet } from "../../../api/api_request.js";
 // import PopularityScore from "../../../common/components/popularityScore.js";
 import SingleLineGridList from "./singleLineGridList.js";
 import Typography from "@material-ui/core/Typography";

@@ -58,10 +58,10 @@ function App() {
             path="/reset-password"
             component={PasswordChangeContainer}
           />
-          <Route exact path="/chat" component={ChatContainer} />
+          <PrivateRouteContainer exact path="/chat" component={ChatContainer} />
           <Route exact path="/404" component={PageNotFound} />
-          <Route
-            exaxt
+          <PrivateRouteContainer
+            exact
             path="/otherProfile/:username"
             component={OtherProfileContainer}
           />

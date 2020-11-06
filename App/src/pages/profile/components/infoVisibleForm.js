@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Loader from "./loader.js";
 import GenderRadio from "./genderRadio";
 import OrientationRadio from "./orientationRadio";
 
@@ -13,12 +12,6 @@ import {
 } from "../../../api/routes.js";
 import apiCall from "../../../api/api_request.js";
 
-const useConstructor = (callBack = () => { }) => {
-  const hasBeenCalled = useRef(false);
-  if (hasBeenCalled.current) return;
-  callBack();
-  hasBeenCalled.current = true;
-};
 /*
  ********************** InitialState *****************************
  */

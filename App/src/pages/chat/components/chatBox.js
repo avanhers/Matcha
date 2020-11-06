@@ -5,7 +5,7 @@ import ChatMessage from "./chatMessage.js";
 import List from "@material-ui/core/List";
 import ChatText from "./chatText.js";
 import Paper from "@material-ui/core/Paper";
-import { GET_MESSAGE, BASE_SOCKET_URL } from "../../../api/routes.js";
+import { GET_MESSAGE } from "../../../api/routes.js";
 import { apiCallGet } from "../../../api/api_request.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ function ChatBox({ user, myAvatar }) {
   const socket = useStore().getState().socket;
   const classes = useStyles();
 
-  const [connected, setConnected] = React.useState(false);
+
 
   const ref = useRef(listMess);
   const refUser = useRef(user.username);
@@ -62,11 +62,11 @@ function ChatBox({ user, myAvatar }) {
   useEffect(() => {
     if (socket) {
       socket.on("message", handler);
-      setConnected(true);
+
     }
     return () => {
       socket.off("message", handler);
-      setConnected(false);
+
     };
   }, []);
 

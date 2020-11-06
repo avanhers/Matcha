@@ -98,7 +98,7 @@ function Chat({ socket }) {
   useEffect(() => {
     apiCallUser(null, sucessCall);
     apiCallAvatar(null, successGetAvatar);
-  }, []);
+  });
 
   useEffect(() => {
     if (socket && !refSocket.current) {
@@ -113,7 +113,7 @@ function Chat({ socket }) {
   };
 
   const handler = (message) => {
-    if (refUser.current.username != message.from) {
+    if (refUser.current.username !== message.from) {
       console.log(refUsers.current);
       setUsers(updateUsers(message, refUsers.current));
     }

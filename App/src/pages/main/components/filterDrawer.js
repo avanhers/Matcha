@@ -3,8 +3,7 @@ import Drawer from "@material-ui/core/Drawer";
 import AgeFilterContainer from "../containers/ageFilterContainer.js";
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import IconButton from "@material-ui/core/IconButton";
+
 import Divider from "@material-ui/core/Divider";
 import Hidden from "@material-ui/core/Hidden";
 import PersonnalFilter from "./personnalFilter.js";

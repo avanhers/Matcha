@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import MainOtherProfile from "./mainOtherProfile.js";
 
-import HeadBar from "../../profile/components/headBar.js";
+import HeadBar from "../../../common/components/headBar.js";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 function OtherProfile({ match, socket }) {
   const classes = useStyles();
-  const [mainComponent, setMainComponent] = React.useState(
+  const [mainComponent] = React.useState(
     <MainOtherProfile match={match} socket={socket} />
   );
   const refSocket = useRef(false);

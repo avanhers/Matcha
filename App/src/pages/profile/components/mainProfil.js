@@ -41,7 +41,7 @@ const initialAvatar = {
  ********************** Component *****************************
  */
 const formattingImage = (image) => {
-  if (image.substr(0, 5) != "https") {
+  if (image.substr(0, 5) !== "https") {
     return "http://localhost/api".concat(image.slice(7));
   } else return image;
 };

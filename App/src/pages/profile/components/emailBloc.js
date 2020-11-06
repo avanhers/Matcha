@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -18,7 +17,6 @@ const validatorConfig = {
 };
 
 function EmailBloc() {
-  const [data, setData] = React.useState("");
   const {
     getFieldProps,
     errors,
@@ -28,12 +26,13 @@ function EmailBloc() {
   } = useValidation(validatorConfig);
 
   useEffect(() => {
+    const successGet = (response) => {
+      setValue("email", response.data.email);
+    };
     apiCall(GET_EMAIL_ROUTE, null, successGet, null, null, "GET");
   }, []);
 
-  const successGet = (response) => {
-    setValue("email", response.data.email);
-  };
+
 
   const renderTextField = (name, label) => {
     return (

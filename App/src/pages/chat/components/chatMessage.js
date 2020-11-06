@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 const useStyles = makeStyles((theme) => ({
   messageContainerLeft: {
     textAlign: "-webkit-left",
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 //message:{user,text}
 const formatImage = (item) => {
-  if (item.substr(0, 5) != "https") {
+  if (item.substr(0, 5) !== "https") {
     return "http://localhost/api".concat(item.slice(7));
   } else return item;
 };

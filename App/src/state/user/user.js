@@ -1,5 +1,4 @@
 import {
-  SET_USER,
   AUTH_REQUEST,
   AUTH_RESPONSE,
   USER_COMPLETE,
@@ -9,7 +8,6 @@ const userInitialState = {
   isFetching: false,
   completed: false,
   user: {},
-  completed: false,
 };
 
 const user = (state = userInitialState, action) => {

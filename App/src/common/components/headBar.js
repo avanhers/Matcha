@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -18,7 +18,7 @@ import { LOG_OUT_ROUTE } from "../../api/routes.js";
 import Notification from "./notification.js";
 import MenuIcon from "@material-ui/icons/Menu";
 import WcIcon from '@material-ui/icons/Wc';
-const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+  // menuButton: {
+  //   marginRight: theme.spacing(2),
+  // },
   hide: {
     display: "none",
   },
@@ -51,9 +51,6 @@ const apiCallLogOutConfig = {
 //TODO : Using Redux to open component
 function HeadBar({ handleDrawerToggle, socket, setRedirect }) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [nbNotif, setNbNotif] = React.useState(0);
-  const [listNotif, setListNotif] = React.useState([]);
   const apiCall = useApiCall(apiCallLogOutConfig);
 
   const successLogoutCallback = (response) => {
